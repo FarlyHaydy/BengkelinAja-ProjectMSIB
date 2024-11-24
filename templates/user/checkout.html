@@ -122,10 +122,12 @@
         </div>
     </nav>
     
+    <!-- content  -->
     <div class="container mt-4">
         <h1 class="text-center">Checkout</h1>
-        <div class="row g-4 justify-content-center mb-4" style="gap: 1rem;">
-            <div class="col-12 col-md-3">
+        <div class="row g-4 justify-content-center mt-4 mb-4" style="gap: 1rem;">
+            <!-- Card 1 -->
+            <div class="col-12 col-md-4 col-lg-3">
                 <div class="card mx-auto" style="width: 20rem;">
                     <img src="/static/img/sample/ban-yamaha.jpg" class="card-img-top" alt="Gambar Card">
                     <div class="card-body">
@@ -140,13 +142,35 @@
                         <!-- Action Buttons -->
                         <div class="d-grid gap-2">
                             <button class="btn btn-primary btn-sm">Buy</button>
-                            <button class="btn btn-success btn-sm">Delete</button>
+                            <button class="btn btn-danger btn-sm">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="col-12 col-md-4 col-lg-3">
+                <div class="card mx-auto" style="width: 20rem;">
+                    <img src="/static/img/sample/ban-yamaha.jpg" class="card-img-top" alt="Gambar Card">
+                    <div class="card-body">
+                        <h5 class="card-title">Sparepart Mobil</h5>
+                        <p class="card-text">Produk asli dan bergaransi. Tersedia berbagai jenis sparepart mobil sesuai kebutuhan Anda.</p>
+                        <!-- Counter Section -->
+                        <div class="d-flex justify-content-center align-items-center my-3">
+                            <button class="btn btn-outline-secondary btn-sm" onclick="kurangiJumlah(this)">-</button>
+                            <input type="text" class="form-control text-center mx-2" value="1" style="width: 50px;" readonly>
+                            <button class="btn btn-outline-secondary btn-sm" onclick="tambahJumlah(this)">+</button>
+                        </div>
+                        <!-- Action Buttons -->
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary btn-sm">Buy</button>
+                            <button class="btn btn-danger btn-sm">Delete</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
 
     <!-- Footer -->
     <footer>
