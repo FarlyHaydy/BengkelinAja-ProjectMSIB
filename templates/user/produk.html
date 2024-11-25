@@ -140,6 +140,10 @@
         display: flex;
         gap: 10px;
       }
+      .card-text {
+        overflow: hidden;
+        max-height: 3rem; 
+      }
     </style>
   </head>
   <body>
@@ -232,12 +236,12 @@
 
       <!-- Menampilkan Barang Produk -->
       <section class="mt-5">
-        <h2 class="mb-4">Produk</h2>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+        <h2 class="mb-4 text-dark fw-bold">Produk</h2>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
           <div class="col">
             <div class="card">
               <img
-                src="/static/img/Gambar.jpg"
+                src="/static/img/sample/ban-yamaha.jpg"
                 class="card-img-top"
                 alt="gambar produk"
                 data-bs-toggle="modal"
@@ -259,7 +263,13 @@
                   data-bs-target="#universalModal"
                   style="cursor: pointer"
                 >
-                  Deskripsi singkat produk
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Commodi nesciunt iure architecto sunt in eligendi fuga odio
+                  cupiditate obcaecati molestiae fugiat accusantium qui quae,
+                  quisquam libero, eveniet autem consequuntur enim labore, eaque
+                  rem repudiandae? Deserunt neque, beatae qui eius sunt
+                  consequuntur mollitia assumenda, libero quas ab eos, quibusdam
+                  quod officia.
                 </p>
                 <p class="text-danger fw-semibold">Harga</p>
                 <p class="text-primary fw-bold">Rp 100.000</p>
@@ -294,9 +304,8 @@
           <div class="modal-body">
             <div class="row">
               <div class="col-md-6">
-                <!-- Gambar Produk yang lebih besar -->
                 <img
-                  src="/static/img/Gambar.jpg"
+                  src="/static/img/sample/ban-yamaha.jpg"
                   class="img-fluid"
                   alt="gambar produk"
                   style="max-height: 400px; object-fit: cover"
