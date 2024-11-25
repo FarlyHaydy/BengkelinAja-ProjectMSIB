@@ -7,6 +7,8 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+     <!-- library aos animasi -->
+     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         body {
           display: flex;
@@ -155,7 +157,7 @@
             position: relative;
             width: 30%;
             height: 30; /* Sesuai tinggi viewport */
-            background-image: url('/static/img/produk/Banner_Seperpat.png'); /* Ganti dengan path gambar */
+            background-image: url('/static/img/tampilan/Banner-Seperpat.png'); /* Ganti dengan path gambar */
             background-size: cover; /* Gambar menutupi seluruh area */
             background-position: center;
             background-repeat: no-repeat;
@@ -182,8 +184,7 @@
         .banner-content {
             position: relative;
             z-index: 2; /* Agar teks berada di atas overlay */
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Tambahkan bayangan pada teks */
-            animation: fadeInDown 1.5s ease;
+            
         }
 
         /* Tombol */
@@ -192,24 +193,11 @@
             padding: 10px 20px;
             font-size: 18px;
             font-weight: bold;
-            transition: transform 0.3s, background-color 0.3s;
         }
 
         .banner-content .btn:hover {
             background-color: #c0392b;
             transform: scale(1.1); /* Sedikit memperbesar tombol saat hover */
-        }
-
-        /* Animasi */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         /* Ensure the image scales properly */
@@ -293,56 +281,59 @@
 
     <!-- Main Content -->
       <div class="container mt-4">
-        <h1 class="text-center d-flex justify-content-center align-items-center">
-          <img src="/static/img/produk/Banner Seperpat.png" alt="Banner Seperpat" class="animated-banner">
+        <h1 class="text-center d-flex justify-content-center align-items-center mb-5">
+          <img src="/static/img/tampilan/Banner-Seperpat.png" alt="Banner Seperpat" class="animated-banner" data-aos="fade-up" data-aos-duration="1000">
        </h1>
+        <!-- Full Screen Banner -->
+        <div class="banner-content text-center text-light" style="position: relative; z-index: 1;" data-aos="fade-up" data-aos-duration="1000">
+            <h1 style="font-size: 36px; font-weight: bold; color: rgb(124, 121, 121);">
+                Bengkelin<span style="color: red;">Aja</span>
+            </h1>
+            <p style="font-size: 18px; font-weight: 500; margin-bottom: 20px; color: black;" >
+                "Butuh Suku Cadang Berkualitas? Solusinya Ada di Bengkelin Aja! Temukan Pilihan Terbaik Untuk Kendaraan Anda."
+            </p>
+            <a href="produk.html" class="btn btn-danger btn-lg" style="border-radius: 25px; padding: 10px 30px; font-weight: bold; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); margin-bottom: 20px;">
+                Belanja Sekarang
+            </a>
+        </div>
       
         <div class="row g-4 justify-content-center" style="gap: 1rem;">
             <!-- Card 1 -->
             <div class="col-12 col-md-3">
-                <div class="card mx-auto" style="width: 20rem;">
+                <div class="card mx-auto" style="width: 20rem;" data-aos="zoom-in-up" data-aos-duration="1500">
                     <img src="/static/img/sample/ban-yamaha.jpg" class="card-img-top" alt="Gambar Card">
                     <div class="card-body">
                         <h5 class="card-title">Sparepart Mobil</h5>
                         <p class="card-text">Produk asli dan bergaransi. Tersedia berbagai jenis sparepart mobil sesuai kebutuhan Anda.</p>
-                        <a href="#" class="btn btn-link" style="text-decoration: none;">Lihat Selengkapnya</a>
+                        <a href="produk.html" class="btn btn-link" style="text-decoration: none;">Lihat Selengkapnya</a>
                     </div>
                 </div>
             </div>
     
             <!-- Card 2 -->
             <div class="col-12 col-md-3">
-                <div class="card mx-auto" style="width: 20rem;">
+                <div class="card mx-auto" style="width: 20rem;" data-aos="zoom-in-up" data-aos-duration="1500">
                     <img src="/static/img/sample/oli yamaha.jpg" class="card-img-top" alt="Gambar Card">
                     <div class="card-body">
                         <h5 class="card-title">Oli Mesin</h5>
                         <p class="card-text">Pilihan oli terbaik untuk kendaraan Anda. Berkualitas tinggi dan harga terjangkau.</p>
-                        <a href="#" class="btn btn-link" style="text-decoration: none;">Lihat Selengkapnya</a>
+                        <a href="produk.html" class="btn btn-link" style="text-decoration: none;">Lihat Selengkapnya</a>
                     </div>
                 </div>
             </div>
     
             <!-- Card 3 -->
             <div class="col-12 col-md-3">
-                <div class="card mx-auto" style="width: 20rem;">
+                <div class="card mx-auto" style="width: 20rem;" data-aos="zoom-in-up" data-aos-duration="1500">
                     <img src="/static/img/sample/rantai-yamaha.jpg" class="card-img-top" alt="Gambar Card">
                     <div class="card-body">
                         <h5 class="card-title">Aksesoris Kendaraan</h5>
                         <p class="card-text">Lengkapi kendaraan Anda dengan aksesoris terbaik untuk kenyamanan dan gaya.</p>
-                        <a href="#" class="btn btn-link" style="text-decoration: none;">Lihat Selengkapnya</a>
+                        <a href="produk.html" class="btn btn-link" style="text-decoration: none;">Lihat Selengkapnya</a>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Full Screen Banner -->
-        <div class="banner-full">
-          <div class="banner-content text-center text-light">
-            <h1>BengkelinAja</h1>
-            <p>"Butuh Suku Cadang Berkualitas? Solusinya Ada di Bengkelin Aja! Temukan Pilihan Terbaik Untuk Kendaraan Anda."</p>            
-            <a href="#product-section" class="btn btn-danger btn-lg mt-3">Belanja Sekarang</a>
-          </div>
-        </div>        
 
         <div class="alert alert-secondary mt-4 text-center">
             Kami menjual sparepart original 100%, apabila mendapatkan sparepart palsu, bisa Anda return.
@@ -373,5 +364,9 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+      </script>
 </body>
 </html>
