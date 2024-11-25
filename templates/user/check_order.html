@@ -119,7 +119,7 @@
             background-color: #ffffff; 
             border-radius: 20px;      
             border: 1px solid #ddd;  
-            max-width: 700px;        
+            max-width: 800px;        
             margin: 0 auto;          
             min-height: 300px;       
             display: flex;          
@@ -187,17 +187,76 @@
         </div>
     </nav>
     
-    <!-- content  -->
-    <div class="container mt-5 mb-5">
-        <!-- Kotak Pembungkus -->
-        <div class="content-wrapper p-4 shadow-sm">
-            <h1 class="text-center mb-5">Check Order</h1>
-            <div class="row g-4 justify-content-center mt-4 mb-4">
-            
-                
+   <!-- content  -->
+<div class="container mt-5 mb-5">
+    <!-- Kotak Pembungkus -->
+    <div class="content-wrapper p-4 shadow-sm">
+        <h1 class="text-center mb-5">Check Order</h1>
+
+        <!-- Pesanan 1 -->
+        <div class="row g-4 justify-content-center align-items-center mb-5">
+            <!-- Gambar -->
+            <div class="col-md-3 d-flex justify-content-center align-items-center">
+                <img
+                    src="/static/img/sample/rantai-yamaha.jpg" 
+                    alt="Pesanan Gambar" 
+                    style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px;"
+                />
+            </div>
+            <!-- Deskripsi dan Status -->
+            <div class="col-md-9 text-center text-md-start">
+                <h5 class="fw-bold">Deskripsi dan Status Pesanan</h5>
+                <p class="text-muted mb-2">
+                    Status: <span class="text-success fw-bold">Selesai</span>
+                </p>
+                <p class="text-muted mb-4">
+                    Pesanan Anda telah diproses dan siap untuk diambil atau dikirimkan.
+                </p>
+                <!-- Tombol Pilih dan Unggah -->
+                <div class="d-flex flex-column flex-md-row align-items-center gap-3">
+                    <button class="btn btn-outline-primary">
+                        <i class="fas fa-upload me-2"></i> Choose a File
+                    </button>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-cloud-upload-alt me-2"></i> Upload
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pesanan 2 -->
+        <div class="row g-4 justify-content-center align-items-center mb-5">
+            <!-- Gambar -->
+            <div class="col-md-3 d-flex justify-content-center align-items-center">
+                <img
+                    src="/static/img/sample/oli yamaha.jpg" 
+                    alt="Pesanan Gambar" 
+                    style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px;"
+                />
+            </div>
+            <!-- Deskripsi dan Status -->
+            <div class="col-md-9 text-center text-md-start">
+                <h5 class="fw-bold">Deskripsi dan Status Pesanan</h5>
+                <p class="text-muted mb-2">
+                    Status: <span class="text-success fw-bold">Selesai</span>
+                </p>
+                <p class="text-muted mb-4">
+                    Pesanan Anda telah diproses dan siap untuk diambil atau dikirimkan.
+                </p>
+                <!-- Tombol Pilih dan Unggah -->
+                <div class="d-flex flex-column flex-md-row align-items-center gap-3">
+                    <button class="btn btn-outline-primary">
+                        <i class="fas fa-upload me-2"></i> Choose a File
+                    </button>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-cloud-upload-alt me-2"></i> Upload
+                    </button>
+                </div>
             </div>
         </div>
     </div>
+</div>
+
     
 
     <!-- Footer -->
