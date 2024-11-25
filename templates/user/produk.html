@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BengkelinAja - Homepage</title>
+    <title>BengkelinAja - Produk</title>
     <!-- Bootstrap CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
@@ -142,7 +142,13 @@
       }
       .card-text {
         overflow: hidden;
-        max-height: 3rem; 
+        max-height: 3rem;
+      }
+      .logo-img {
+        width: 40px; 
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
       }
     </style>
   </head>
@@ -150,7 +156,10 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-custom">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Bengkelin<span>Aja</span></a>
+        <a class="navbar-brand" href="#">
+          <img src="/static/img/produk/logo.jpg" alt="Logo" class="logo-img" />
+          Bengkelin<span>Aja</span>
+        </a>
         <button
           class="navbar-toggler"
           type="button"
@@ -166,7 +175,7 @@
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a class="nav-link" href="#">
-                <i class="fa-solid fa-house"></i> Home
+                <i class="fa-solid fa-house"></i> Produk
               </a>
             </li>
             <li class="nav-item">
