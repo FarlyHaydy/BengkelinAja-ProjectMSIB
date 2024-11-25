@@ -241,10 +241,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="hompage.html"><i class="fa-solid fa-house"></i> Home</a>
+                        <a class="nav-link" href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="produk.html"><i class="fas fa-box-open"></i> Product</a>
+                        <a class="nav-link" href="{{ url_for('produk') }}"><i class="fas fa-box-open"></i> Product</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="checkout.html"><i class="fas fa-shopping-cart"></i> Checkout</a>
@@ -259,7 +259,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                             <li>
-                                <a class="dropdown-item" href="profile.html">
+                                <a class="dropdown-item" href="{{ url_for('profile') }}">
                                     <i class="fas fa-user me-2"></i> Profile
                                 </a>
                             </li>
@@ -292,7 +292,7 @@
             <p style="font-size: 18px; font-weight: 500; margin-bottom: 20px; color: black;" >
                 "Butuh Suku Cadang Berkualitas? Solusinya Ada di Bengkelin Aja! Temukan Pilihan Terbaik Untuk Kendaraan Anda."
             </p>
-            <a href="produk.html" class="btn btn-danger btn-lg" style="border-radius: 25px; padding: 10px 30px; font-weight: bold; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); margin-bottom: 20px;">
+            <a href="{{ url_for('produk') }}" class="btn btn-danger btn-lg" style="border-radius: 25px; padding: 10px 30px; font-weight: bold; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); margin-bottom: 20px;">
                 Belanja Sekarang
             </a>
         </div>
@@ -305,7 +305,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Sparepart Mobil</h5>
                         <p class="card-text">Produk asli dan bergaransi. Tersedia berbagai jenis sparepart mobil sesuai kebutuhan Anda.</p>
-                        <a href="produk.html" class="btn btn-link" style="text-decoration: none;">Lihat Selengkapnya</a>
+                        <a href="{{ url_for('produk') }}" class="btn btn-link" style="text-decoration: none;">Lihat Selengkapnya</a>
                     </div>
                 </div>
             </div>
@@ -317,7 +317,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Oli Mesin</h5>
                         <p class="card-text">Pilihan oli terbaik untuk kendaraan Anda. Berkualitas tinggi dan harga terjangkau.</p>
-                        <a href="produk.html" class="btn btn-link" style="text-decoration: none;">Lihat Selengkapnya</a>
+                        <a href="{{ url_for('produk') }}" class="btn btn-link" style="text-decoration: none;">Lihat Selengkapnya</a>
                     </div>
                 </div>
             </div>
@@ -329,7 +329,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Aksesoris Kendaraan</h5>
                         <p class="card-text">Lengkapi kendaraan Anda dengan aksesoris terbaik untuk kenyamanan dan gaya.</p>
-                        <a href="produk.html" class="btn btn-link" style="text-decoration: none;">Lihat Selengkapnya</a>
+                        <a href="{{ url_for('produk') }}" class="btn btn-link" style="text-decoration: none;">Lihat Selengkapnya</a>
                     </div>
                 </div>
             </div>

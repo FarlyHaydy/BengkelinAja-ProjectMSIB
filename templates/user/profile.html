@@ -169,10 +169,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="hompage.html"><i class="fa-solid fa-house"></i> Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="produk.html"><i class="fas fa-box-open"></i> Product</a></li>
-                    <li class="nav-item"><a class="nav-link" href="checkout.html"><i class="fas fa-shopping-cart"></i> Checkout</a></li>
-                    <li class="nav-item"><a class="nav-link" href="check_order.html"><i class="fas fa-receipt"></i> Check Order</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('produk') }}"><i class="fas fa-box-open"></i> Product</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('checkout') }}"><i class="fas fa-shopping-cart"></i> Checkout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('check_order') }}"><i class="fas fa-receipt"></i> Check Order</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="/static/img/pembayaran/test.jpg" alt="Profile" class="profile-img me-2">
