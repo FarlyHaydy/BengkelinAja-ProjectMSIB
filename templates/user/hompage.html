@@ -148,6 +148,92 @@
             object-fit: cover; /* Memastikan gambar tidak terdistorsi */
         }
 
+  
+        /* Full Screen Banner */
+        .banner-full {
+            position: relative;
+            width: 30%;
+            height: 30; /* Sesuai tinggi viewport */
+            background-image: url('/static/img/produk/Banner_Seperpat.png'); /* Ganti dengan path gambar */
+            background-size: cover; /* Gambar menutupi seluruh area */
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        /* Overlay Gelap */
+        .banner-full::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Memberikan efek gelap */
+            z-index: 1;
+        }
+
+        /* Konten Banner */
+        .banner-content {
+            position: relative;
+            z-index: 2; /* Agar teks berada di atas overlay */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Tambahkan bayangan pada teks */
+            animation: fadeInDown 1.5s ease;
+        }
+
+        /* Tombol */
+        .banner-content .btn {
+            border-radius: 25px; /* Membuat tombol lebih lembut */
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .banner-content .btn:hover {
+            background-color: #c0392b;
+            transform: scale(1.1); /* Sedikit memperbesar tombol saat hover */
+        }
+
+        /* Animasi */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Ensure the image scales properly */
+        .animated-banner {
+            width: 100%;
+            height: auto;
+            max-width: 100%; /* Prevents the image from exceeding container width */
+            object-fit: cover; /* Maintains the aspect ratio and covers the area */
+        }
+
+        /* Optional: Add a media query for specific adjustments on larger screens */
+        @media (max-width: 1024px) {
+            .animated-banner {
+                width: 100%; /* Ensures the image scales down on tablets */
+                height: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .animated-banner {
+                width: 100%; /* Ensures the image scales down on mobile */
+                height: auto;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -158,6 +244,7 @@
                 <img src="/static/img/produk/logo.jpg" alt="Logo" class="logo-img">
                 Bengkelin<span>Aja</span>
             </a>
+            <br>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -204,10 +291,11 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="container mt-4">
-        <h1 class="text-center">Selamat Datang di BengkelinAja!</h1>
-        <p class="text-center">"Beli Suku Cadang Tanpa Ribet", Bengkelin Aja!</p>
-
+      <div class="container mt-4">
+        <h1 class="text-center d-flex justify-content-center align-items-center">
+          <img src="/static/img/produk/Banner Seperpat.png" alt="Banner Seperpat" class="animated-banner">
+       </h1>
+      
         <div class="row g-4 justify-content-center" style="gap: 1rem;">
             <!-- Card 1 -->
             <div class="col-12 col-md-3">
@@ -245,6 +333,15 @@
                 </div>
             </div>
         </div>
+
+        <!-- Full Screen Banner -->
+        <div class="banner-full">
+          <div class="banner-content text-center text-light">
+            <h1>BengkelinAja</h1>
+            <p>"Butuh Suku Cadang Berkualitas? Solusinya Ada di Bengkelin Aja! Temukan Pilihan Terbaik Untuk Kendaraan Anda."</p>            
+            <a href="#product-section" class="btn btn-danger btn-lg mt-3">Belanja Sekarang</a>
+          </div>
+        </div>        
 
         <div class="alert alert-secondary mt-4 text-center">
             Kami menjual sparepart original 100%, apabila mendapatkan sparepart palsu, bisa Anda return.
