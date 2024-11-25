@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BengkelinAja - Check Order</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+     <!-- library aos animasi -->
+     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .bg-custom {
+            background-color: #ffffff; 
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);/
+        }
+
+        footer {
+            background-color: #ffffff;
+            color: #37474F;
+            text-align: center;
+            padding: 40px 0;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: auto; 
+        }
+
+        footer a {
+            color: #37474F;
+            font-size: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .nav-link.dropdown-toggle {
+            display: flex;
+            align-items: center;
+            height: 40px;
+        }
+        .content-wrapper {
+            background-color: #ffffff; 
+            border-radius: 20px;      
+            border: 1px solid #ddd;  
+            max-width: 700px;        
+            margin: 0 auto;          
+            min-height: 300px;       
+            display: flex;          
+            flex-direction: column;  
+            justify-content: center; 
+            align-items: center;     
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">BengkelinAja</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fa-solid fa-house"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-box-open"></i> Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i> Checkout</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-receipt"></i> Check Order</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="/static/img/pembayaran/test.jpg" alt="Profile" class="profile-img me-2">
+                            <span>User</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user me-2"></i> Profile
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                </a>
+                            </li>
+                        </ul>
+                        
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- content  -->
+    <div class="container mt-5 mb-5">
+        <!-- Kotak Pembungkus -->
+        <div class="content-wrapper p-4 shadow-sm">
+            <h1 class="text-center mb-5">Check Order</h1>
+            <div class="row g-4 justify-content-center mt-4 mb-4">
+            
+                
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Footer -->
+    <footer>
+        <div class="container py-5">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <p class="m-0">&copy; 2024 Group 8 - BengkelinAja</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="mailto:info@bengkelinaja.com" class="text-dark me-4" style="text-decoration: none;">
+                        <i class="fas fa-envelope fa-lg"></i> Email
+                    </a>
+                    <a href="https://wa.me/123456789" class="text-dark me-4" style="text-decoration: none;">
+                        <i class="fab fa-whatsapp fa-lg"></i> WhatsApp
+                    </a>
+                    <a href="https://www.instagram.com/bengkelinaja" class="text-dark" style="text-decoration: none;">
+                        <i class="fab fa-instagram fa-lg"></i> Instagram
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+      </script>
+</body>
+</html>
