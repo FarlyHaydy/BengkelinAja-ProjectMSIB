@@ -15,6 +15,7 @@
             margin: 0;
             display: flex;
             flex-direction: column;
+            padding-top: 70px;
         }
         .bg-custom {
             background-color: #ffffff; 
@@ -65,18 +66,93 @@
             height: 40px;
         }
         footer {
-            background-color: #ffffff;
-            color: #37474F;
+            width: 100%;
+            background-color: #4e555c;
+            color: #ffffff;
+            padding: 30px 0;
             text-align: center;
-            padding: 40px 0;
+            font-size: 14px;
             box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-            margin-top: auto; 
+            margin-top: auto;
+        }
+        
+        footer a {
+            color: #f8f9fa;
+            font-size: 16px;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
         }
 
-        footer a {
-            color: #37474F;
-            font-size: 20px;
-            transition: color 0.3s ease;
+        footer a:hover {
+            color: #d34848;
+        }
+
+        footer i {
+            margin-right: 6px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        footer .social-links {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        footer .social-links a {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            footer {
+                font-size: 12px;
+            }
+
+            footer p {
+                font-size: 12px;
+            }
+
+            footer a {
+                font-size: 14px;
+            }
+
+            footer .social-links {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000; 
+        }
+
+        .navbar-brand {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .navbar-brand span {
+            color: red;
+        }
+
+        .navbar-brand {
+            color: rgb(124, 121, 121);
+            text-decoration: none;
+        }
+        .logo-img {
+            width: 40px;  
+            height: 40px; 
+            border-radius: 50%; 
+            object-fit: cover; 
         }
     </style>
 </head>
@@ -84,7 +160,10 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-custom">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">BengkelinAja</a>
+            <a class="navbar-brand" href="#">
+                <img src="/static/img/produk/logo.jpg" alt="Logo" class="logo-img">
+                Bengkelin<span>Aja</span>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -153,20 +232,20 @@
 
      <!-- Footer -->
      <footer>
-        <div class="container py-5">
+        <div class="container">
             <div class="row justify-content-between align-items-center">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                <div class="col-md-6 text-center text-md-start">
                     <p class="m-0">&copy; 2024 Group 8 - BengkelinAja</p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
-                    <a href="mailto:info@bengkelinaja.com" class="text-dark me-4" style="text-decoration: none;">
-                        <i class="fas fa-envelope fa-lg"></i> Email
+                    <a href="mailto:info@bengkelinaja.com">
+                        <i class="fas fa-envelope"></i> Email
                     </a>
-                    <a href="https://wa.me/123456789" class="text-dark me-4" style="text-decoration: none;">
-                        <i class="fab fa-whatsapp fa-lg"></i> WhatsApp
+                    <a href="https://wa.me/123456789">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
                     </a>
-                    <a href="https://www.instagram.com/bengkelinaja" class="text-dark" style="text-decoration: none;">
-                        <i class="fab fa-instagram fa-lg"></i> Instagram
+                    <a href="https://www.instagram.com/bengkelinaja">
+                        <i class="fab fa-instagram"></i> Instagram
                     </a>
                 </div>
             </div>
