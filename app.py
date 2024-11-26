@@ -6,6 +6,10 @@ app = Flask(__name__)
 def home():
     return render_template('user/hompage.html')
 
+@app.route('/admin_login', methods=['GET', 'POST'])
+def admin_login():
+    return render_template('admin/login_admin.html')
+
 @app.route('/login')
 def login():
     return render_template('user/login.html') 

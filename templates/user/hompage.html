@@ -9,6 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
      <!-- library aos animasi -->
      <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+     
     <style>
         body {
           display: flex;
@@ -222,6 +223,9 @@
                 height: auto;
             }
         }
+        .modal.show {
+    pointer-events: auto;
+}
 
     </style>
 </head>
@@ -242,10 +246,35 @@
                 <ul class="navbar-nav ms-auto">
                   <li class="nav-item">
                     <!-- Tombol Login -->
-                    <a href="{{ url_for('login') }}" class="btn btn-danger ms-3" style="margin-right: 10px;">
-                        <i class="fas fa-sign-in-alt me-2"></i> Login
-                    </a>
+                    <button type="button" class="btn btn-danger ms-3" style="margin-right: 10px;" data-bs-toggle="modal" data-bs-target="#loginModal">
+                      <i class="fas fa-sign-in-alt me-2"></i> Login
+                  </button>
                 </li>
+                <!-- Modal -->
+                  <div class="modal fade" data-bs-backdrop="false" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="loginModalLabel">Pilih Login</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <p class="mb-4">Silakan pilih jenis pengguna untuk login:</p>
+                                <div class="d-grid gap-3">
+                                    <!-- Tombol Login Admin -->
+                                    <a href="{{ url_for('admin_login') }}" class="btn btn-outline-danger btn-lg">
+                                        <i class="fas fa-solid fa-user-secret me-2"></i> Login sebagai Admin
+                                    </a>
+                                    <!-- Tombol Login User -->
+                                    <a href="{{ url_for('login') }}" class="btn btn-outline-danger btn-lg">
+                                        <i class="fas fa-user me-2"></i> Login sebagai User
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> Home</a>
                     </li>
