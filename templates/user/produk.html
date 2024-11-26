@@ -216,7 +216,11 @@
                   alt="Profile"
                   class="profile-img me-2"
                 />
-                <span>User</span>
+                {% if session.get('role') == 'admin' %}
+                <span>Admin</span>
+                {% else %}
+                <span>{{ session.get('username') }}</span>
+                {% endif %}
               </a>
               <ul
                 class="dropdown-menu dropdown-menu-end"
