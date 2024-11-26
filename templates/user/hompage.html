@@ -229,13 +229,15 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-custom">
-<<<<<<< HEAD
+
       <div class="container-fluid">
-          <a class="navbar-brand" href="#">
-              <img src="/static/img/tampilan/logo.jpg" alt="Logo" class="logo-img">
-              Bengkelin<span>Aja</span>
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="#">
+                <img src="/static/img/tampilan/logo.jpg" alt="Logo" class="logo-img">
+                Bengkelin<span>Aja</span>
+            </a>
+            <br>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
           </button>
   
@@ -305,48 +307,10 @@
                                       </button>
                                     </div>
                                   </div>
-=======
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="/static/img/tampilan/logo.jpg" alt="Logo" class="logo-img">
-                Bengkelin<span>Aja</span>
-            </a>
-            <br>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                  <li class="nav-item">
-                    <!-- Tombol Login -->
-                    <button type="button" class="btn btn-danger ms-3" style="margin-right: 10px;" data-bs-toggle="modal" data-bs-target="#loginModal">
-                      <i class="fas fa-sign-in-alt me-2"></i> Login
-                  </button>
-                </li>
-                <!-- Modal -->
-                  <div class="modal fade" data-bs-backdrop="false" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="loginModalLabel">Pilih Login</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body text-center">
-                                <p class="mb-4">Silakan pilih jenis pengguna untuk login:</p>
-                                <div class="d-grid gap-3">
-                                    <!-- Tombol Login Admin -->
-                                    <a href="{{ url_for('admin_login') }}" class="btn btn-outline-danger btn-lg">
-                                        <i class="fas fa-solid fa-user-secret me-2"></i> Login sebagai Admin
-                                    </a>
-                                    <!-- Tombol Login User -->
-                                    <a href="{{ url_for('login') }}" class="btn btn-outline-danger btn-lg">
-                                        <i class="fas fa-user me-2"></i> Login sebagai User/Pelanggan
-                                    </a>
->>>>>>> e8cbb5cbb984b8444ba82454ce5115c5cc0105c3
                                 </div>
                               </div>
                             </div>
+                          </ul>
                       </li>
                       
                   {% else %}

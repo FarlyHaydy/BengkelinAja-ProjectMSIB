@@ -11,12 +11,6 @@ db = client['bengkelinaja']
 
 users_collection = db['users']
 
-users_collection.insert_one({
-    'username': 'admin',
-    'password': 'admin123',
-    'role': 'admin'
-})
-
 
 @app.route('/', methods=['GET'])
 def home():
@@ -90,11 +84,12 @@ def tambah_produk():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    error = None  # Variabel untuk menyimpan pesan error
-    
+    error = None 
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        email = request.form['email']
+        alamat = request.form['alamat']
         
         
         if users_collection.find_one({"username": username}):
@@ -104,6 +99,8 @@ def register():
             users_collection.insert_one({
                 'username': username,
                 'password': password,
+                'email': email,
+                'alamat': alamat,
                 'role': role
             })
             return redirect(url_for('home'))  
