@@ -232,88 +232,139 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-custom">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="/static/img/tampilan/logo.jpg" alt="Logo" class="logo-img">
-                Bengkelin<span>Aja</span>
-            </a>
-            <br>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                  <li class="nav-item">
-                    <!-- Tombol Login -->
-                    <button type="button" class="btn btn-danger ms-3" style="margin-right: 10px;" data-bs-toggle="modal" data-bs-target="#loginModal">
-                      <i class="fas fa-sign-in-alt me-2"></i> Login
-                  </button>
-                </li>
-                <!-- Modal -->
-                  <div class="modal fade" data-bs-backdrop="false" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="loginModalLabel">Pilih Login</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body text-center">
-                                <p class="mb-4">Silakan pilih jenis pengguna untuk login:</p>
-                                <div class="d-grid gap-3">
-                                    <!-- Tombol Login Admin -->
-                                    <a href="{{ url_for('admin_login') }}" class="btn btn-outline-danger btn-lg">
-                                        <i class="fas fa-solid fa-user-secret me-2"></i> Login sebagai Admin
-                                    </a>
-                                    <!-- Tombol Login User -->
-                                    <a href="{{ url_for('login') }}" class="btn btn-outline-danger btn-lg">
-                                        <i class="fas fa-user me-2"></i> Login sebagai User
-                                    </a>
+      <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+              <img src="/static/img/tampilan/logo.jpg" alt="Logo" class="logo-img">
+              Bengkelin<span>Aja</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ms-auto">
+                  <!-- Check if user is logged in -->
+                  {% if not session.get('username') %}
+                      <li class="nav-item">
+                          <!-- Login Button -->
+                          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav ms-auto">
+                              <li class="nav-item">
+                                <!-- Tombol Login -->
+                                <button type="button" class="btn btn-danger ms-3" style="margin-right: 10px;" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                  <i class="fas fa-sign-in-alt me-2"></i> Login
+                              </button>
+                            </li>
+                            <!-- Modal -->
+                            <div class="modal fade" data-bs-backdrop="false" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <!-- Modal Header -->
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="loginModalLabel"><i class="fas fa-sign-in-alt me-2"></i>Login</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                            
+                                  <!-- Modal Body -->
+                                  <div class="modal-body text-center">
+                                    <!-- Form -->
+                                    <form action="{{ url_for('login') }}" method="POST">
+                                      <!-- Username Input -->
+                                      <div class="mb-3">
+                                        <label for="username" class="form-label">Username</label>
+                                        <input type="text" class="form-control form-control-lg" id="username" name="username" required placeholder="Enter your username">
+                                      </div>
+                                      
+                                      <!-- Password Input -->
+                                      <div class="mb-3">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" class="form-control form-control-lg" id="password" name="password" required placeholder="Enter your password">
+                                      </div>
+                            
+                                      <!-- Submit Button -->
+                                      <button type="submit" class="btn btn-danger btn-lg w-100 mt-4">
+                                        <i class="fas fa-sign-in-alt me-2"></i> Login
+                                      </button>
+                                    </form>
+                            
+                                    <!-- Opsi untuk User yang belum punya akun -->
+                                    <div class="mt-4">
+                                      <p class="text-muted">Belum punya akun? <a href="{{ url_for('register') }}" class="text-danger fw-bold">Daftar sekarang</a></p>
+                                      <p class="text-muted">Atau <a href="{{ url_for('forgot_password') }}" class="text-danger fw-bold">Lupa akun?</a></p>
+                                    </div>
+                            
+                                    <!-- Social Media Login (Optional) -->
+                                    <div class="mt-4">
+                                      <p class="text-muted">Atau login dengan</p>
+                                      <button type="button" class="btn btn-outline-primary w-100 mb-2">
+                                        <i class="fab fa-facebook me-2"></i> Facebook
+                                      </button>
+                                      <button type="button" class="btn btn-outline-info w-100 mb-2">
+                                        <i class="fab fa-google me-2"></i> Google
+                                      </button>
+                                    </div>
+                                  </div>
                                 </div>
+                              </div>
                             </div>
-                        </div>
-                    </div>
-                  </div>
+                      </li>
+                      
+                  {% else %}
+                      <li class="nav-item">
+                          <button type="button" class="btn btn-success ms-3">
+                              <i class="fas fa-user me-2"></i> Welcome, {{ session.get('username') }}
+                          </button>
+                      </li>
+                      
+                  {% endif %}
+  
+                  <!-- Navigation Links -->
+                  <li class="nav-item">
+                      <a class="nav-link" href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> Home</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{{ url_for('produk') }}"><i class="fas fa-box-open"></i> Product</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{{ url_for('checkout') }}"><i class="fas fa-shopping-cart"></i> Checkout</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{{ url_for('check_order') }}"><i class="fas fa-receipt"></i> Check Order</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="/static/img/tampilan/foto-profile.jpg" alt="Profile" class="profile-img me-2">
+                        {% if session.get('role') == 'admin' %}
+                            <span>Admin</span>
+                        {% else %}
+                            <span>{{ session.get('username') }}</span>
+                        {% endif %}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('profile') }}">
+                                <i class="fas fa-user me-2"></i> Profile
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('logout') }}">
+                                <i class="fas fa-sign-out-alt me-2"></i> Logout
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('produk') }}"><i class="fas fa-box-open"></i> Product</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('checkout') }}"><i class="fas fa-shopping-cart"></i> Checkout</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('check_order') }}"><i class="fas fa-receipt"></i> Check Order</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="/static/img/tampilan/foto-profile.jpg" alt="Profile" class="profile-img me-2">
-                            <span>User</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                            <li>
-                                <a class="dropdown-item" href="{{ url_for('profile') }}">
-                                    <i class="fas fa-user me-2"></i> Profile
-                                </a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-sign-out-alt me-2"></i> Logout
-                                </a>
-                            </li>
-                        </ul>
-                        
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
+              </ul>
+          </div>
+      </div>
+  </nav>
+  
     <!-- Main Content -->
       <div class="container mt-5">
         <h1 class="text-center d-flex justify-content-center align-items-center">
