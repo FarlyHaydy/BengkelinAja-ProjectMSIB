@@ -223,15 +223,13 @@
                 height: auto;
             }
         }
-        .modal.show {
-    pointer-events: auto;
-}
 
     </style>
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-custom">
+<<<<<<< HEAD
       <div class="container-fluid">
           <a class="navbar-brand" href="#">
               <img src="/static/img/tampilan/logo.jpg" alt="Logo" class="logo-img">
@@ -307,6 +305,45 @@
                                       </button>
                                     </div>
                                   </div>
+=======
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="/static/img/tampilan/logo.jpg" alt="Logo" class="logo-img">
+                Bengkelin<span>Aja</span>
+            </a>
+            <br>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                  <li class="nav-item">
+                    <!-- Tombol Login -->
+                    <button type="button" class="btn btn-danger ms-3" style="margin-right: 10px;" data-bs-toggle="modal" data-bs-target="#loginModal">
+                      <i class="fas fa-sign-in-alt me-2"></i> Login
+                  </button>
+                </li>
+                <!-- Modal -->
+                  <div class="modal fade" data-bs-backdrop="false" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="loginModalLabel">Pilih Login</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <p class="mb-4">Silakan pilih jenis pengguna untuk login:</p>
+                                <div class="d-grid gap-3">
+                                    <!-- Tombol Login Admin -->
+                                    <a href="{{ url_for('admin_login') }}" class="btn btn-outline-danger btn-lg">
+                                        <i class="fas fa-solid fa-user-secret me-2"></i> Login sebagai Admin
+                                    </a>
+                                    <!-- Tombol Login User -->
+                                    <a href="{{ url_for('login') }}" class="btn btn-outline-danger btn-lg">
+                                        <i class="fas fa-user me-2"></i> Login sebagai User/Pelanggan
+                                    </a>
+>>>>>>> e8cbb5cbb984b8444ba82454ce5115c5cc0105c3
                                 </div>
                               </div>
                             </div>
@@ -379,7 +416,7 @@
                 "Butuh Suku Cadang Berkualitas? Solusinya Ada di Bengkelin Aja! Temukan Pilihan Terbaik Untuk Kendaraan Anda."
             </p>
 
-            <a href="{{ url_for('produk') }}" class="btn btn-danger btn-lg" style="border-radius: 25px; padding: 10px 30px; font-weight: bold; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); margin-bottom: 30px;">
+            <a href="{{ url_for('produk') }}" class="btn btn-danger btn-lg" style="border-radius: 25px; padding: 10px 30px; font-weight: bold; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); margin-bottom: 50px;">
 
                 Belanja Sekarang
             </a>
@@ -423,9 +460,21 @@
             </div>
         </div>
 
-        <div class="alert alert-secondary mt-4 text-center">
-            Kami menjual sparepart original 100%, apabila mendapatkan sparepart palsu, bisa Anda return.
-        </div>
+        <div class="container mt-2" data-aos="fade-up" data-aos-duration="2000">
+          <div class="row align-items-center">
+              <!-- Kiri: Gambar refound -->
+              <div class="col-12 col-md-6 text-center text-md-start info-container">
+                  <img src="/static/img/tampilan/refound.png" alt="Refound" style="max-width: 100%;">
+              </div>
+              <!-- Kanan: Tulisan penjaminan -->
+              <div class="col-12 col-md-6 profile-section d-flex justify-content-center">
+                <p style="margin: 0; font-size: 25px; font-weight: 500; line-height: 1.5; color: black; text-align: justify;">
+                  Kami menjual sparepart original 100%, apabila mendapatkan sparepart palsu, bisa Anda return. Kami juga memberikan garansi penggantian untuk produk yang rusak atau tidak sesuai pesanan. Kepuasan pelanggan adalah prioritas utama kami, sehingga Anda dapat berbelanja dengan aman dan nyaman di BengkelinAja.
+              </p>
+              </div>
+          </div>
+      </div>
+      
     </div>
 
     <!-- Footer -->
