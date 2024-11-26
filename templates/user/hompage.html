@@ -240,6 +240,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+                  <li class="nav-item">
+                    <!-- Tombol Login -->
+                    <a href="{{ url_for('login') }}" class="btn btn-danger ms-3" style="margin-right: 10px;">
+                        <i class="fas fa-sign-in-alt me-2"></i> Login
+                    </a>
+                </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> Home</a>
                     </li>

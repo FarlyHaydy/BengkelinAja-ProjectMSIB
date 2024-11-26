@@ -6,6 +6,14 @@ app = Flask(__name__)
 def home():
     return render_template('user/hompage.html')
 
+@app.route('/login')
+def login():
+    return render_template('user/login.html') 
+
+@app.route('/register', endpoint = 'registrasi')
+def register():
+    return render_template('user/register.html') 
+
 @app.route('/produk')
 def produk():
     return render_template('user/produk.html') 
