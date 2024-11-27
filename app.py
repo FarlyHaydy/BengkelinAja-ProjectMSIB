@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
@@ -39,8 +39,7 @@ def login():
                 return redirect(url_for('home')) 
         else:
             return 'Invalid credentials!' 
-    
-    return render_template('user/login.html')  
+    return redirect(url_for('home'))  
 
 @app.route('/index')
 def index():
@@ -50,19 +49,30 @@ def index():
 
 @app.route('/produk')
 def produk():
-    return render_template('user/produk.html') 
+    if 'username' not in session:  # Jika pengguna belum login
+        flash('You must be logged in to access this page.', 'warning')
+        return redirect(url_for('login'))  # Arahkan ke halaman login
+    return render_template('user/produk.html')
+     
 
 @app.route('/checkout')
 def checkout():
+    if 'username' not in session:  # Jika pengguna belum login
+        flash('You must be logged in to access this page.', 'warning')
+        return redirect(url_for('login'))  # Arahkan ke halaman login
     return render_template('user/checkout.html')
  
 @app.route('/check_order')
 def check_order():
+    if 'username' not in session:  # Jika pengguna belum login
+        flash('You must be logged in to access this page.', 'warning')
+        return redirect(url_for('login'))  # Arahkan ke halaman login
     return render_template('user/check_order.html') 
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'username' not in session:
+        flash('You must be logged in to access this page.', 'warning')
         return redirect(url_for('login'))  # Jika pengguna belum login, arahkan ke halaman login
 
     # Ambil data pengguna dari session
@@ -130,9 +140,6 @@ def register():
             return redirect(url_for('home'))  
     
     return render_template('user/register.html', error=error)
-
-
-
 
 @app.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
