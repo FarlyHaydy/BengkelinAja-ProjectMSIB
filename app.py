@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
@@ -42,13 +42,6 @@ def login():
     
     return render_template('user/login.html')  
 
-@app.route('/logout')
-def user_logout(): 
-    session.pop('username', None)  
-    session.pop('role', None)  
-    return redirect(url_for('home'))  
-
-
 @app.route('/index')
 def index():
     if 'username' not in session or session['role'] != 'admin':
@@ -67,9 +60,40 @@ def checkout():
 def check_order():
     return render_template('user/check_order.html') 
 
-@app.route('/profile')
+@app.route('/profile', methods=['GET', 'POST'])
 def profile():
-    return render_template('user/profile.html') 
+    if 'username' not in session:
+        return redirect(url_for('login'))  # Jika pengguna belum login, arahkan ke halaman login
+
+    # Ambil data pengguna dari session
+    user = users_collection.find_one({"username": session['username']})
+
+    if request.method == 'POST':
+        new_username = request.form['username']
+        new_email = request.form['email']
+        new_alamat = request.form['alamat']
+
+        # Cek apakah username sudah ada
+        if new_username != user['username'] and users_collection.find_one({"username": new_username}):
+            return 'Username already taken, please choose another one!'
+
+        # Perbarui data di MongoDB
+        users_collection.update_one(
+            {"_id": user['_id']},
+            {"$set": {
+                "username": new_username,
+                "email": new_email,
+                "alamat": new_alamat
+            }}
+        )
+
+        # Perbarui session dengan username baru
+        session['username'] = new_username
+        
+        return redirect(url_for('profile'))  # Redirect ke halaman profile setelah berhasil update
+
+    return render_template('user/profile.html', user=user)
+
 
 @app.route('/logout')
 def logout():

@@ -176,7 +176,11 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="/static/img/tampilan/foto-profile.jpg" alt="Profile" class="profile-img me-2">
-                            <span>User</span>
+                            {% if session.get('role') == 'admin' %}
+                            <span>Admin</span>
+                            {% else %}
+                            <span>{{ session.get('username') }}</span>
+                            {% endif %} 
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                             <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
@@ -207,18 +211,18 @@
                 <div class="card bg-custom">
                     <div class="card-body">
                         <h5 class="card-title text-center mb-4">Informasi User</h5>
-                        <form>
+                        <form method="POST">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="username" placeholder="Masukkan username Anda">
+                                <input type="text" class="form-control" id="username" name="username" value="{{ user['username'] }}" placeholder="Masukkan username Anda">
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">E-mail/No. Handphone</label>
-                                <input type="email" class="form-control" id="email" placeholder="Masukkan email atau nomor handphone Anda">
+                                <input type="email" class="form-control" id="email" name="email" value="{{ user['email'] }}" placeholder="Masukkan email atau nomor handphone Anda">
                             </div>
                             <div class="mb-3">
                                 <label for="alamat" class="form-label">Alamat</label>
-                                <textarea class="form-control" id="alamat" rows="3" placeholder="Masukkan alamat Anda"></textarea>
+                                <textarea class="form-control" id="alamat" name="alamat" rows="3" placeholder="Masukkan alamat Anda">{{ user['alamat'] }}</textarea>
                             </div>
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-danger">Update Profile</button>
