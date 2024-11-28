@@ -51,7 +51,7 @@ def index():
 def produk():
     if 'username' not in session:  # Jika pengguna belum login
         flash('You must be logged in to access this page.', 'warning')
-        session['logged_out'] = False
+        
         return redirect(url_for('login'))  # Arahkan ke halaman login
     return render_template('user/produk.html')
      
@@ -60,7 +60,7 @@ def produk():
 def checkout():
     if 'username' not in session:  # Jika pengguna belum login
         flash('You must be logged in to access this page.', 'warning')
-        session['logged_out'] = False
+     
         return redirect(url_for('login'))  # Arahkan ke halaman login
     return render_template('user/checkout.html')
  
@@ -68,7 +68,7 @@ def checkout():
 def check_order():
     if 'username' not in session:  # Jika pengguna belum login
         flash('You must be logged in to access this page.', 'warning')
-        session['logged_out'] = False
+        
         return redirect(url_for('login'))  # Arahkan ke halaman login
     return render_template('user/check_order.html') 
 
@@ -76,7 +76,7 @@ def check_order():
 def profile():
     if 'username' not in session:
         flash('You must be logged in to access this page.', 'warning')
-        session['logged_out'] = False
+        
         return redirect(url_for('login'))  # Jika pengguna belum login, arahkan ke halaman login
 
     # Ambil data pengguna dari session
@@ -113,10 +113,9 @@ def profile():
 def logout():
     session.pop('username', None)
     session.pop('role', None)
-    session['logged_out'] = True
     print("Session after logout:", session) 
     if 'username' not in session:
-        flash('You must be logged in to access this.', 'warning')
+        return redirect(url_for('login'))
     return redirect(url_for('home'))
 
 @app.route('/tambah_produk', methods=['GET', 'POST'])

@@ -230,34 +230,31 @@
     </style>
 
     <!-- ni error aman mas wkwkwk  -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        <script>
-            // Periksa jika pengguna baru saja logout
-            {% if not session.get('logged_out') %}
-                {% for category, message in messages %}
-                    {% if category == 'warning' %}
-                        window.onload = function() {
-                            Swal.fire({
-                                icon: 'warning',
-                                title: 'Login Required',
-                                text: '{{ message }}',  
-                                confirmButtonText: 'Ok',
-                                allowOutsideClick: false,
-                                allowEscapeKey: false
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = "{{ url_for('login') }}";  
-                                }
-                            });
-                        };
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-        </script>
-        {% endif %}
-        {% endwith %}
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <script>
+            {% for category, message in messages %}
+                {% if category == 'warning' %}
+                    window.onload = function() {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Login Required',
+                            text: '{{ message }}',  
+                            confirmButtonText: 'Ok',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "{{ url_for('login') }}";  
+                            }
+                        });
+                    };
+                {% endif %}
+            {% endfor %}
+        </script>
+    {% endif %}
+{% endwith %}
 
 </head>
 <body>
