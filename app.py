@@ -10,6 +10,7 @@ client = MongoClient("mongodb+srv://bengkelinaja:bengkelinaja@cluster0.0q1zz.mon
 db = client['bengkelinaja']
 
 users_collection = db['users']
+produk_collection = db['produk']
 
 
 @app.route('/', methods=['GET'])
@@ -53,7 +54,10 @@ def produk():
         flash('You must be logged in to access this page.', 'warning')
         
         return redirect(url_for('login'))  # Arahkan ke halaman login
-    return render_template('user/produk.html')
+    
+     # Ambil semua produk dari MongoDB
+    produk_list = produk_collection.find()
+    return render_template('user/produk.html', produk_list=produk_list)
      
 
 @app.route('/checkout')
@@ -120,8 +124,28 @@ def logout():
 
 @app.route('/tambah_produk', methods=['GET', 'POST'])
 def tambah_produk():
-    return render_template('admin/tambah_produk.html')
+    if request.method == 'POST':
+        product_name = request.form['productName']
+        product_description = request.form['productDescription']
+        product_price = request.form['productPrice']
+        product_image = request.files['productImage']
 
+        # Menyimpan gambar (optional, pastikan ada folder 'static/img/products')
+        image_path = f"static/img/produk/{product_image.filename}"
+        product_image.save(image_path)
+
+        # Menyimpan data produk ke MongoDB
+        produk_collection.insert_one({
+            'name': product_name,
+            'description': product_description,
+            'price': product_price,
+            'image': image_path
+        })
+
+        flash("Produk berhasil ditambahkan!", 'success')
+        return redirect(url_for('produk'))
+    return render_template('admin/tambah_produk.html')
+        
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     error = None 
