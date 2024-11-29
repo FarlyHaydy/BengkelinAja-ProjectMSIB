@@ -114,6 +114,15 @@
               <label for="productImage" class="form-label">Gambar Produk</label>
               <input class="form-control" type="file" id="productImage" name="productImage" required>
             </div>
+            <!-- Input Kategori -->
+            <div class="mb-3">
+              <label for="productCategory" class="form-label">Kategori Produk</label>
+              <select class="form-control" id="productCategory" name="productCategory" required>
+                <option value="" disabled selected>Pilih kategori</option>
+                <option value="Yamaha">Yamaha</option>
+                <option value="Honda">Honda</option>
+              </select>
+            </div>
             <button type="submit" class="btn btn-danger w-100 mt-4">
               <i class="bi bi-plus-circle"></i> Tambah Produk
             </button>
@@ -121,6 +130,7 @@
         </div>
       </div>
     </div>
+    
   </div>
 
   <!-- Footer -->

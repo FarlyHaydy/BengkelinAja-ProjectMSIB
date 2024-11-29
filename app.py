@@ -50,14 +50,30 @@ def index():
 
 @app.route('/produk')
 def produk():
-    if 'username' not in session:  # Jika pengguna belum login
+    if 'username' not in session:  # Periksa apakah pengguna sudah login
         flash('You must be logged in to access this page.', 'warning')
-        
-        return redirect(url_for('login'))  # Arahkan ke halaman login
-    
-     # Ambil semua produk dari MongoDB
-    produk_list = produk_collection.find()
-    return render_template('user/produk.html', produk_list=produk_list)
+        return redirect(url_for('login'))
+
+    # Ambil parameter kategori dan pencarian
+    category = request.args.get('category', 'All')  # Default ke 'All'
+    search = request.args.get('search', '').strip()  # Default ke string kosong jika tidak ada pencarian
+
+    # Query MongoDB
+    query = {}
+    if category != 'All':  # Filter kategori
+        query['category'] = category
+    if search:  # Filter pencarian berdasarkan nama
+        query['name'] = {'$regex': search, '$options': 'i'}  # Regex hanya untuk kolom nama (case-insensitive)
+
+    produk_list = list(produk_collection.find(query))
+
+    # Render template dengan produk yang difilter
+    return render_template(
+        'user/produk.html',
+        produk_list=produk_list,
+        selected_category=category,
+        search=search
+    )
      
 
 @app.route('/checkout')
@@ -128,6 +144,7 @@ def tambah_produk():
         product_name = request.form['productName']
         product_description = request.form['productDescription']
         product_price = request.form['productPrice']
+        product_category = request.form['productCategory']  # Ambil kategori dari form
         product_image = request.files['productImage']
 
         # Menyimpan gambar (optional, pastikan ada folder 'static/img/products')
@@ -139,6 +156,7 @@ def tambah_produk():
             'name': product_name,
             'description': product_description,
             'price': product_price,
+            'category': product_category,  # Tambahkan kategori ke MongoDB
             'image': image_path
         })
 

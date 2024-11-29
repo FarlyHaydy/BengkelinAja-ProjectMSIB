@@ -247,20 +247,22 @@
   <!-- Main Content -->
   <main class="container my-5">
     <section class="mt-5">
-      <h2 class="mb-4"></h2>
-      <div class="d-flex align-items-center">
-        <div class="categories me-3">
-          <button class="btn btn-outline-dark">All</button>
-          <button class="btn btn-outline-dark">Yamaha</button>
-          <button class="btn btn-outline-dark">Honda</button>
-          <button class="btn btn-outline-dark">Others</button>
-        </div>
+        <h2 class="mb-4">Produk</h2>
+        <div class="d-flex align-items-center">
+            <!-- Filter Kategori -->
+            <div class="categories me-3">
+                <a href="/produk?category=All" class="btn {{ 'btn-dark' if selected_category == 'All' else 'btn-outline-dark' }}">All</a>
+                <a href="/produk?category=Yamaha" class="btn {{ 'btn-dark' if selected_category == 'Yamaha' else 'btn-outline-dark' }}">Yamaha</a>
+                <a href="/produk?category=Honda" class="btn {{ 'btn-dark' if selected_category == 'Honda' else 'btn-outline-dark' }}">Honda</a>
+            </div>
 
-        <form class="d-flex w-50">
-          <input type="text" class="form-control me-2" placeholder="Search" />
-          <button class="btn btn-primary" type="submit">Search</button>
-        </form>
-      </div>
+            <!-- Form Pencarian -->
+            <form class="d-flex w-50" method="get" action="/produk">
+              <input type="hidden" name="category" value="{{ selected_category }}"> <!-- Tetap gunakan kategori -->
+              <input type="text" class="form-control me-2" placeholder="Cari berdasarkan nama produk..." name="search" value="{{ search }}">
+              <button class="btn btn-primary" type="submit">Search</button>
+          </form>          
+        </div>
     </section>
 
     <!-- Menampilkan Barang Produk -->
