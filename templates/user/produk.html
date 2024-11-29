@@ -296,88 +296,39 @@
   aria-labelledby="universalModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="universalModalLabel">
-          Informasi Produk
-        </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-6">
-            <img
-              src="/static/img/sample/ban-yamaha.jpg"
-              class="img-fluid"
-              alt="gambar produk"
-              style="max-height: 400px; object-fit: cover"
-            />
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="universalModalLabel">Informasi Produk</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-6">
+          <img id="modal-product-image" class="img-fluid" alt="gambar produk" style="max-height: 400px; object-fit: cover" />
+        </div>
+        <div class="col-md-6">
+          <h4 id="modal-product-name" class="modal-title"></h4>
+          <p id="modal-product-description" class="text-muted" style="font-size: 1.1rem"></p>
+          <p class="text-danger fw-semibold" style="font-size: 1.2rem">Harga</p>
+          <p id="modal-product-price" class="text-primary fw-bold" style="font-size: 1.3rem"></p>
+
+          <div class="mb-3 d-flex align-items-center">
+            <button type="button" class="btn btn-secondary" id="decreaseBtn">-</button>
+            <input type="number" class="form-control mx-2 text-center" id="quantity" value="1" min="1" style="width: 80px; font-size: 1rem; text-align: center" readonly />
+            <button type="button" class="btn btn-secondary" id="increaseBtn">+</button>
           </div>
-          <div class="col-md-6">
-            <h4 class="modal-title">Nama Produk</h4>
-            <p class="text-muted" style="font-size: 1.1rem">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Voluptate ab, dolorem molestiae distinctio perferendis
-              accusamus placeat. Aut dolores debitis facere veniam culpa
-              fugit hic iure, nam inventore deserunt est quis dolorum
-              accusantium aperiam, porro ad. Tempore laboriosam, voluptatum
-              minus perspiciatis at, consectetur dolores repellat id
-              veritatis minima ab ea voluptatibus.
-            </p>
-            <p class="text-danger fw-semibold" style="font-size: 1.2rem">
-              Harga
-            </p>
-            <p class="text-primary fw-bold" style="font-size: 1.3rem">
-              Rp 100.000
-            </p>
 
-            <div class="mb-3 d-flex align-items-center">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                id="decreaseBtn"
-              >
-                -
-              </button>
-              <input
-                type="number"
-                class="form-control mx-2 text-center"
-                id="quantity"
-                value="1"
-                min="1"
-                style="width: 80px; font-size: 1rem; text-align: center"
-                readonly
-              />
-              <button
-                type="button"
-                class="btn btn-secondary"
-                id="increaseBtn"
-              >
-                +
-              </button>
-            </div>
-
-            <div class="d-flex justify-content-end">
-              <button class="btn btn-primary btn-lg me-2">
-                Buy
-                <i class="fab fa-shopify"></i>
-              </button>
-              <button class="btn btn-success btn-lg">
-                Checkout
-                <i class="fas fa-shopping-cart"></i>
-              </button>
-            </div>
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-primary btn-lg me-2">Buy <i class="fab fa-shopify"></i></button>
+            <button class="btn btn-success btn-lg">Checkout <i class="fas fa-shopping-cart"></i></button>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+
 </div>
   <!-- Footer -->
   <footer>
@@ -423,6 +374,32 @@
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     AOS.init();
+  </script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    const modalImage = document.getElementById('modal-product-image');
+    const modalName = document.getElementById('modal-product-name');
+    const modalDescription = document.getElementById('modal-product-description');
+    const modalPrice = document.getElementById('modal-product-price');
+    
+    // Menambahkan event listener klik pada setiap gambar produk
+    const productImages = document.querySelectorAll('.card-img-top');
+    productImages.forEach(image => {
+      image.addEventListener('click', function () {
+        // Mengambil data produk dari kartu yang diklik
+        const productCard = image.closest('.col');
+        const productName = productCard.querySelector('.card-title').textContent;
+        const productDescription = productCard.querySelector('.card-text').textContent;
+        const productPrice = productCard.querySelector('.text-primary').textContent.trim();
+        const productImage = image.src;
+  
+        // Memperbarui konten modal dengan data produk yang dipilih
+        modalImage.src = productImage;
+        modalName.textContent = productName;
+        modalDescription.textContent = productDescription;
+        modalPrice.textContent = productPrice;
+      });
+    });
+  });
   </script>
 </body>
 

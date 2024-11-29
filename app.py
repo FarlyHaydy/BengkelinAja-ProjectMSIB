@@ -76,6 +76,7 @@ def produk():
     )
      
 
+
 @app.route('/checkout')
 def checkout():
     if 'username' not in session:  # Jika pengguna belum login
@@ -144,19 +145,17 @@ def tambah_produk():
         product_name = request.form['productName']
         product_description = request.form['productDescription']
         product_price = request.form['productPrice']
-        product_category = request.form['productCategory']  # Ambil kategori dari form
+        product_category = request.form['productCategory']  
         product_image = request.files['productImage']
 
-        # Menyimpan gambar (optional, pastikan ada folder 'static/img/products')
         image_path = f"static/img/produk/{product_image.filename}"
         product_image.save(image_path)
 
-        # Menyimpan data produk ke MongoDB
         produk_collection.insert_one({
             'name': product_name,
             'description': product_description,
             'price': product_price,
-            'category': product_category,  # Tambahkan kategori ke MongoDB
+            'category': product_category, 
             'image': image_path
         })
 
