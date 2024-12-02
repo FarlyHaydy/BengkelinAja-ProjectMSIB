@@ -32,8 +32,10 @@ def login():
         
         if user:
             session['username'] = username
-            session['role'] = user['role']
-            
+            session['role'] = user.get('role')  
+            session['email'] = user.get('email', None)  
+            session['alamat'] = user.get('alamat', None)  
+
             if user['role'] == 'admin':
                 return redirect(url_for('index')) 
             else:
@@ -50,7 +52,7 @@ def index():
 
 @app.route('/produk')
 def produk():
-    if 'username' not in session:  # Periksa apakah pengguna sudah login
+    if 'username' not in session:  
         flash('You must be logged in to access this page.', 'warning')
         return redirect(url_for('login'))
 
@@ -75,22 +77,68 @@ def produk():
         search=search
     )
      
+@app.route('/add_to_checkout', methods=['POST'])
+def add_to_checkout():
+    data = request.get_json()
+    product_id = data['product_id']
+    product_name = data['product_name']
+    product_price = data['product_price']
+    product_image = data['product_image']
+    quantity = int(data['quantity'])
+
+    # Simpan informasi checkout di koleksi 'checkout' MongoDB
+    checkout_collection = db['checkout']
+    checkout_collection.insert_one({
+        'username': session['username'],
+        'email' : session['email'],
+        'alamat' : session['alamat'],
+        'product_id': product_id,
+        'product_name': product_name,
+        'product_price': product_price,
+        'product_image': product_image,
+        'quantity': quantity
+    })
+
+    return jsonify({'success': True}), 200
+
+@app.route('/remove_from_checkout/<item_id>', methods=['POST'])
+def remove_from_checkout(item_id):
+    
+    # Hapus item dari koleksi checkout
+    checkout_collection = db['checkout']
+    checkout_collection.delete_one({'_id': ObjectId(item_id)})
+
+    return jsonify({'success': True}), 200
 
 
 @app.route('/checkout')
 def checkout():
-    if 'username' not in session:  # Jika pengguna belum login
+    if 'username' not in session: 
         flash('You must be logged in to access this page.', 'warning')
-     
-        return redirect(url_for('login'))  # Arahkan ke halaman login
-    return render_template('user/checkout.html')
- 
+        return redirect(url_for('login'))  
+
+    # Ambil data checkout dari MongoDB untuk pengguna saat ini
+    checkout_collection = db['checkout']
+    checkout_items = list(checkout_collection.find(
+        {'username': session['username'],
+         'alamat' : session['alamat'],
+         'email' : session['email']
+         }))
+
+   # Hitung total harga
+    total_price = sum(float(item['product_price']) * item['quantity'] for item in checkout_items)
+
+    # Convert total price to integer if needed
+    total_price = int(total_price)  # Convert to integer if you want to remove decimal points
+
+    return render_template('user/checkout.html', checkout_items=checkout_items, total_price=total_price)
+
 @app.route('/check_order')
 def check_order():
-    if 'username' not in session:  # Jika pengguna belum login
+    if 'username' not in session:  
         flash('You must be logged in to access this page.', 'warning')
         
-        return redirect(url_for('login'))  # Arahkan ke halaman login
+        return redirect(url_for('login'))  
     return render_template('user/check_order.html') 
 
 @app.route('/profile', methods=['GET', 'POST'])
@@ -98,7 +146,7 @@ def profile():
     if 'username' not in session:
         flash('You must be logged in to access this page.', 'warning')
         
-        return redirect(url_for('login'))  # Jika pengguna belum login, arahkan ke halaman login
+        return redirect(url_for('login'))  
 
     # Ambil data pengguna dari session
     user = users_collection.find_one({"username": session['username']})
@@ -162,6 +210,47 @@ def tambah_produk():
         flash("Produk berhasil ditambahkan!", 'success')
         return redirect(url_for('produk'))
     return render_template('admin/tambah_produk.html')
+
+@app.route('/delete_produk/<product_id>', methods=['POST'])
+def delete_produk(product_id):
+    if 'username' not in session or session['role'] != 'admin':
+        return jsonify({'error': 'Unauthorized access'}), 403
+
+    produk_collection.delete_one({'_id': ObjectId(product_id)})
+    return jsonify({'success': True}), 200
+
+@app.route('/update_produk/<product_id>', methods=['GET', 'POST'])
+def update_produk(product_id):
+    if 'username' not in session or session['role'] != 'admin':
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        product_name = request.form['productName']
+        product_description = request.form['productDescription']
+        product_price = request.form['productPrice']
+        product_category = request.form['productCategory']  
+        product_image = request.files['productImage'] if 'productImage' in request.files else None
+
+        update_data = {
+            'name': product_name,
+            'description': product_description,
+            'price': product_price,
+            'category': product_category
+        }
+
+        if product_image:
+            image_path = f"static/img/produk/{product_image.filename}"
+            product_image.save(image_path)
+            update_data['image'] = image_path
+
+        produk_collection.update_one({'_id': ObjectId(product_id)}, {'$set': update_data})
+
+        flash("Produk berhasil diperbarui!", 'success')
+        return redirect(url_for('produk'))
+
+    # Jika GET, ambil data produk untuk ditampilkan di form
+    produk = produk_collection.find_one({'_id': ObjectId(product_id)})
+    return render_template('admin/update_produk.html', produk=produk)
         
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -184,6 +273,12 @@ def register():
                 'alamat': alamat,
                 'role': role
             })
+
+            session['username'] = username
+            session['role'] = role
+            session['email'] = email
+            session['alamat'] = alamat
+            
             return redirect(url_for('home'))  
     
     return render_template('user/register.html', error=error)

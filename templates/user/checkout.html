@@ -9,6 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
      <!-- library aos animasi -->
      <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             display: flex;
@@ -161,6 +162,22 @@
             object-fit: cover; 
         }
     </style>
+
+    <script>
+        function removeFromCheckout(itemId) {
+    $.ajax({
+        url: '/remove_from_checkout/' + itemId,
+        type: 'POST',
+        success: function(response) {
+            alert('Produk dihapus dari checkout!');
+            location.reload(); // Muat ulang halaman untuk mencerminkan perubahan
+        },
+        error: function(error) {
+            alert('Terjadi kesalahan saat menghapus produk dari checkout.');
+        }
+    });
+}
+    </script>
 </head>
 <body>
     <!-- Navbar -->
@@ -231,31 +248,34 @@
         <div class="content-wrapper p-4 shadow-sm">
             <h1 class="text-center">Checkout</h1>
             <div class="row g-4 justify-content-center mt-4 mb-4">
+                {% for item in checkout_items %}
                 <!-- Card 1 -->
                 <div class="col-12">
                     <div class="card mx-auto" style="width: 20rem;" data-aos="zoom-in-up" data-aos-duration="1500">
-                        <img src="/static/img/sample/ban-yamaha.jpg" class="card-img-top" alt="Gambar Card">
+                        <img src="{{ item['product_image'] }}" class="card-img-top" alt="Gambar Card">
                         <div class="card-body">
-                            <h5 class="card-title">Harga: 30.000</h5>
-                            <p class="card-text">Jumlah: 1</p>
-                            <p class="card-text">Email: BengkelinAja@gmail.com</p>
-                            <p class="card-text">Alamat: Jalan Sekian 2</p>
+                            <h5 class="card-title">Nama: {{ item['product_name'] }}</h5>
+                            <p class="card-text">Harga: {{ item['product_price'] }}</p>
+                            <p class="card-text">Jumlah: {{ item['quantity'] }}</p>
+                            <p class="card-text">Email: {{ session['email'] }}</p>
+                            <p class="card-text">Alamat: {{ item['alamat'] }}</p>
                             <!-- Cancel Button -->
-                            <button class="btn btn-outline-danger btn-sm d-flex align-items-center">
+                            <button class="btn btn-outline-danger btn-sm d-flex align-items-center" onclick="removeFromCheckout('{{ item['_id'] }}')">
                                 <i class="fas fa-times me-2"></i> Cancel
                             </button>
                         </div>
                     </div>
                 </div>
-                
+                {% endfor %}
                 <!-- Tambahkan Card lainnya jika diperlukan -->
             </div>
             <!-- Kotak Total Harga -->
             <div class="total-box mt-4 p-4 shadow-sm">
-                <h4 class="text-center">Total Harga: <span class="text-success">Rp 30.000</span></h4>
+                <h4 class="text-center">Total Harga: Rp {{ total_price }}</h4>
             </div>
+           
 
-              <!-- Tombol Checkout -->
+              <!-- Tombol Buy -->
               <div class="d-flex justify-content-center mt-3">
                 <button class="btn btn-primary btn-lg" style="width: 200px;"><i class="fab fa-shopify"></i> Buy</button>
             </div>
@@ -268,21 +288,21 @@
             <div class="row">
                 <!-- BNI -->
                 <div class="col-12 col-md-4 text-center mb-4">
-                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#bniModal" data-aos="flip-up">
+                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#bniModal" data-aos="flip-up" style="cursor: pointer;">
                         <img src="https://upload.wikimedia.org/wikipedia/id/5/55/BNI_logo.svg" alt="BNI" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
                     </div>
                 </div>
 
                 <!-- Mandiri -->
                 <div class="col-12 col-md-4 text-center mb-4">
-                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#mandiriModal" data-aos="flip-up">
+                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#mandiriModal" data-aos="flip-up" style="cursor: pointer;">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" alt="Mandiri" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
                     </div>
                 </div>
 
                 <!-- BCA -->
                 <div class="col-12 col-md-4 text-center mb-4">
-                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#bcaModal" data-aos="flip-up">
+                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#bcaModal" data-aos="flip-up" style="cursor: pointer;">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
                     </div>
                 </div>
@@ -291,21 +311,21 @@
             <div class="row">
                 <!-- GoPay -->
                 <div class="col-12 col-md-4 text-center mb-4">
-                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#gopayModal" data-aos="flip-up">
+                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#gopayModal" data-aos="flip-up" style="cursor: pointer;">
                         <img src="https://logos-world.net/wp-content/uploads/2023/03/GoPay-Logo-500x281.png" alt="GoPay" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
                     </div>
                 </div>
 
                 <!-- DANA -->
                 <div class="col-12 col-md-4 text-center mb-4">
-                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#danaModal" data-aos="flip-up">
+                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#danaModal" data-aos="flip-up" style="cursor: pointer;">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
                     </div>
                 </div>
 
                 <!-- OVO -->
                 <div class="col-12 col-md-4 text-center mb-4">
-                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#ovoModal" data-aos="flip-up">
+                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#ovoModal" data-aos="flip-up" style="cursor: pointer;">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
                     </div>
                 </div>
