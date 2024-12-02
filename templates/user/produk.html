@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <!-- library aos animasi -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <style>
     body {
       display: flex;
@@ -183,8 +183,107 @@
         });
       });
     });
+    
+    function checkoutProduct(productId, productName, productPrice, productImage) {
+    $.ajax({
+        url: '/add_to_checkout',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            product_id: productId,
+            product_name: productName,
+            product_price: productPrice,
+            product_image: productImage,
+            quantity: document.getElementById("quantity").value 
+        }),
+        success: function(response) {
+            alert('Produk berhasil ditambahkan ke checkout!');
+            window.location.href = `/checkout?id=${productId}&name=${productName}&price=${productPrice}&image=${productImage}`;
+            // window.location.href = '/produk'
+        },
+        error: function(error) {
+            alert('Terjadi kesalahan saat menambahkan produk ke checkout.');
+        }
+    });
+}
+
+    function deleteProduct(productId) {
+    if (confirm('Are you sure you want to delete this product?')) {
+            $.ajax({
+                url: `/delete_produk/${productId}`,
+                type: 'POST',
+                success: function(response) {
+                    alert('Product successfully deleted!');
+                    location.reload(); 
+                },
+                error: function(error) {
+                    alert('Error deleting product. Please try again.');
+                }
+            });
+        }
+    }
+
+    function updateProduct(productId) {
+        window.location.href = `/update_produk/${productId}`;
+    }
 
   </script>
+  <script>
+    function checkoutProduct(productId, productName, productPrice, productImage, quantity) {
+    // Pastikan quantity adalah angka dan lebih besar dari 0
+    if (quantity <= 0) {
+        alert("Please enter a valid quantity.");
+        return;
+    }
+
+    // Buat objek data untuk dikirim ke server (misalnya menggunakan AJAX)
+    const checkoutData = {
+        product_id: productId,
+        product_name: productName,
+        product_price: productPrice,
+        product_image: productImage,
+        quantity: quantity
+    };
+
+    console.log("Checkout Data:", checkoutData);
+
+    // Contoh pengiriman data menggunakan Fetch (AJAX)
+    fetch('/add_to_checkout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(checkoutData),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert('Product Anda Telah Di Checkout!');
+            // Anda bisa memperbarui UI atau melakukan redirect ke halaman checkout
+            window.location.href = '/checkout';  // Arahkan ke halaman checkout
+        } else {
+            alert('Failed to add product to checkout.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    });
+}
+
+  </script>
+  <script>
+    function adjustQuantity(id, change) {
+        var quantityInput = document.getElementById('quantity-' + id);
+        var currentQuantity = parseInt(quantityInput.value);
+        var newQuantity = currentQuantity + change;
+
+        // Pastikan quantity tidak kurang dari 1
+        if (newQuantity >= 1) {
+            quantityInput.value = newQuantity;
+        }
+    }
+</script>
 </head>
 
 <body>
@@ -212,7 +311,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('checkout') }}">
+            <a class="nav-link" href="{{ url_for('checkout')}}">
               <i class="fas fa-shopping-cart"></i> Checkout
             </a>
           </li>
@@ -258,13 +357,14 @@
 
             <!-- Form Pencarian -->
             <form class="d-flex w-50" method="get" action="/produk">
-              <input type="hidden" name="category" value="{{ selected_category }}"> 
-              <input type="text" class="form-control me-2" placeholder="Cari" name="search" value="{{ search }}">
+              <input type="hidden" name="category" value="{{ selected_category }}"> <!-- Tetap gunakan kategori -->
+              <input type="text" class="form-control me-2" placeholder="Cari berdasarkan nama produk..." name="search" value="{{ search }}">
               <button class="btn btn-primary" type="submit">Search</button>
           </form>          
         </div>
     </section>
 
+    
     <!-- Menampilkan Barang Produk -->
     <section class="mt-5">
       <h2 class="mb-4 text-dark fw-bold">Produk</h2>
@@ -279,12 +379,50 @@
               <p class="card-text">{{ produk['description'] }}</p>
               <p class="text-danger fw-semibold">Harga</p>
               <p class="text-primary fw-bold">Rp {{ produk['price'] }}</p>
+              
+              <!-- Input Quantity -->
+              <div class="mb-3">
+                <label for="quantity-{{ produk['_id'] }}" class="form-label fw-semibold">Quantity:</label>
+                <div class="input-group" style="width: 200px; margin-top: 10px;">
+                    <button type="button" class="btn btn-outline-secondary" id="decrease-{{ produk['_id'] }}" onclick="adjustQuantity('{{ produk['_id'] }}', -1)" 
+                        style="width: 40px; height: 40px; font-size: 24px; background-color: #f5f5f5; color: #333; border: 1px solid #ccc; border-radius: 5px; 
+                        display: flex; justify-content: center; align-items: center; transition: background-color 0.3s;">
+                        -
+                    </button>
+                    <input type="number" id="quantity-{{ produk['_id'] }}" class="form-control text-center" min="1" value="1" 
+                        style="font-size: 18px; font-weight: bold; border-radius: 0; border: 1px solid #ccc;">
+                    <button type="button" class="btn btn-outline-secondary" id="increase-{{ produk['_id'] }}" onclick="adjustQuantity('{{ produk['_id'] }}', 1)" 
+                        style="width: 40px; height: 40px; font-size: 24px; background-color: #f5f5f5; color: #333; border: 1px solid #ccc; border-radius: 5px; 
+                        display: flex; justify-content: center; align-items: center; transition: background-color 0.3s;">
+                        +
+                    </button>
+                </div>
+            </div>
+    
+              <button class="btn btn-primary btn-lg me-2">Buy <i class="fab fa-shopify"></i></button>
+              <button class="btn btn-success btn-lg me-2" 
+              onclick="checkoutProduct(
+              '{{ produk['_id'] }}', 
+              '{{ produk['name'] }}', 
+              '{{ produk['price'] }}', 
+              '{{ produk['image'] }}', 
+                  document.getElementById('quantity-{{ produk['_id'] }}').value
+              )">
+    Checkout <i class="fas fa-shopping-cart"></i>
+</button>
+
+    
+              {% if session.get('role') == 'admin' %}
+              <button class="btn btn-warning btn-lg me-2 mt-4" onclick="updateProduct('{{ produk['_id'] }}')">Update <i class="fas fa-edit"></i></button>
+              <button class="btn btn-danger btn-lg me-2 mt-4" onclick="deleteProduct('{{ produk['_id'] }}')">Delete <i class="fas fa-trash"></i></button>
+              {% endif %}
             </div>
           </div>
         </div>
         {% endfor %}
       </div>
     </section>
+    
   </main>
 
   <!-- Modal -->
@@ -310,20 +448,6 @@
         <div class="col-md-6">
           <h4 id="modal-product-name" class="modal-title"></h4>
           <p id="modal-product-description" class="text-muted" style="font-size: 1.1rem"></p>
-          <p class="text-danger fw-semibold" style="font-size: 1.2rem">Harga</p>
-          <p id="modal-product-price" class="text-primary fw-bold" style="font-size: 1.3rem"></p>
-
-          <div class="mb-3 d-flex align-items-center">
-            <button type="button" class="btn btn-secondary" id="decreaseBtn">-</button>
-            <input type="number" class="form-control mx-2 text-center" id="quantity" value="1" min="1" style="width: 80px; font-size: 1rem; text-align: center" readonly />
-            <button type="button" class="btn btn-secondary" id="increaseBtn">+</button>
-          </div>
-
-          <div class="d-flex justify-content-end">
-            <button class="btn btn-primary btn-lg me-2">Buy <i class="fab fa-shopify"></i></button>
-            <button class="btn btn-success btn-lg" id="checkoutBtn">Checkout <i class="fas fa-shopping-cart"></i></button>
-
-          </div>
         </div>
       </div>
     </div>
@@ -401,17 +525,6 @@
       });
     });
   });
-  </script>
-
-  <script>
-    document.getElementById('checkoutBtn').addEventListener('click', function() {
-  const productId = 123;  // Ganti dengan ID produk
-  const quantity = document.getElementById('quantity').value;
-  
-  // Arahkan ke halaman checkout dengan parameter
-  window.location.href = `/checkout?productId=${productId}&quantity=${quantity}`;
-});
-
   </script>
 </body>
 

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BengkelinAja - Admin - Update Product</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Update Product</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="productName" class="form-label">Nama Produk</label>
+                <input type="text" class="form-control" id="productName" name="productName" value="{{ produk['name'] }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="productDescription" class="form-label">Deskripsi Produk</label>
+                <textarea class="form-control" id="productDescription" name="productDescription" required>{{ produk['description'] }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="productPrice" class="form-label">Harga Produk</label>
+                <input type="number" class="form-control" id="productPrice" name="productPrice" value="{{ produk['price'] }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="productCategory" class="form-label">Kategori Produk</label>
+                <select class="form-select" id="productCategory" name="productCategory" required>
+                    <option value="Yamaha" {% if produk['category'] == 'Yamaha' %}selected{% endif %}>Yamaha</option>
+                    <option value="Honda" {% if produk['category'] == 'Honda' %}selected{% endif %}>Honda</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="productImage" class="form-label">Gambar Produk</label>
+                <input type="file" class="form-control" id="productImage" name="productImage">
+            </div>
+            <button type="submit" class="btn btn-danger">Update Produk</button>
+        </form>
+    </div>
+</body>
+</html>

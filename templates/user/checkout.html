@@ -9,6 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
      <!-- library aos animasi -->
      <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             display: flex;
@@ -161,6 +162,50 @@
             object-fit: cover; 
         }
     </style>
+
+    <script>
+        function removeFromCheckout(itemId) {
+    $.ajax({
+        url: '/remove_from_checkout/' + itemId,
+        type: 'POST',
+        success: function(response) {
+            alert('Produk dihapus dari checkout!');
+            location.reload(); // Muat ulang halaman untuk mencerminkan perubahan
+        },
+        error: function(error) {
+            alert('Terjadi kesalahan saat menghapus produk dari checkout.');
+        }
+    });
+}
+    </script>
+    <script>
+        function removeFromCheckout(productId) {
+    if (confirm("Apakah Anda yakin ingin menghapus item ini dari pembayaran?")) {
+        // Kirim request untuk menghapus item
+        fetch(`/remove_checkout_item/${productId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Refresh halaman atau update UI untuk mencerminkan perubahan
+                alert('Barang dihapus dari Checkout');
+                location.reload(); // Reload halaman untuk melihat perubahan
+            } else {
+                alert('Failed to remove item. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+    }
+}
+
+    </script>
 </head>
 <body>
     <!-- Navbar -->
@@ -228,41 +273,69 @@
     <!-- Main Content -->
     <div class="container mt-4 mb-5">
         <!-- Kotak Pembungkus -->
-        <div class="content-wrapper p-4 shadow-sm">
-            <h1 class="text-center">Checkout</h1>
         <div class="row g-4 justify-content-center mt-4 mb-4">
-            <!-- Loop untuk menampilkan item keranjang -->
-            {% for item in cart_items %}
+            <h1 class="text-center">Checkout</h1>
+            
+            {% if checkout_items|length == 0 %}
             <div class="col-12">
-                <div class="card mx-auto" style="width: 20rem;" data-aos="zoom-in-up" data-aos-duration="1500">
-                    <img src="{{ item['image'] }}" class="card-img-top" alt="Gambar Produk">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ item['name'] }}</h5>
-                        <p class="card-text">Harga: Rp {{ item['price'] }}</p>
-                        <p class="card-text">Jumlah: {{ item['quantity'] }}</p>
-                    </div>
+                <div class="alert alert-warning text-center" role="alert">
+                    Keranjang Anda kosong.
                 </div>
             </div>
-            {% endfor %}
-        </div>
+            {% else %}
+            <div class="row g-4 justify-content-center mt-4 mb-4">
+                {% for item in checkout_items %}
+                <!-- Card -->
+                <div class="col-12">
+                    <div class="card mx-auto" style="width: 20rem;" data-aos="zoom-in-up" data-aos-duration="1500">
+                        <!-- Image -->
+                        <img src="{{ item['product_image'] }}" class="card-img-top" alt="Gambar Produk">
+                        
+                        <div class="card-body">
+                            <!-- Product Name -->
+                            <h5 class="card-title">Nama: {{ item['product_name'] }}</h5>
+            
+                            <!-- Product Price -->
+                            <p class="card-text">Harga: Rp {{ item['product_price'] }}</p>
+            
+                            <!-- Quantity -->
+                            <p class="card-text">Jumlah: {{ item['quantity'] }}</p>
+            
+                            <!-- User Email -->
+                            <p class="card-text">Email: {{ session['email'] }}</p>
+            
+                            <!-- User Address -->
+                            <p class="card-text">Alamat: {{ item['alamat'] }}</p>
+            
+                            <!-- Cancel Button -->
+                            <button class="btn btn-outline-danger btn-sm d-flex align-items-center" onclick="removeFromCheckout('{{ item['_id'] }}')">
+                                <i class="fas fa-times me-2"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
             
             <!-- Kotak Total Harga -->
+            {% if checkout_items|length > 0 %}
             <div class="total-box mt-4 p-4 shadow-sm">
-                <h4 class="text-center">Total Harga: 
-                    <span class="text-success">
-                        Rp {{ cart_items|map(attribute='price')|sum }}
-                    </span>
-                </h4>
+                <h4 class="text-center">Total Harga: Rp {{ total_price }}</h4>
             </div>
-
-              <!-- Tombol Checkout -->
-              <div class="d-flex justify-content-center mt-3">
-                <form method="POST">
-                    <button class="btn btn-primary btn-lg" style="width: 200px;">
-                        <i class="fab fa-shopify"></i> buy
-                    </button>
-                </form>
+            {% endif %}
+        </div>
+    </div>
+              <!-- Tombol Buy -->
+            <div class="d-flex justify-content-center mt-3">
+                <a href="{{ url_for('produk') }}" class="btn btn-success btn-lg" style="width: 235px; margin-right: 10px;">
+                    <i class="fas fa-cart-arrow-down"></i> Kembali Berbelanja
+                </a>                
+                <button class="btn btn-primary btn-lg" style="width: 150px;">
+                    <i class="fas fa-shopping-cart"></i> Buy
+                </button>
             </div>
+            
             
             <!-- Metode Pembayaran -->
             <!-- Payment Methods Section -->
@@ -272,21 +345,21 @@
             <div class="row">
                 <!-- BNI -->
                 <div class="col-12 col-md-4 text-center mb-4">
-                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#bniModal" data-aos="flip-up">
+                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#bniModal" data-aos="flip-up" style="cursor: pointer;">
                         <img src="https://upload.wikimedia.org/wikipedia/id/5/55/BNI_logo.svg" alt="BNI" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
                     </div>
                 </div>
 
                 <!-- Mandiri -->
                 <div class="col-12 col-md-4 text-center mb-4">
-                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#mandiriModal" data-aos="flip-up">
+                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#mandiriModal" data-aos="flip-up" style="cursor: pointer;">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" alt="Mandiri" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
                     </div>
                 </div>
 
                 <!-- BCA -->
                 <div class="col-12 col-md-4 text-center mb-4">
-                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#bcaModal" data-aos="flip-up">
+                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#bcaModal" data-aos="flip-up" style="cursor: pointer;">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
                     </div>
                 </div>
@@ -295,21 +368,21 @@
             <div class="row">
                 <!-- GoPay -->
                 <div class="col-12 col-md-4 text-center mb-4">
-                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#gopayModal" data-aos="flip-up">
+                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#gopayModal" data-aos="flip-up" style="cursor: pointer;">
                         <img src="https://logos-world.net/wp-content/uploads/2023/03/GoPay-Logo-500x281.png" alt="GoPay" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
                     </div>
                 </div>
 
                 <!-- DANA -->
                 <div class="col-12 col-md-4 text-center mb-4">
-                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#danaModal" data-aos="flip-up">
+                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#danaModal" data-aos="flip-up" style="cursor: pointer;">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
                     </div>
                 </div>
 
                 <!-- OVO -->
                 <div class="col-12 col-md-4 text-center mb-4">
-                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#ovoModal" data-aos="flip-up">
+                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#ovoModal" data-aos="flip-up" style="cursor: pointer;">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
                     </div>
                 </div>
