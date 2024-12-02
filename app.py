@@ -76,7 +76,6 @@ def produk():
     )
      
 
-
 @app.route('/checkout')
 def checkout():
     if 'username' not in session:  # Jika pengguna belum login
@@ -84,6 +83,9 @@ def checkout():
      
         return redirect(url_for('login'))  # Arahkan ke halaman login
     return render_template('user/checkout.html')
+
+
+
  
 @app.route('/check_order')
 def check_order():

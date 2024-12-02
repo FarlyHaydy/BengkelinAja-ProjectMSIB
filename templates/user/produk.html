@@ -258,8 +258,8 @@
 
             <!-- Form Pencarian -->
             <form class="d-flex w-50" method="get" action="/produk">
-              <input type="hidden" name="category" value="{{ selected_category }}"> <!-- Tetap gunakan kategori -->
-              <input type="text" class="form-control me-2" placeholder="Cari berdasarkan nama produk..." name="search" value="{{ search }}">
+              <input type="hidden" name="category" value="{{ selected_category }}"> 
+              <input type="text" class="form-control me-2" placeholder="Cari" name="search" value="{{ search }}">
               <button class="btn btn-primary" type="submit">Search</button>
           </form>          
         </div>
@@ -321,7 +321,8 @@
 
           <div class="d-flex justify-content-end">
             <button class="btn btn-primary btn-lg me-2">Buy <i class="fab fa-shopify"></i></button>
-            <button class="btn btn-success btn-lg">Checkout <i class="fas fa-shopping-cart"></i></button>
+            <button class="btn btn-success btn-lg" id="checkoutBtn">Checkout <i class="fas fa-shopping-cart"></i></button>
+
           </div>
         </div>
       </div>
@@ -400,6 +401,17 @@
       });
     });
   });
+  </script>
+
+  <script>
+    document.getElementById('checkoutBtn').addEventListener('click', function() {
+  const productId = 123;  // Ganti dengan ID produk
+  const quantity = document.getElementById('quantity').value;
+  
+  // Arahkan ke halaman checkout dengan parameter
+  window.location.href = `/checkout?productId=${productId}&quantity=${quantity}`;
+});
+
   </script>
 </body>
 

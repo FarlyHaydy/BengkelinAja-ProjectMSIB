@@ -230,34 +230,38 @@
         <!-- Kotak Pembungkus -->
         <div class="content-wrapper p-4 shadow-sm">
             <h1 class="text-center">Checkout</h1>
-            <div class="row g-4 justify-content-center mt-4 mb-4">
-                <!-- Card 1 -->
-                <div class="col-12">
-                    <div class="card mx-auto" style="width: 20rem;" data-aos="zoom-in-up" data-aos-duration="1500">
-                        <img src="/static/img/sample/ban-yamaha.jpg" class="card-img-top" alt="Gambar Card">
-                        <div class="card-body">
-                            <h5 class="card-title">Harga: 30.000</h5>
-                            <p class="card-text">Jumlah: 1</p>
-                            <p class="card-text">Email: BengkelinAja@gmail.com</p>
-                            <p class="card-text">Alamat: Jalan Sekian 2</p>
-                            <!-- Cancel Button -->
-                            <button class="btn btn-outline-danger btn-sm d-flex align-items-center">
-                                <i class="fas fa-times me-2"></i> Cancel
-                            </button>
-                        </div>
+        <div class="row g-4 justify-content-center mt-4 mb-4">
+            <!-- Loop untuk menampilkan item keranjang -->
+            {% for item in cart_items %}
+            <div class="col-12">
+                <div class="card mx-auto" style="width: 20rem;" data-aos="zoom-in-up" data-aos-duration="1500">
+                    <img src="{{ item['image'] }}" class="card-img-top" alt="Gambar Produk">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item['name'] }}</h5>
+                        <p class="card-text">Harga: Rp {{ item['price'] }}</p>
+                        <p class="card-text">Jumlah: {{ item['quantity'] }}</p>
                     </div>
                 </div>
-                
-                <!-- Tambahkan Card lainnya jika diperlukan -->
             </div>
+            {% endfor %}
+        </div>
+            
             <!-- Kotak Total Harga -->
             <div class="total-box mt-4 p-4 shadow-sm">
-                <h4 class="text-center">Total Harga: <span class="text-success">Rp 30.000</span></h4>
+                <h4 class="text-center">Total Harga: 
+                    <span class="text-success">
+                        Rp {{ cart_items|map(attribute='price')|sum }}
+                    </span>
+                </h4>
             </div>
 
               <!-- Tombol Checkout -->
               <div class="d-flex justify-content-center mt-3">
-                <button class="btn btn-primary btn-lg" style="width: 200px;"><i class="fab fa-shopify"></i> Buy</button>
+                <form method="POST">
+                    <button class="btn btn-primary btn-lg" style="width: 200px;">
+                        <i class="fab fa-shopify"></i> buy
+                    </button>
+                </form>
             </div>
             
             <!-- Metode Pembayaran -->
