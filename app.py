@@ -155,7 +155,7 @@ def checkout():
         # Jika ada error, log pesan error dan berikan feedback ke pengguna
         print(f"Error fetching checkout items: {e}")
         flash('Failed to fetch checkout items. Please try again.', 'danger')
-        return redirect(url_for('shop'))  # Redirect ke halaman toko atau utama
+        return redirect(url_for('produk'))  # Redirect ke halaman toko atau utama
 
     # Render halaman checkout
     return render_template(

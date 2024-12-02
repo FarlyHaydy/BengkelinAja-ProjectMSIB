@@ -162,26 +162,9 @@
             object-fit: cover; 
         }
     </style>
-
-    <script>
-        function removeFromCheckout(itemId) {
-    $.ajax({
-        url: '/remove_from_checkout/' + itemId,
-        type: 'POST',
-        success: function(response) {
-            alert('Produk dihapus dari checkout!');
-            location.reload(); // Muat ulang halaman untuk mencerminkan perubahan
-        },
-        error: function(error) {
-            alert('Terjadi kesalahan saat menghapus produk dari checkout.');
-        }
-    });
-}
-    </script>
     <script>
         function removeFromCheckout(productId) {
-    if (confirm("Apakah Anda yakin ingin menghapus item ini dari pembayaran?")) {
-        // Kirim request untuk menghapus item
+    if (confirm("Apakah Anda yakin ingin menghapus item ini dari checkout?")) {
         fetch(`/remove_checkout_item/${productId}`, {
             method: 'DELETE',
             headers: {
@@ -191,9 +174,8 @@
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                // Refresh halaman atau update UI untuk mencerminkan perubahan
                 alert('Barang dihapus dari Checkout');
-                location.reload(); // Reload halaman untuk melihat perubahan
+                location.reload(); 
             } else {
                 alert('Failed to remove item. Please try again.');
             }
@@ -273,7 +255,7 @@
     <!-- Main Content -->
     <div class="container mt-4 mb-5">
         <!-- Kotak Pembungkus -->
-        <div class="row g-4 justify-content-center mt-4 mb-4">
+        <div class="content-wrapper p-4 shadow-sm">
             <h1 class="text-center">Checkout</h1>
             
             {% if checkout_items|length == 0 %}
@@ -324,177 +306,175 @@
                 <h4 class="text-center">Total Harga: Rp {{ total_price }}</h4>
             </div>
             {% endif %}
-        </div>
-    </div>
-              <!-- Tombol Buy -->
+
             <div class="d-flex justify-content-center mt-3">
                 <a href="{{ url_for('produk') }}" class="btn btn-success btn-lg" style="width: 235px; margin-right: 10px;">
                     <i class="fas fa-cart-arrow-down"></i> Kembali Berbelanja
                 </a>                
+            </div>
+
+            <div class="d-flex justify-content-center mt-3">
                 <button class="btn btn-primary btn-lg" style="width: 150px;">
                     <i class="fas fa-shopping-cart"></i> Buy
                 </button>
-            </div>
-            
-            
-            <!-- Metode Pembayaran -->
-            <!-- Payment Methods Section -->
-        <div class="container mt-5">
-            <h5 class="text-center mb-4">Metode Pembayaran</h5>
 
-            <div class="row">
-                <!-- BNI -->
-                <div class="col-12 col-md-4 text-center mb-4">
-                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#bniModal" data-aos="flip-up" style="cursor: pointer;">
-                        <img src="https://upload.wikimedia.org/wikipedia/id/5/55/BNI_logo.svg" alt="BNI" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
-                    </div>
-                </div>
-
-                <!-- Mandiri -->
-                <div class="col-12 col-md-4 text-center mb-4">
-                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#mandiriModal" data-aos="flip-up" style="cursor: pointer;">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" alt="Mandiri" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
-                    </div>
-                </div>
-
-                <!-- BCA -->
-                <div class="col-12 col-md-4 text-center mb-4">
-                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#bcaModal" data-aos="flip-up" style="cursor: pointer;">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
-                    </div>
-                </div>
             </div>
 
-            <div class="row">
-                <!-- GoPay -->
-                <div class="col-12 col-md-4 text-center mb-4">
-                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#gopayModal" data-aos="flip-up" style="cursor: pointer;">
-                        <img src="https://logos-world.net/wp-content/uploads/2023/03/GoPay-Logo-500x281.png" alt="GoPay" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
+            <div class="container mt-5">
+                <h4 class="text-center mb-4">Metode Pembayaran</h4>
+    
+                <div class="row">
+                    <!-- BNI -->
+                    <div class="col-12 col-md-4 text-center mb-4">
+                        <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#bniModal" data-aos="flip-up" style="cursor: pointer;">
+                            <img src="https://upload.wikimedia.org/wikipedia/id/5/55/BNI_logo.svg" alt="BNI" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
+                        </div>
+                    </div>
+    
+                    <!-- Mandiri -->
+                    <div class="col-12 col-md-4 text-center mb-4">
+                        <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#mandiriModal" data-aos="flip-up" style="cursor: pointer;">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" alt="Mandiri" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
+                        </div>
+                    </div>
+    
+                    <!-- BCA -->
+                    <div class="col-12 col-md-4 text-center mb-4">
+                        <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#bcaModal" data-aos="flip-up" style="cursor: pointer;">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
+                        </div>
                     </div>
                 </div>
-
-                <!-- DANA -->
-                <div class="col-12 col-md-4 text-center mb-4">
-                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#danaModal" data-aos="flip-up" style="cursor: pointer;">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
+    
+                <div class="row">
+                    <!-- GoPay -->
+                    <div class="col-12 col-md-4 text-center mb-4">
+                        <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#gopayModal" data-aos="flip-up" style="cursor: pointer;">
+                            <img src="https://logos-world.net/wp-content/uploads/2023/03/GoPay-Logo-500x281.png" alt="GoPay" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
+                        </div>
                     </div>
-                </div>
-
-                <!-- OVO -->
-                <div class="col-12 col-md-4 text-center mb-4">
-                    <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#ovoModal" data-aos="flip-up" style="cursor: pointer;">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
+    
+                    <!-- DANA -->
+                    <div class="col-12 col-md-4 text-center mb-4">
+                        <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#danaModal" data-aos="flip-up" style="cursor: pointer;">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="bniModal" tabindex="-1" aria-labelledby="bniModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="bniModalLabel">Nomor Rekening BNI</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Nomor Rekening BNI: <strong>123-456-7890</strong>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+    
+                    <!-- OVO -->
+                    <div class="col-12 col-md-4 text-center mb-4">
+                        <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#ovoModal" data-aos="flip-up" style="cursor: pointer;">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="modal fade" id="mandiriModal" tabindex="-1" aria-labelledby="mandiriModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="mandiriModalLabel">Nomor Rekening Mandiri</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Nomor Rekening Mandiri: <strong>987-654-3210</strong>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="bcaModal" tabindex="-1" aria-labelledby="bcaModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="bcaModalLabel">Nomor Rekening BCA</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Nomor Rekening BCA: <strong>123-123-1234</strong>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+    
+            <div class="modal fade" id="bniModal" tabindex="-1" aria-labelledby="bniModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="bniModalLabel">Nomor Rekening BNI</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Nomor Rekening BNI: <strong>123-456-7890</strong>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="modal fade" id="gopayModal" tabindex="-1" aria-labelledby="gopayModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="gopayModalLabel">Nomor GoPay</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Nomor GoPay: <strong>0812-3456-7890</strong>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="danaModal" tabindex="-1" aria-labelledby="danaModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="danaModalLabel">Nomor DANA</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Nomor DANA: <strong>0812-3456-7890</strong>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+    
+            <div class="modal fade" id="mandiriModal" tabindex="-1" aria-labelledby="mandiriModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="mandiriModalLabel">Nomor Rekening Mandiri</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Nomor Rekening Mandiri: <strong>987-654-3210</strong>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="modal fade" id="ovoModal" tabindex="-1" aria-labelledby="ovoModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="ovoModalLabel">Nomor OVO</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Nomor OVO: <strong>0812-3456-7890</strong>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+    
+            <div class="modal fade" id="bcaModal" tabindex="-1" aria-labelledby="bcaModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="bcaModalLabel">Nomor Rekening BCA</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Nomor Rekening BCA: <strong>123-123-1234</strong>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
+    
+            <div class="modal fade" id="gopayModal" tabindex="-1" aria-labelledby="gopayModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="gopayModalLabel">Nomor GoPay</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Nomor GoPay: <strong>0812-3456-7890</strong>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="modal fade" id="danaModal" tabindex="-1" aria-labelledby="danaModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="danaModalLabel">Nomor DANA</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Nomor DANA: <strong>0812-3456-7890</strong>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="modal fade" id="ovoModal" tabindex="-1" aria-labelledby="ovoModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ovoModalLabel">Nomor OVO</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Nomor OVO: <strong>0812-3456-7890</strong>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-    
-
+            
     <!-- Footer -->
     <footer>
         <div class="container">
