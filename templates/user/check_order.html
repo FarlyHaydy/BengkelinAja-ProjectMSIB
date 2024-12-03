@@ -237,8 +237,8 @@
                     Nama: {{ item['product_name'] }}
                 </p>
                 <p class="text-muted mb-2">
-                    Harga: Rp {{ item['product_price'] }}
-                </p>
+                    Harga: Rp {{ "{:,.0f}".format(item['product_price'] | float).replace(',', '.') }}
+                </p>                
                 <p class="text-muted mb-2">
                     Jumlah: {{ item['quantity'] }}
                 </p>
@@ -268,8 +268,8 @@
         </div>
         {% endfor %}
 
-        <div class="total-box mt-4 p-4 shadow-sm">
-            <h4 class="text-center">Total Harga: Rp {{ total_price }}</h4>
+        <div class="total-box mt-4 p-4 shadow-sm ">
+            <h4 class="text-center fw-bold">Total Harga: Rp {{ "{:,.0f}".format(total_price | float).replace(',', '.') }}</h4>
         </div>
         {% endif %}
     </div>

@@ -478,7 +478,10 @@
                 <h5 class="card-title">{{ produk['name'] }}</h5>
                 <p class="card-text">{{ produk['description'] }}</p>
                 <p class="text-danger fw-semibold">Harga</p>
-                <p class="text-primary fw-bold">Rp {{ produk['price'] }}</p>
+                <p class="text-primary fw-bold">
+                  Rp {{ "{:,.0f}".format(produk['price'] | float).replace(',',
+                  '.') }}
+                </p>
 
                 <!-- Input Quantity -->
                 <div class="mb-3">
@@ -718,15 +721,26 @@
             <div class="row justify-content-center">
               <!-- BNI -->
               <div class="col-12 col-md-4 mb-4">
-                <div class="card border-0 text-center bg-light p-3 shadow-sm payment-card" onclick="selectPaymentMethod(this)">
-                  <img src="https://upload.wikimedia.org/wikipedia/id/5/55/BNI_logo.svg" alt="BNI" class="card-img-top mx-auto mb-2" style="max-width: 100px;">
+                <div
+                  class="card border-0 text-center bg-light p-3 shadow-sm payment-card"
+                  onclick="selectPaymentMethod(this)"
+                >
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/id/5/55/BNI_logo.svg"
+                    alt="BNI"
+                    class="card-img-top mx-auto mb-2"
+                    style="max-width: 100px"
+                  />
                   <p class="card-text text-muted">Nomor Rekening:</p>
                   <p class="card-text fw-bold small">123-456-7890</p>
                 </div>
-              </div>              
+              </div>
               <!-- Mandiri -->
               <div class="col-12 col-md-4 mb-4">
-                <div class="card border-0 text-center bg-light p-3 shadow-sm payment-card" onclick="selectPaymentMethod(this)">
+                <div
+                  class="card border-0 text-center bg-light p-3 shadow-sm payment-card"
+                  onclick="selectPaymentMethod(this)"
+                >
                   <img
                     src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg"
                     alt="Mandiri"
@@ -739,7 +753,10 @@
               </div>
               <!-- BCA -->
               <div class="col-12 col-md-4 mb-4">
-                <div class="card border-0 text-center bg-light p-3 shadow-sm payment-card" onclick="selectPaymentMethod(this)">
+                <div
+                  class="card border-0 text-center bg-light p-3 shadow-sm payment-card"
+                  onclick="selectPaymentMethod(this)"
+                >
                   <img
                     src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg"
                     alt="BCA"
@@ -754,7 +771,10 @@
             <div class="row justify-content-center">
               <!-- GoPay -->
               <div class="col-12 col-md-4 mb-4">
-                <div class="card border-0 text-center bg-light p-3 shadow-sm payment-card" onclick="selectPaymentMethod(this)">
+                <div
+                  class="card border-0 text-center bg-light p-3 shadow-sm payment-card"
+                  onclick="selectPaymentMethod(this)"
+                >
                   <img
                     src="https://logos-world.net/wp-content/uploads/2023/03/GoPay-Logo-500x281.png"
                     alt="GoPay"
@@ -767,7 +787,10 @@
               </div>
               <!-- DANA -->
               <div class="col-12 col-md-4 mb-4">
-                <div class="card border-0 text-center bg-light p-3 shadow-sm payment-card" onclick="selectPaymentMethod(this)">
+                <div
+                  class="card border-0 text-center bg-light p-3 shadow-sm payment-card"
+                  onclick="selectPaymentMethod(this)"
+                >
                   <img
                     src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg"
                     alt="DANA"
@@ -780,7 +803,10 @@
               </div>
               <!-- OVO -->
               <div class="col-12 col-md-4 mb-4">
-                <div class="card border-0 text-center bg-light p-3 shadow-sm payment-card" onclick="selectPaymentMethod(this)">
+                <div
+                  class="card border-0 text-center bg-light p-3 shadow-sm payment-card"
+                  onclick="selectPaymentMethod(this)"
+                >
                   <img
                     src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg"
                     alt="OVO"

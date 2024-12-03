@@ -278,7 +278,8 @@
                             <h5 class="card-title">Nama: {{ item['product_name'] }}</h5>
             
                             <!-- Product Price -->
-                            <p class="card-text">Harga: Rp {{ item['product_price'] }}</p>
+                            <p class="card-text">Harga: Rp {{ "{:,.0f}".format(item['product_price'] | float).replace(',', '.') }}</p>
+
             
                             <!-- Quantity -->
                             <p class="card-text">Jumlah: {{ item['quantity'] }}</p>
@@ -303,7 +304,7 @@
             <!-- Kotak Total Harga -->
             {% if checkout_items|length > 0 %}
             <div class="total-box mt-4 p-4 shadow-sm">
-                <h4 class="text-center">Total Harga: Rp {{ total_price }}</h4>
+                <h4 class="text-center">Total Harga: Rp {{ "{:,.0f}".format(total_price | float).replace(',', '.') }}</h4>
             </div>
             {% endif %}
 
