@@ -168,9 +168,30 @@ def checkout():
 def check_order():
     if 'username' not in session:  
         flash('You must be logged in to access this page.', 'warning')
-        
         return redirect(url_for('login'))  
-    return render_template('user/check_order.html') 
+
+    # Ambil data checkout untuk pengguna yang sedang login
+    checkout_collection = db['checkout']
+    try:
+        checkout_items = list(checkout_collection.find({'username': session['username']}))
+
+        total_price = sum(
+            float(item.get('product_price', 0)) * int(item.get('quantity', 1))
+            for item in checkout_items
+        )
+
+        total_price = int(total_price)
+
+    except Exception as e:
+        print(f"Error fetching checkout items: {e}")
+        flash('Failed to fetch checkout items. Please try again.', 'danger')
+        return redirect(url_for('produk'))
+
+    return render_template(
+        'user/check_order.html',
+        checkout_items=checkout_items,
+        total_price=total_price
+    )
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():

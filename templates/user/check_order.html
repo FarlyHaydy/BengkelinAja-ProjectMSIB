@@ -200,20 +200,27 @@
     </nav>
     
    <!-- content  -->
-<div class="container mt-5 mb-5">
+   <div class="container mt-5 mb-5">
     <!-- Kotak Pembungkus -->
     <div class="content-wrapper p-4 shadow-sm">
         <h1 class="text-center mb-5">Check Order</h1>
 
+        {% if checkout_items|length == 0 %}
+        <div class="col-12">
+            <div class="alert alert-warning text-center" role="alert">
+                Anda belum memeriksa barang.
+            </div>
+        </div>
+        {% else %}
+        {% for item in checkout_items %}
         <!-- Pesanan 1 -->
         <div class="row g-4 justify-content-center align-items-center mb-5">
             <!-- Gambar -->
             <div class="col-md-3 d-flex justify-content-center align-items-center">
                 <img
-                    src="/static/img/sample/rantai-yamaha.jpg" 
+                    src="{{ item['product_image'] }}" 
                     alt="Pesanan Gambar" 
                     style="width: 100%; height: auto; object-fit: contain;"
-                    
                 />
             </div>
             <!-- Deskripsi dan Status -->
@@ -224,6 +231,22 @@
                 </p>
                 <p class="text-muted mb-4">
                     Pesanan Anda telah diproses dan siap untuk diambil atau dikirimkan.
+                </p>
+
+                <p class="text-muted mb-2">
+                    Nama: {{ item['product_name'] }}
+                </p>
+                <p class="text-muted mb-2">
+                    Harga: Rp {{ item['product_price'] }}
+                </p>
+                <p class="text-muted mb-2">
+                    Jumlah: {{ item['quantity'] }}
+                </p>
+                <p class="text-muted mb-2">
+                    Alamat: {{ item['alamat'] }}
+                </p>
+                <p class="text-muted mb-2">
+                    Email: {{ session['email'] }}
                 </p>
 
                 <!-- Tombol Pilih dan Unggah -->
@@ -241,48 +264,17 @@
                         <i class="fas fa-cloud-upload-alt me-2"></i> Upload
                     </button>
                 </div>
-               
             </div>
         </div>
+        {% endfor %}
 
-        <!-- Pesanan 2 -->
-        <div class="row g-4 justify-content-center align-items-center mb-5">
-            <!-- Gambar -->
-            <div class="col-md-3 d-flex justify-content-center align-items-center">
-                <img
-                    src="/static/img/sample/oli yamaha.jpg" 
-                    alt="Pesanan Gambar" 
-                    style="width: 100%; height: auto; object-fit: contain;"
-                />
-            </div>
-            <!-- Deskripsi dan Status -->
-            <div class="col-md-9 text-center text-md-start">
-                <h5 class="fw-bold">Status Pesanan</h5>
-                <p class="text-muted mb-2">
-                    Status: <span class="text-success fw-bold">Selesai</span>
-                </p>
-                <p class="text-muted mb-4">
-                    Pesanan Anda telah diproses dan siap untuk diambil atau dikirimkan.
-                </p>
-                  <!-- Tombol Pilih dan Unggah -->
-                  <div class="d-flex flex-column flex-md-row align-items-center gap-3">
-                    <!-- Input file yang disembunyikan -->
-                    <input type="file" id="fileInput1" style="display: none;">
-                    
-                    <!-- Label untuk tombol Choose a File -->
-                    <label for="fileInput" class="btn btn-outline-primary d-flex align-items-center">
-                        <i class="fas fa-upload me-2"></i> Choose a File
-                    </label>
-                    
-                    <!-- Tombol Upload -->
-                    <button class="btn btn-primary">
-                        <i class="fas fa-cloud-upload-alt me-2"></i> Upload
-                    </button>
-                </div>
-            </div>
+        <div class="total-box mt-4 p-4 shadow-sm">
+            <h4 class="text-center">Total Harga: Rp {{ total_price }}</h4>
         </div>
+        {% endif %}
     </div>
 </div>
+
 
     <!-- Footer -->
     <footer>
