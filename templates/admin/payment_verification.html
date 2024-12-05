@@ -28,7 +28,6 @@
                     <td>{{ order.status }}</td>
                     <td>
                         {% if order.payment_proof %}
-                        <p>Nama File: {{ order.payment_proof }}</p>
                         <img src="{{ url_for('static', filename='img/pembayaran/' + order.payment_proof.split('/')[-1]) }}" alt="Bukti Pembayaran" style="width: 300px; margin-top: 10px;">
                         {% else %}
                         Belum ada bukti pembayaran
