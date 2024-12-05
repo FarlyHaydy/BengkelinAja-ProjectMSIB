@@ -19,7 +19,7 @@
           flex-direction: column;
           min-height: 100vh;
           margin: 0;
-          padding-top: 70px; /* Add padding to account for fixed navbar */
+          padding-top: 70px; 
         }
   
         .profile-img {
@@ -118,7 +118,7 @@
           top: 0;
           left: 0;
           right: 0;
-          z-index: 1000; /* Ensures the navbar stays on top */
+          z-index: 1000; 
         }
 
         .navbar-brand {
@@ -149,20 +149,19 @@
         }
 
         .logo-img {
-            width: 40px;  /* Atur ukuran lebar logo */
-            height: 40px; /* Atur ukuran tinggi logo */
-            border-radius: 50%; /* Membuat gambar menjadi lingkaran */
-            object-fit: cover; /* Memastikan gambar tidak terdistorsi */
+            width: 40px;  
+            height: 40px; 
+            border-radius: 50%;
+            object-fit: cover; 
         }
 
   
-        /* Full Screen Banner */
         .banner-full {
             position: relative;
             width: 30%;
-            height: 30; /* Sesuai tinggi viewport */
-            background-image: url('/static/img/tampilan/Banner-Seperpat.png'); /* Ganti dengan path gambar */
-            background-size: cover; /* Gambar menutupi seluruh area */
+            height: 30; 
+            background-image: url('/static/img/tampilan/Banner-Seperpat.png');
+            background-size: cover; 
             background-position: center;
             background-repeat: no-repeat;
             display: flex;
@@ -172,7 +171,6 @@
             overflow: hidden;
         }
 
-        /* Overlay Gelap */
         .banner-full::after {
             content: '';
             position: absolute;
@@ -180,20 +178,18 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* Memberikan efek gelap */
+            background: rgba(0, 0, 0, 0.5); 
             z-index: 1;
         }
 
-        /* Konten Banner */
         .banner-content {
             position: relative;
-            z-index: 2; /* Agar teks berada di atas overlay */
+            z-index: 2; 
             
         }
 
-        /* Tombol */
         .banner-content .btn {
-            border-radius: 25px; /* Membuat tombol lebih lembut */
+            border-radius: 25px; 
             padding: 10px 20px;
             font-size: 18px;
             font-weight: bold;
@@ -201,28 +197,27 @@
 
         .banner-content .btn:hover {
             background-color: #c0392b;
-            transform: scale(1.1); /* Sedikit memperbesar tombol saat hover */
+            transform: scale(1.1); 
         }
 
-        /* Ensure the image scales properly */
+       
         .animated-banner {
             width: 100%;
             height: auto;
-            max-width: 100%; /* Prevents the image from exceeding container width */
-            object-fit: cover; /* Maintains the aspect ratio and covers the area */
+            max-width: 100%; 
+            object-fit: cover; 
         }
 
-        /* Optional: Add a media query for specific adjustments on larger screens */
         @media (max-width: 1024px) {
             .animated-banner {
-                width: 100%; /* Ensures the image scales down on tablets */
+                width: 100%; 
                 height: auto;
             }
         }
 
         @media (max-width: 768px) {
             .animated-banner {
-                width: 100%; /* Ensures the image scales down on mobile */
+                width: 100%;
                 height: auto;
             }
         }
@@ -256,7 +251,6 @@
 
 </head>
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-custom">
 
       <div class="container-fluid">
@@ -272,13 +266,10 @@
   
           <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav ms-auto">
-                  <!-- Check if user is logged in -->
                   {% if not session.get('username') %}
                       <li class="nav-item">
-                          <!-- Login Button -->
                           <ul class="navbar-nav ms-auto">
                               <li class="nav-item">
-                                  <!-- Tombol Login -->
                                   <button type="button" class="btn btn-danger ms-3" style="margin-right: 10px;" data-bs-toggle="modal" data-bs-target="#loginModal">
                                       <i class="fas fa-sign-in-alt me-2"></i> Login
                                   </button>
@@ -406,7 +397,7 @@
             <!-- Card 1 -->
             <div class="col-12 col-md-3">
                 <div class="card mx-auto" style="width: 20rem;" data-aos="zoom-in-up" data-aos-duration="1500">
-                    <img src="/static/img/sample/ban-yamaha.jpg" class="card-img-top" alt="Gambar Card">
+                    <img src="/static/img/tampilan/ban-yamaha.jpg" class="card-img-top" alt="Gambar Card">
                     <div class="card-body">
                         <h5 class="card-title">Sparepart Motor</h5>
                         <p class="card-text">Produk asli dan bergaransi. Tersedia berbagai jenis sparepart motor sesuai kebutuhan Anda.</p>
@@ -418,7 +409,7 @@
             <!-- Card 2 -->
             <div class="col-12 col-md-3">
                 <div class="card mx-auto" style="width: 20rem;" data-aos="zoom-in-up" data-aos-duration="1500">
-                    <img src="/static/img/sample/oli yamaha.jpg" class="card-img-top" alt="Gambar Card">
+                    <img src="/static/img/tampilan/oli yamaha.jpg" class="card-img-top" alt="Gambar Card">
                     <div class="card-body">
                         <h5 class="card-title">Oli Mesin</h5>
                         <p class="card-text">Pilihan oli terbaik untuk kendaraan Anda. Berkualitas tinggi dan harga terjangkau.</p>
@@ -430,7 +421,7 @@
             <!-- Card 3 -->
             <div class="col-12 col-md-3">
                 <div class="card mx-auto" style="width: 20rem;" data-aos="zoom-in-up" data-aos-duration="1500">
-                    <img src="/static/img/sample/rantai-yamaha.jpg" class="card-img-top" alt="Gambar Card">
+                    <img src="/static/img/tampilan/rantai-yamaha.jpg" class="card-img-top" alt="Gambar Card">
                     <div class="card-body">
                         <h5 class="card-title">Aksesoris Kendaraan</h5>
                         <p class="card-text">Lengkapi kendaraan Anda dengan aksesoris terbaik untuk kenyamanan dan gaya.</p>
