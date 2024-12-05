@@ -344,5 +344,11 @@ def forgot_password():
     
     return render_template('forgot_password.html') 
 
+@app.route('/pesanan')
+def pesanan():
+    # Logika untuk menampilkan halaman orderan
+    return render_template('admin/pesanan.html')
+
+
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
