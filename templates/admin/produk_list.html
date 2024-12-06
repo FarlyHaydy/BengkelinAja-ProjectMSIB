@@ -1,0 +1,172 @@
+<style>
+  .produk-card {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .produk-card img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    margin-bottom: 15px;
+  }
+
+  .produk-info {
+    text-align: center;
+  }
+
+  .produk-info h5 {
+    font-size: 1.2rem;
+    margin: 10px 0;
+  }
+
+  .produk-info p {
+    font-size: 1rem;
+    color: #333;
+  }
+
+  .produk-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    align-items: center;
+  }
+
+  .input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    width: 200px;
+  }
+
+  .input-group input {
+    width: 60px;
+  }
+
+  .btn-lg {
+    width: 150px;
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Styling buttons */
+  .btn-primary, .btn-success {
+    width: 150px;
+  }
+
+  /* Add hover effects for buttons */
+  .btn-primary:hover, .btn-success:hover {
+    transform: scale(1.05);
+    transition: all 0.2s ease-in-out;
+  }
+</style>
+
+<section class="mt-5">
+  <h2 class="mb-4 text-dark fw-bold">Produk</h2>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4" id="produk-list">
+    {% for produk in produk_list %}
+    <div class="col">
+      <div class="card">
+        <div class="produk-card">
+          <!-- Gambar Produk -->
+          <img
+            src="{{ produk['image'] }}"
+            class="card-img-top"
+            alt="gambar produk"
+            data-bs-toggle="modal"
+            data-bs-target="#universalModal"
+            style="cursor: pointer"
+          />
+
+          <!-- Info Produk -->
+          <div class="produk-info">
+            <h5 class="card-title">{{ produk['name'] }}</h5>
+            <p class="card-text">{{ produk['description'] }}</p>
+            <p class="text-danger fw-semibold">Harga</p>
+            <p class="text-primary fw-bold">
+              Rp {{ "{:,.0f}".format(produk['price'] | float).replace(',', '.') }}
+            </p>
+          </div>
+
+          <!-- Quantity -->
+          <div class="mb-3">
+            <label
+              for="quantity-{{ produk['_id'] }}"
+              class="form-label fw-semibold"
+              >Jumlah</label
+            >
+            <div class="input-group" style="width: 200px; margin-top: 10px">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                id="decrease-{{ produk['_id'] }}"
+                onclick="adjustQuantity('{{ produk['_id'] }}', -1)"
+                style="width: 40px; height: 40px; font-size: 24px"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                id="quantity-{{ produk['_id'] }}"
+                class="form-control text-center"
+                min="1"
+                value="1"
+              />
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                id="increase-{{ produk['_id'] }}"
+                onclick="adjustQuantity('{{ produk['_id'] }}', 1)"
+                style="width: 40px; height: 40px; font-size: 24px"
+              >
+                +
+              </button>
+            </div>
+          </div>
+
+          <!-- Tombol Buy dan Checkout -->
+          <div class="produk-actions">
+            <div class="btn-group">
+              <button
+                class="btn btn-primary btn-lg"
+                onclick="buyProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}')"
+              >
+                Buy <i class="fab fa-shopify"></i>
+              </button>
+              <button
+                class="btn btn-success btn-lg"
+                onclick="checkoutProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}', document.getElementById('quantity-{{ produk['_id'] }}').value)"
+              >
+                Checkout <i class="fas fa-shopping-cart"></i>
+              </button>
+            </div>
+            {% if session.get('role') == 'admin' %}
+            <button
+              class="btn btn-warning btn-lg me-2 mt-4"
+              onclick="updateProduct('{{ produk['_id'] }}')"
+            >
+              Update <i class="fas fa-edit"></i>
+            </button>
+            <button
+              class="btn btn-danger btn-lg me-2 mt-4"
+              onclick="deleteProduct('{{ produk['_id'] }}')"
+            >
+              Delete <i class="fas fa-trash"></i>
+            </button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>

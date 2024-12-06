@@ -168,6 +168,11 @@
                           <i class="fas fa-receipt"></i> Check Order
                         </a>
                       </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('paymentview') }}">
+                            <i class="fas fa-credit-card"></i> Payment
+                        </a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="/static/img/tampilan/foto-profile.jpg" alt="Profile" class="profile-img me-2">
@@ -213,9 +218,8 @@
         </div>
         {% else %}
         {% for item in checkout_items %}
-        <!-- Pesanan 1 -->
         <div class="row g-4 justify-content-center align-items-center mb-5">
-            <!-- Gambar -->
+           
             <div class="col-md-3 d-flex justify-content-center align-items-center">
                 <img
                     src="{{ item['product_image'] }}" 
@@ -223,15 +227,31 @@
                     style="width: 100%; height: auto; object-fit: contain;"
                 />
             </div>
-            <!-- Deskripsi dan Status -->
+        
             <div class="col-md-9 text-center text-md-start">
                 <h5 class="fw-bold">Status Pesanan</h5>
                 <p class="text-muted mb-2">
-                    Status: <span class="text-success fw-bold">Selesai</span>
+                    Status: <span class="fw-bold 
+                    {% if item['status'] == 'canceled' %} text-danger 
+                    {% elif item['status'] == 'pending' %} text-warning 
+                    {% elif item['status'] == 'completed' %} text-success 
+                    {% endif %}">
+                    {{ item['status'] }}
+                </span>
                 </p>
-                <p class="text-muted mb-4">
-                    Pesanan Anda telah diproses dan siap untuk diambil atau dikirimkan.
-                </p>
+                {% if item['status'] == 'canceled' %}
+            <p class="text-muted mb-4">
+                Pembayaran Anda tidak benar, upload ulang bukti pembayaran Anda.
+            </p>
+            {% elif item['status'] == 'pending' %}
+            <p class="text-muted mb-4">
+                Pesanan Anda sedang dicek oleh admin. 
+            </p>
+            {% elif item['status'] == 'completed' %}
+            <p class="text-muted mb-4">
+                Pesanan Anda telah diproses dan siap untuk dikirimkan.
+            </p>
+            {% endif %}
 
                 <p class="text-muted mb-2">
                     Nama: {{ item['product_name'] }}
@@ -251,25 +271,28 @@
 
                 <!-- Tombol Pilih dan Unggah -->
                 <div class="d-flex flex-column flex-md-row align-items-center gap-3">
-                    <!-- Input file yang disembunyikan -->
-                    <input type="file" id="fileInput" style="display: none;">
-                    
-                    <!-- Label untuk tombol Choose a File -->
-                    <label for="fileInput" class="btn btn-outline-primary d-flex align-items-center">
-                        <i class="fas fa-upload me-2"></i> Choose a File
-                    </label>
-                    
-                    <!-- Tombol Upload -->
-                    <button class="btn btn-primary">
-                        <i class="fas fa-cloud-upload-alt me-2"></i> Upload
-                    </button>
+                    <form action="{{ url_for('upload_payment') }}" method="POST" enctype="multipart/form-data" class="d-flex flex-column align-items-center">
+                        <input type="hidden" name="order_id" value="{{ item['_id'] }}">
+                        <input type="file" name="payment_proof" required class="form-control mb-2" accept="image/*">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-cloud-upload-alt me-2"></i> Upload Bukti Pembayaran
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
         {% endfor %}
 
         <div class="total-box mt-4 p-4 shadow-sm ">
-            <h4 class="text-center fw-bold">Total Harga: Rp {{ "{:,.0f}".format(total_price | float).replace(',', '.') }}</h4>
+            <h4 class="text-center fw-bold">
+                Total Harga: Rp {{ "{:,.0f}".format(total_price | float).replace(',', '.') }}
+            </h4>
+            <h5 class="text-center text-muted mt-3">
+                Pembayaran yang Sudah Dibayar: Rp {{ "{:,.0f}".format(total_bayar | float).replace(',', '.') }}
+            </h5>
+            <h5 class="text-center text-muted mt-3">
+                Sisa Pembayaran: Rp {{ "{:,.0f}".format(total_price - total_bayar | float).replace(',', '.') }}
+            </h5>
         </div>
         {% endif %}
     </div>

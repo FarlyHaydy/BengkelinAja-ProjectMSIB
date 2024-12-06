@@ -91,8 +91,8 @@
           <a id="tambahProdukBtn">Tambah Produk</a>
         </li>
         <li>
-          <a id="pesananBtn">Pesanan</a>
-        </li>
+          <a href="{{ url_for('payment_verification') }}">Verifikasi Pembayaran</a>
+      </li>
       </ul>
     </div>
   
@@ -132,11 +132,6 @@
             </button>
           </form>
         </div>
-      </div>
-  
-      <!-- Pesanan Form -->
-      <div id="orderanForm" class="bg-custom p-5 rounded mt-4" style="display: none;">
-        {% include 'admin/pesanan.html' %}
       </div>
     </div>
   </div>

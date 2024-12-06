@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BengkelinAja - Checkout</title>
+    <title>BengkelinAja - Payment</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
@@ -133,17 +133,6 @@
             text-decoration: none;
         }
         
-        .total-box {
-            background-color: #ffffff; 
-            border-radius: 10px;      
-            border: 1px solid #ddd;  
-            max-width: 500px;        
-            margin: 0 auto;          
-        }
-        .total-box h4 {
-            font-weight: bold;
-            margin: 0;
-        }
         .content-wrapper {
             background-color: #ffffff; 
             border-radius: 20px;      
@@ -163,93 +152,6 @@
             object-fit: cover; 
         }
     </style>
-    <script>
-        function removeFromCheckout(productId) {
-    Swal.fire({
-        title: 'Apakah Anda yakin?',
-        text: "Anda akan menghapus item ini dari checkout!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Ya, hapus!',
-        cancelButtonText: 'Batal'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            fetch(`/remove_checkout_item/${productId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    Swal.fire(
-                        'Dihapus!',
-                        'Barang telah dihapus dari Checkout.',
-                        'success'
-                    ).then(() => {
-                        location.reload(); 
-                    });
-                } else {
-                    Swal.fire(
-                        'Gagal!',
-                        'Gagal menghapus item. Silakan coba lagi.',
-                        'error'
-                    );
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                Swal.fire(
-                    'Error!',
-                    'Terjadi kesalahan. Silakan coba lagi.',
-                    'error'
-                );
-            });
-        }
-    });
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('buyForm').addEventListener('submit', function(event) {
-        event.preventDefault(); 
-
-        fetch("{{ url_for('buy') }}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({}) 
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(data => {
-                    throw new Error(data.message || 'Terjadi kesalahan saat melakukan pembelian.');
-                });
-            }
-            return response.json();
-        })
-        .then(data => {
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: 'Barang berhasil dibeli dan sertakan bukti pembayaran, metode pembayaran bisa dilihat di halaman payment!',
-            }).then(() => {
-                window.location.href = "{{ url_for('check_order') }}"; 
-            });
-        })
-        .catch(error => {
-            Swal.fire({
-                icon: 'error',
-                title: 'Gagal!',
-                text: error.message || 'Terjadi kesalahan. Silakan coba lagi.',
-            });
-        });
-    });
-});
-    </script>
 </head>
 <body>
     <!-- Navbar -->
@@ -284,6 +186,11 @@ document.addEventListener('DOMContentLoaded', function() {
                           <i class="fas fa-receipt"></i> Check Order
                         </a>
                       </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('paymentview') }}">
+                            <i class="fas fa-credit-card"></i> Payment
+                        </a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="/static/img/tampilan/foto-profile.jpg" alt="Profile" class="profile-img me-2">
@@ -318,73 +225,6 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="container mt-4 mb-5">
         <!-- Kotak Pembungkus -->
         <div class="content-wrapper p-4 shadow-sm">
-            <h1 class="text-center">Checkout</h1>
-            
-            {% if checkout_items|length == 0 %}
-            <div class="col-12">
-                <div class="alert alert-warning text-center" role="alert">
-                    Keranjang Anda kosong.
-                </div>
-            </div>
-            {% else %}
-            <div class="row g-4 justify-content-center mt-4 mb-4">
-                {% for item in checkout_items %}
-                <!-- Card -->
-                <div class="col-12">
-                    <div class="card mx-auto" style="width: 20rem;" data-aos="zoom-in-up" data-aos-duration="1500">
-                        <!-- Image -->
-                        <img src="{{ item['product_image'] }}" class="card-img-top" alt="Gambar Produk">
-                        
-                        <div class="card-body">
-                            <!-- Product Name -->
-                            <h5 class="card-title">Nama: {{ item['product_name'] }}</h5>
-            
-                            <!-- Product Price -->
-                            <p class="card-text">Harga: Rp {{ "{:,.0f}".format(item['product_price'] | float).replace(',', '.') }}</p>
-
-            
-                            <!-- Quantity -->
-                            <p class="card-text">Jumlah: {{ item['quantity'] }}</p>
-            
-                            <!-- User Email -->
-                            <p class="card-text">Email: {{ session['email'] }}</p>
-            
-                            <!-- User Address -->
-                            <p class="card-text">Alamat: {{ item['alamat'] }}</p>
-            
-                            <!-- Cancel Button -->
-                            <button class="btn btn-outline-danger btn-sm d-flex align-items-center" onclick="removeFromCheckout('{{ item['_id'] }}')">
-                                <i class="fas fa-times me-2"></i> Cancel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-            
-            <!-- Kotak Total Harga -->
-            {% if checkout_items|length > 0 %}
-            <div class="total-box mt-4 p-4 shadow-sm">
-                <h4 class="text-center">Total Harga: Rp {{ "{:,.0f}".format(total_price | float).replace(',', '.') }}</h4>
-            </div>
-            {% endif %}
-
-            <div class="d-flex justify-content-center mt-3">
-                <a href="{{ url_for('produk') }}" class="btn btn-success btn-lg" style="width: 235px; margin-right: 10px;">
-                    <i class="fas fa-cart-arrow-down"></i> Kembali Berbelanja
-                </a>                
-            </div>
-
-            <div class="d-flex justify-content-center mt-3">
-                <form action="{{ url_for('buy') }}" method="POST" id="buyForm">
-                    <button type="submit" class="btn btn-primary btn-lg" style="width: 150px;">
-                        <i class="fas fa-shopping-cart"></i> Buy
-                    </button>
-                </form>
-            </div>
-            
-
             <div class="container mt-5">
                 <h4 class="text-center mb-4">Metode Pembayaran</h4>
     
