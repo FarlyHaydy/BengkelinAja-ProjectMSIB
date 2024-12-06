@@ -206,96 +206,67 @@
     
    <!-- content  -->
    <div class="container mt-5 mb-5">
-    <!-- Kotak Pembungkus -->
-    <div class="content-wrapper p-4 shadow-sm">
-        <h1 class="text-center mb-5">Check Order</h1>
-
-        {% if checkout_items|length == 0 %}
-        <div class="col-12">
-            <div class="alert alert-warning text-center" role="alert">
-                Anda belum memeriksa barang.
-            </div>
-        </div>
-        {% else %}
+    <h1 class="text-center mb-4">Check Order</h1>
+    {% if checkout_items|length == 0 %}
+    <div class="alert alert-warning text-center" role="alert">
+        Anda belum memiliki pesanan.
+    </div>
+    {% else %}
+    <div class="row">
         {% for item in checkout_items %}
-        <div class="row g-4 justify-content-center align-items-center mb-5">
-           
-            <div class="col-md-3 d-flex justify-content-center align-items-center">
-                <img
-                    src="{{ item['product_image'] }}" 
-                    alt="Pesanan Gambar" 
-                    style="width: 100%; height: auto; object-fit: contain;"
-                />
-            </div>
-        
-            <div class="col-md-9 text-center text-md-start">
-                <h5 class="fw-bold">Status Pesanan</h5>
-                <p class="text-muted mb-2">
-                    Status: <span class="fw-bold 
-                    {% if item['status'] == 'canceled' %} text-danger 
-                    {% elif item['status'] == 'pending' %} text-warning 
-                    {% elif item['status'] == 'completed' %} text-success 
-                    {% endif %}">
-                    {{ item['status'] }}
-                </span>
-                </p>
-                {% if item['status'] == 'canceled' %}
-            <p class="text-muted mb-4">
-                Pembayaran Anda tidak benar, upload ulang bukti pembayaran Anda.
-            </p>
-            {% elif item['status'] == 'pending' %}
-            <p class="text-muted mb-4">
-                Pesanan Anda sedang dicek oleh admin. 
-            </p>
-            {% elif item['status'] == 'completed' %}
-            <p class="text-muted mb-4">
-                Pesanan Anda telah diproses dan siap untuk dikirimkan.
-            </p>
-            {% endif %}
+        <div class="col-md-12 col-lg-4 mb-4">
+            <div class="card shadow-sm p-3">
+                <div class="text-center p-2">
+                    <img src="{{ item['product_image'] }}" class="img-fluid" alt="Product Image" style="height: 100px; width: auto; object-fit: contain;">
+                    <h5 class="card-title mt-2">{{ item['product_name'] }}</h5>
+                </div>
+                <div class="card-body p-2">
+                    <div class="row">
+                        <div class="col-12 mb-2">
+                            <p><strong>Harga:</strong> Rp {{ "{:,.0f}".format(item['product_price'] | float).replace(',', '.') }}</p>
+                            <p><strong>Jumlah:</strong> {{ item['quantity'] }}</p>
+                            <p><strong>Alamat:</strong> {{ item['alamat'] }}</p>
+                        </div>
 
-                <p class="text-muted mb-2">
-                    Nama: {{ item['product_name'] }}
-                </p>
-                <p class="text-muted mb-2">
-                    Harga: Rp {{ "{:,.0f}".format(item['product_price'] | float).replace(',', '.') }}
-                </p>                
-                <p class="text-muted mb-2">
-                    Jumlah: {{ item['quantity'] }}
-                </p>
-                <p class="text-muted mb-2">
-                    Alamat: {{ item['alamat'] }}
-                </p>
-                <p class="text-muted mb-2">
-                    Email: {{ session['email'] }}
-                </p>
+                        <div class="col-12 mb-2">
+                            <h6>Status Pesanan:</h6>
+                            <span class="badge {% if item['status'] == 'canceled' %}bg-danger{% elif item['status'] == 'pending' %}bg-warning{% elif item['status'] == 'completed' %}bg-success{% endif %}">
+                                {{ item['status'] }}
+                            </span>
+                            {% if item['status'] == 'canceled' %}
+                            <p class="text-muted">Pembayaran Anda tidak valid, harap upload ulang bukti pembayaran.</p>
+                            {% elif item['status'] == 'pending' %}
+                            <p class="text-muted">Pesanan Anda sedang dalam pemeriksaan oleh admin.</p>
+                            {% elif item['status'] == 'completed' %}
+                            <p class="text-muted">Pesanan Anda telah diproses dan siap dikirim.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
 
-                <!-- Tombol Pilih dan Unggah -->
-                <div class="d-flex flex-column flex-md-row align-items-center gap-3">
-                    <form action="{{ url_for('upload_payment') }}" method="POST" enctype="multipart/form-data" class="d-flex flex-column align-items-center">
+                <div class="text-center p-3">
+                    {% if item['status'] != 'completed' %}
+                    <form action="{{ url_for('upload_payment') }}" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="order_id" value="{{ item['_id'] }}">
-                        <input type="file" name="payment_proof" required class="form-control mb-2" accept="image/*">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-cloud-upload-alt me-2"></i> Upload Bukti Pembayaran
+                        <label for="payment_proof" class="form-label">Upload Bukti Pembayaran</label>
+                        <input type="file" name="payment_proof" class="form-control mb-2" required accept="image/*">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-upload"></i> Upload
                         </button>
                     </form>
+                    {% endif %}
                 </div>
             </div>
         </div>
         {% endfor %}
-
-        <div class="total-box mt-4 p-4 shadow-sm ">
-            <h4 class="text-center fw-bold">
-                Total Harga: Rp {{ "{:,.0f}".format(total_price | float).replace(',', '.') }}
-            </h4>
-            <h5 class="text-center text-muted mt-3">
-                Pembayaran yang Sudah Dibayar: Rp {{ "{:,.0f}".format(total_bayar | float).replace(',', '.') }}
-            </h5>
-            <h5 class="text-center text-muted mt-3">
-                Sisa Pembayaran: Rp {{ "{:,.0f}".format(total_price - total_bayar | float).replace(',', '.') }}
-            </h5>
-        </div>
-        {% endif %}
     </div>
+
+    <div class="total-box mt-5 p-4">
+        <h4 class="text-center fw-bold">Total Harga: Rp {{ "{:,.0f}".format(total_price | float).replace(',', '.') }}</h4>
+        <h5 class="text-center text-muted mt-3">Pembayaran yang Sudah Dibayar: Rp {{ "{:,.0f}".format(total_bayar | float).replace(',', '.') }}</h5>
+        <h5 class="text-center text-muted mt-3">Sisa Pembayaran: Rp {{ "{:,.0f}".format(total_price - total_bayar | float).replace(',', '.') }}</h5>
+    </div>
+    {% endif %}
 </div>
 
 

@@ -28,7 +28,7 @@
                     <td>
                         {% if order.payment_proof %}
                         <a href="#" data-bs-toggle="modal" data-bs-target="#paymentProofModal{{ loop.index }}">
-                            <img src="{{ url_for('static', filename='img/pembayaran/' + order.payment_proof.split('/')[-1]) }}" alt="Bukti Pembayaran" style="width: 80px; margin-top: 10px;"  class="mx-auto d-block">
+                            <img src="{{ url_for('static', filename='img/pembayaran/' + order.payment_proof.split('/')[-1]) }}" alt="Bukti Pembayaran" style="width: 500px; margin-top: 10px;"  class="mx-auto d-block">
                         </a>
                         
                         <div class="modal fade" id="paymentProofModal{{ loop.index }}" tabindex="-1" aria-labelledby="paymentProofModalLabel{{ loop.index }}" aria-hidden="true">
@@ -39,7 +39,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <img src="{{ url_for('static', filename='img/pembayaran/' + order.payment_proof.split('/')[-1]) }}" alt="Bukti Pembayaran" style="width: 100%; height: auto;">
+                                        <img src="{{ url_for('static', filename='img/pembayaran/' + order.payment_proof.split('/')[-1]) }}" alt="Bukti Pembayaran" style="width: 100%;">
                                     </div>
                                 </div>
                             </div>
