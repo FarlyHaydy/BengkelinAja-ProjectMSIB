@@ -270,15 +270,15 @@
               Swal.fire({
                 icon: "success",
                 title: "Produk Ditambahkan!",
-                text: "Produk telah ditambahkan ke Checkout!",
+                text: "Produk telah ditambahkan ke Cart!",
               }).then(() => {
-                window.location.href = "/checkout";
+                window.location.href = "/cart";
               });
             } else {
               Swal.fire({
                 icon: "error",
                 title: "Gagal!",
-                text: "Terjadi kesalahan saat menambahkan produk ke checkout.",
+                text: "Terjadi kesalahan saat menambahkan produk ke Cart.",
               });
             }
           })
@@ -420,7 +420,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('checkout')}}">
-                <i class="fas fa-shopping-cart"></i> Checkout
+                <i class="fas fa-shopping-cart"></i> Cart
               </a>
             </li>
             <li class="nav-item">
@@ -582,7 +582,7 @@
                   class="btn btn-success btn-lg me-2"
                   onclick="checkoutProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}', document.getElementById('quantity-{{ produk['_id'] }}').value)"
                 >
-                  Checkout <i class="fas fa-shopping-cart"></i>
+                  Cart <i class="fas fa-shopping-cart"></i>
                 </button>
 
                 {% if session.get('role') == 'admin' %}

@@ -171,7 +171,7 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('produk') }}"><i class="fas fa-box-open"></i> Product</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('checkout') }}"><i class="fas fa-shopping-cart"></i> Checkout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('checkout') }}"><i class="fas fa-shopping-cart"></i> Cart</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('check_order') }}"><i class="fas fa-receipt"></i> Check Order</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -217,7 +217,7 @@
                                 <input type="text" class="form-control" id="username" name="username" value="{{ user['username'] }}" placeholder="Masukkan username Anda">
                             </div>
                             <div class="mb-3">
-                                <label for="email" class="form-label">E-mail/No. Handphone</label>
+                                <label for="email" class="form-label">E-mail</label>
                                 <input type="email" class="form-control" id="email" name="email" value="{{ user['email'] }}" placeholder="Masukkan email atau nomor handphone Anda">
                             </div>
                             <div class="mb-3">
