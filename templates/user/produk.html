@@ -270,15 +270,15 @@
               Swal.fire({
                 icon: "success",
                 title: "Produk Ditambahkan!",
-                text: "Produk telah ditambahkan ke Checkout!",
+                text: "Produk telah ditambahkan ke Cart!",
               }).then(() => {
-                window.location.href = "/checkout";
+                window.location.href = "/cart";
               });
             } else {
               Swal.fire({
                 icon: "error",
                 title: "Gagal!",
-                text: "Terjadi kesalahan saat menambahkan produk ke checkout.",
+                text: "Terjadi kesalahan saat menambahkan produk ke Cart.",
               });
             }
           })
@@ -379,8 +379,7 @@
         });
       });
     </script>
-   ]
-    
+    ]
   </head>
 
   <body>
@@ -420,7 +419,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('checkout')}}">
-                <i class="fas fa-shopping-cart"></i> Checkout
+                <i class="fas fa-shopping-cart"></i> Cart
               </a>
             </li>
             <li class="nav-item">
@@ -475,7 +474,6 @@
     <!-- Main Content -->
     <main class="container my-5">
       <section class="mt-5">
-        
         <div class="d-flex align-items-center">
           <!-- Filter Kategori -->
           <div class="categories me-3">
@@ -498,11 +496,21 @@
 
           <!-- Form Pencarian -->
           <!-- Form Pencarian -->
-          <form class="d-flex w-50" id="search-form">
-            <input type="hidden" name="category" id="category-input" value="All" />
-            <input type="text" class="form-control me-2" placeholder="Cari berdasarkan nama produk..." id="search-input" />
+          <form class="d-flex w-50" id="search-form" justifey-content="center">
+            <input
+              type="hidden"
+              name="category"
+              id="category-input"
+              value="All"
+            />
+            <input
+              type="text"
+              class="form-control me-2"
+              placeholder="Cari berdasarkan nama produk..."
+              id="search-input"
+            />
             <button class="btn btn-primary" type="submit">Search</button>
-        </form>
+          </form>
         </div>
       </section>
 
@@ -582,7 +590,7 @@
                   class="btn btn-success btn-lg me-2"
                   onclick="checkoutProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}', document.getElementById('quantity-{{ produk['_id'] }}').value)"
                 >
-                  Checkout <i class="fas fa-shopping-cart"></i>
+                  Cart <i class="fas fa-shopping-cart"></i>
                 </button>
 
                 {% if session.get('role') == 'admin' %}
@@ -674,47 +682,36 @@
         </div>
       </div>
     </footer>
-<script>
- document.getElementById('search-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Menghentikan form submit biasa
+    <script>
+      document
+        .getElementById("search-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
 
-    const searchQuery = document.getElementById('search-input').value;
-    const selectedCategory = document.getElementById('category-input').value;
+          const searchQuery = document.getElementById("search-input").value;
+          const selectedCategory =
+            document.getElementById("category-input").value;
 
-    // Menangani request AJAX
-    fetch(`/produk?search=${searchQuery}&category=${selectedCategory}`, {
-        method: 'GET',
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest' // Menandakan bahwa ini adalah request AJAX
-        }
-    })
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('produk-list').innerHTML = data;
-    })
-    .catch(error => console.error('Error:', error));
-});
+          console.log("Search Query:", searchQuery); // Debug query
+          console.log("Selected Category:", selectedCategory); // Debug kategori
 
-// Event listener untuk kategori filter
-document.getElementById('category-all').addEventListener('click', function(event) {
-    event.preventDefault();
-    document.getElementById('category-input').value = 'All';
-    document.getElementById('search-form').dispatchEvent(new Event('submit'));
-});
-
-document.getElementById('category-yamaha').addEventListener('click', function(event) {
-    event.preventDefault();
-    document.getElementById('category-input').value = 'Yamaha';
-    document.getElementById('search-form').dispatchEvent(new Event('submit'));
-});
-
-document.getElementById('category-honda').addEventListener('click', function(event) {
-    event.preventDefault();
-    document.getElementById('category-input').value = 'Honda';
-    document.getElementById('search-form').dispatchEvent(new Event('submit'));
-});
-
-</script>
+          fetch(`/produk?search=${searchQuery}&category=${selectedCategory}`, {
+            method: "GET",
+            headers: {
+              "X-Requested-With": "XMLHttpRequest",
+            },
+          })
+            .then((response) => {
+              console.log("Response Status:", response.status); // Debug status respons
+              return response.text();
+            })
+            .then((html) => {
+              console.log("HTML diterima:", html); // Debug HTML yang diterima
+              document.getElementById("produk-list").innerHTML = html;
+            })
+            .catch((error) => console.error("Error:", error));
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>

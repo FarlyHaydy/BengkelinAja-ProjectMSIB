@@ -18,7 +18,8 @@ db = client['bengkelinaja']
 users_collection = db['users']
 produk_collection = db['produk']
 orders_collection = db['orders']
-checkout_collection = db['checkout']  
+checkout_collection = db['checkout'] 
+# cart = checkout  
 
 
 @app.route('/', methods=['GET'])
@@ -58,39 +59,40 @@ def index():
         return redirect(url_for('login')) 
     return render_template('admin/index.html') 
 
-@app.route('/produk', methods=['GET'])
+@app.route('/produk')
 def produk():
-    # Memeriksa apakah pengguna sudah login
     if 'username' not in session:
         flash('You must be logged in to access this page.', 'warning')
         return redirect(url_for('login'))
 
-    # Ambil parameter kategori dan pencarian
+    # Ambil parameter pencarian
     category = request.args.get('category', 'All')
     search = request.args.get('search', '').strip()
 
-    # Query MongoDB
+    # Buat query
     query = {}
     if category != 'All':
-        query['category'] = category
+        query['category'] = category  # Filter kategori
     if search:
-        query['name'] = {'$regex': search, '$options': 'i'}  # Case-insensitive
+        query['name'] = {'$regex': search, '$options': 'i'}  # Filter nama (case-insensitive)
 
-    # Ambil produk dari database
+    print(f"Query MongoDB: {query}")  # Debug query
+
+    # Ambil data dari MongoDB
     produk_list = list(produk_collection.find(query))
 
-    # Jika request AJAX, render bagian konten produk saja
+    print(f"Produk ditemukan: {len(produk_list)}")  # Debug jumlah hasil
+
+    # Balikkan data untuk AJAX atau render halaman penuh
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return render_template('admin/produk_list.html', produk_list=produk_list)
-
-    # Render seluruh halaman
+    
     return render_template(
         'user/produk.html',
         produk_list=produk_list,
         selected_category=category,
         search=search
     )
-
 
      
 @app.route('/add_to_checkout', methods=['POST'])
@@ -106,7 +108,6 @@ def add_to_checkout():
     product_image = data['product_image']
     quantity = data['quantity']
 
-    # Simpan data ke dalam koleksi checkout (MongoDB)
     checkout_collection = db['checkout']
     checkout_collection.insert_one({
         'username': session['username'],
@@ -140,7 +141,7 @@ def remove_checkout_item(product_id):
         return jsonify({'status': 'error', 'message': 'Item not found or not authorized to delete'}), 404
 
 
-@app.route('/checkout')
+@app.route('/cart')
 def checkout():
     # Periksa apakah pengguna sudah login
     if 'username' not in session: 
@@ -174,7 +175,7 @@ def checkout():
 
     # Render halaman checkout
     return render_template(
-        'user/checkout.html',
+        'user/cart.html',
         checkout_items=checkout_items,
         total_price=total_price
     )
