@@ -53,7 +53,7 @@ def login():
             return 'Invalid credentials!' 
     return redirect(url_for('home'))  
 
-@app.route('/index')
+@app.route('/admin/index')
 def index():
     if 'username' not in session or session['role'] != 'admin':
         return redirect(url_for('login')) 
@@ -331,11 +331,11 @@ def profile():
         new_email = request.form['email']
         new_alamat = request.form['alamat']
 
-        # Cek apakah username sudah ada
+        
         if new_username != user['username'] and users_collection.find_one({"username": new_username}):
             return 'Username already taken, please choose another one!'
 
-        # Perbarui data di MongoDB
+        
         users_collection.update_one(
             {"_id": user['_id']},
             {"$set": {
@@ -345,7 +345,6 @@ def profile():
             }}
         )
 
-        # Perbarui session dengan username baru
         session['username'] = new_username
         
         return redirect(url_for('profile'))  
@@ -423,7 +422,6 @@ def update_produk(product_id):
         flash("Produk berhasil diperbarui!", 'success')
         return redirect(url_for('produk'))
 
-    # Jika GET, ambil data produk untuk ditampilkan di form
     produk = produk_collection.find_one({'_id': ObjectId(product_id)})
     return render_template('admin/update_produk.html', produk=produk)
 
