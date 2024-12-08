@@ -4,9 +4,11 @@
     flex-direction: column;
     gap: 15px;
     align-items: center;
+    background: transparent;  /* Menghapus background kotak */
+    border: none;  /* Menghapus border pada card */
   }
 
-  .produk-card img {
+  .card-img-top {
     width: 200px;
     height: 200px;
     object-fit: cover;
@@ -15,6 +17,7 @@
 
   .produk-info {
     text-align: center;
+    background: transparent;  /* Pastikan bagian info produk tidak punya background */
   }
 
   .produk-info h5 {
@@ -70,8 +73,8 @@
   }
 </style>
 
+
 <section class="mt-5">
-  <h2 class="mb-4 text-dark fw-bold">Produk</h2>
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4" id="produk-list">
     {% for produk in produk_list %}
     <div class="col">
