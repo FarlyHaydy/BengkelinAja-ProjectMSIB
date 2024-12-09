@@ -41,7 +41,7 @@ footer a {
 }
 
 footer a:hover {
-  color: #d34848;
+  color: #dc3545;
 }
 
 footer i {
@@ -106,6 +106,9 @@ footer .social-links a {
   left: 0;
   right: 0;
   z-index: 1000;
+}
+.nav-link:hover {
+  color: #dc3545;
 }
 
 .navbar-brand {

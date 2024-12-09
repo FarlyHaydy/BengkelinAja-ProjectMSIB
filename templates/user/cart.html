@@ -51,7 +51,7 @@
         }
 
         footer a:hover {
-            color: #d34848;
+            color: #dc3545;
         }
 
         footer i {
@@ -117,6 +117,9 @@
             right: 0;
             z-index: 1000; 
         }
+        .nav-link:hover {
+            color: #dc3545;
+        }
 
         .navbar-brand {
             font-size: 30px;
@@ -163,7 +166,7 @@
         }
     </style>
     <script>
-        function removeFromCheckout(productId) {
+        function removeFromCart(productId) {
     Swal.fire({
         title: 'Apakah Anda yakin?',
         text: "Anda akan menghapus item ini dari Cart!",
@@ -175,7 +178,7 @@
         cancelButtonText: 'Batal'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`/remove_checkout_item/${productId}`, {
+            fetch(`/remove_cart_item/${productId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -274,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('checkout') }}">
+                        <a class="nav-link" href="{{ url_for('cart') }}">
                           <i class="fas fa-shopping-cart"></i> Cart
                         </a>
                       </li>
@@ -319,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="content-wrapper p-4 shadow-sm">
             <h1 class="text-center">Cart</h1>
             
-            {% if checkout_items|length == 0 %}
+            {% if cart_items|length == 0 %}
             <div class="col-12">
                 <div class="alert alert-warning text-center" role="alert">
                     Keranjang Anda kosong.
@@ -327,32 +330,20 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
             {% else %}
             <div class="row g-4 justify-content-center mt-4 mb-4">
-                {% for item in checkout_items %}
-                <!-- Card -->
+                {% for item in cart_items %}
+                
                 <div class="col-12">
-                    <div class="card mx-auto" style="width: 20rem;" data-aos="zoom-in-up" data-aos-duration="1500">
-                        <!-- Image -->
-                        <img src="{{ item['product_image'] }}" class="card-img-top" alt="Gambar Produk">
+                    <div class="card mx-auto" style="width: 20rem; border-color: #dc3545;" data-aos="zoom-in-up" data-aos-duration="1500">
+                        <img src="{{ item['product_image'] }}" class="card-img-top" alt="Gambar Produk" style="background-color: #dc3545;">
                         
                         <div class="card-body">
-                            <!-- Product Name -->
                             <h5 class="card-title">Nama: {{ item['product_name'] }}</h5>
-            
-                            <!-- Product Price -->
                             <p class="card-text">Harga: Rp {{ "{:,.0f}".format(item['product_price'] | float).replace(',', '.') }}</p>
-
-            
-                            <!-- Quantity -->
                             <p class="card-text">Jumlah: {{ item['quantity'] }}</p>
-            
-                            <!-- User Email -->
                             <p class="card-text">Email: {{ session['email'] }}</p>
-            
-                            <!-- User Address -->
                             <p class="card-text">Alamat: {{ item['alamat'] }}</p>
-            
-                            <!-- Cancel Button -->
-                            <button class="btn btn-outline-danger btn-sm d-flex align-items-center" onclick="removeFromCheckout('{{ item['_id'] }}')">
+
+                            <button class="btn btn-outline-danger btn-sm d-flex align-items-center" onclick="removeFromCart('{{ item['_id'] }}')">
                                 <i class="fas fa-times me-2"></i> Cancel
                             </button>
                         </div>
@@ -362,9 +353,8 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
             {% endif %}
             
-            <!-- Kotak Total Harga -->
-            {% if checkout_items|length > 0 %}
-            <div class="total-box mt-4 p-4 shadow-sm">
+            {% if cart_items|length > 0 %}
+            <div class="total-box mt-4 p-4 shadow-sm" style="border-color: #dc3545;">
                 <h4 class="text-center">Total Harga: Rp {{ "{:,.0f}".format(total_price | float).replace(',', '.') }}</h4>
             </div>
             {% endif %}
@@ -382,164 +372,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     </button>
                 </form>
             </div>
-            
-
-            <div class="container mt-5">
-                <h4 class="text-center mb-4">Metode Pembayaran</h4>
-    
-                <div class="row">
-                    <!-- BNI -->
-                    <div class="col-12 col-md-4 text-center mb-4">
-                        <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#bniModal" data-aos="flip-up" style="cursor: pointer;">
-                            <img src="https://upload.wikimedia.org/wikipedia/id/5/55/BNI_logo.svg" alt="BNI" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
-                        </div>
-                    </div>
-    
-                    <!-- Mandiri -->
-                    <div class="col-12 col-md-4 text-center mb-4">
-                        <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#mandiriModal" data-aos="flip-up" style="cursor: pointer;">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" alt="Mandiri" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
-                        </div>
-                    </div>
-    
-                    <!-- BCA -->
-                    <div class="col-12 col-md-4 text-center mb-4">
-                        <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#bcaModal" data-aos="flip-up" style="cursor: pointer;">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="row">
-                    <!-- GoPay -->
-                    <div class="col-12 col-md-4 text-center mb-4">
-                        <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#gopayModal" data-aos="flip-up" style="cursor: pointer;">
-                            <img src="https://logos-world.net/wp-content/uploads/2023/03/GoPay-Logo-500x281.png" alt="GoPay" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
-                        </div>
-                    </div>
-    
-                    <!-- DANA -->
-                    <div class="col-12 col-md-4 text-center mb-4">
-                        <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#danaModal" data-aos="flip-up" style="cursor: pointer;">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
-                        </div>
-                    </div>
-    
-                    <!-- OVO -->
-                    <div class="col-12 col-md-4 text-center mb-4">
-                        <div class="card bg-custom border-0" data-bs-toggle="modal" data-bs-target="#ovoModal" data-aos="flip-up" style="cursor: pointer;">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO" class="card-img-top" style="max-width: 120px; margin: 0 auto;">
-                        </div>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="modal fade" id="bniModal" tabindex="-1" aria-labelledby="bniModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="bniModalLabel">Nomor Rekening BNI</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Nomor Rekening BNI: <strong>123-456-7890</strong>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="modal fade" id="mandiriModal" tabindex="-1" aria-labelledby="mandiriModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="mandiriModalLabel">Nomor Rekening Mandiri</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Nomor Rekening Mandiri: <strong>987-654-3210</strong>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="modal fade" id="bcaModal" tabindex="-1" aria-labelledby="bcaModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="bcaModalLabel">Nomor Rekening BCA</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Nomor Rekening BCA: <strong>123-123-1234</strong>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="modal fade" id="gopayModal" tabindex="-1" aria-labelledby="gopayModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="gopayModalLabel">Nomor GoPay</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Nomor GoPay: <strong>0812-3456-7890</strong>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="modal fade" id="danaModal" tabindex="-1" aria-labelledby="danaModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="danaModalLabel">Nomor DANA</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Nomor DANA: <strong>0812-3456-7890</strong>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="modal fade" id="ovoModal" tabindex="-1" aria-labelledby="ovoModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="ovoModalLabel">Nomor OVO</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Nomor OVO: <strong>0812-3456-7890</strong>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        
         </div>
     </div>
             
-    <!-- Footer -->
+    
     <footer>
         <div class="container">
             <div class="row justify-content-between align-items-center">
@@ -561,7 +398,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
+   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>

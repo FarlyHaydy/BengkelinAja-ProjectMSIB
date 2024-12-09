@@ -18,8 +18,7 @@ db = client['bengkelinaja']
 users_collection = db['users']
 produk_collection = db['produk']
 orders_collection = db['orders']
-checkout_collection = db['checkout'] 
-# cart = checkout  
+cart_collection = db['cart']
 
 
 @app.route('/', methods=['GET'])
@@ -95,8 +94,8 @@ def produk():
     )
 
      
-@app.route('/add_to_checkout', methods=['POST'])
-def add_to_checkout():
+@app.route('/add_to_cart', methods=['POST'])
+def add_to_cart():
     if 'username' not in session:
         return jsonify({'status': 'error', 'message': 'User not logged in'}), 401
 
@@ -108,8 +107,8 @@ def add_to_checkout():
     product_image = data['product_image']
     quantity = data['quantity']
 
-    checkout_collection = db['checkout']
-    checkout_collection.insert_one({
+    cart_collection = db['cart']
+    cart_collection.insert_one({
         'username': session['username'],
         'product_id': product_id,
         'product_name': product_name,
@@ -120,39 +119,39 @@ def add_to_checkout():
         'email': session.get('email', '')
     })
 
-    return jsonify({'status': 'success', 'message': 'Product added to checkout'})
+    return jsonify({'status': 'success', 'message': 'Product added to cart'})
 
-@app.route('/remove_checkout_item/<product_id>', methods=['DELETE'])
-def remove_checkout_item(product_id):
+@app.route('/remove_cart_item/<product_id>', methods=['DELETE'])
+def remove_cart_item(product_id):
     if 'username' not in session:
         return jsonify({'status': 'error', 'message': 'User not logged in'}), 401
 
-    checkout_collection = db['checkout']
+    cart_collection = db['cart']
     
     # Hapus item berdasarkan product_id dan username
-    result = checkout_collection.delete_one({
+    result = cart_collection.delete_one({
         '_id': ObjectId(product_id),
         'username': session['username']
     })
     
     if result.deleted_count > 0:
-        return jsonify({'status': 'success', 'message': 'Item removed from checkout'})
+        return jsonify({'status': 'success', 'message': 'Item removed from cart'})
     else:
         return jsonify({'status': 'error', 'message': 'Item not found or not authorized to delete'}), 404
 
 
 @app.route('/cart')
-def checkout():
+def cart():
     # Periksa apakah pengguna sudah login
     if 'username' not in session: 
         flash('You must be logged in to access this page.', 'warning')
         return redirect(url_for('login'))  
 
-    # Ambil data checkout dari MongoDB untuk pengguna saat ini
-    checkout_collection = db['checkout']
+    # Ambil data cart dari MongoDB untuk pengguna saat ini
+    cart_collection = db['cart']
     try:
-        # Ambil item checkout berdasarkan pengguna
-        checkout_items = list(checkout_collection.find(
+        # Ambil item cart berdasarkan pengguna
+        cart_items = list(cart_collection.find(
             {
                 'username': session['username']
             }
@@ -161,7 +160,7 @@ def checkout():
         # Hitung total harga (pastikan field yang digunakan sudah ada di database)
         total_price = sum(
             float(item.get('product_price', 0)) * int(item.get('quantity', 1))
-            for item in checkout_items
+            for item in cart_items
         )
 
         # Konversi ke integer untuk memastikan total harga tanpa desimal
@@ -169,28 +168,28 @@ def checkout():
 
     except Exception as e:
         # Jika ada error, log pesan error dan berikan feedback ke pengguna
-        print(f"Error fetching checkout items: {e}")
-        flash('Failed to fetch checkout items. Please try again.', 'danger')
+        print(f"Error fetching cart items: {e}")
+        flash('Failed to fetch cart items. Please try again.', 'danger')
         return redirect(url_for('produk'))  
 
-    # Render halaman checkout
+   
     return render_template(
         'user/cart.html',
-        checkout_items=checkout_items,
+        cart_items=cart_items,
         total_price=total_price
     )
 
 @app.route('/buy', methods=['POST'])
 def buy():
     
-    checkout_collection = db['checkout']
-    checkout_items = list(checkout_collection.find({'username': session['username']}))
+    cart_collection = db['cart']
+    cart_items = list(cart_collection.find({'username': session['username']}))
 
-    if not checkout_items:
-        return jsonify({'status': 'error', 'message': 'No items in checkout'}), 400
+    if not cart_items:
+        return jsonify({'status': 'error', 'message': 'No items in cart'}), 400
 
     try:
-        for item in checkout_items:
+        for item in cart_items:
             orders_collection.insert_one({
                 'username': session['username'],
                 'product_id': item['product_id'],
@@ -204,7 +203,7 @@ def buy():
                 'payment_proof': None  
             })
 
-        checkout_collection.delete_many({'username': session['username']})
+        cart_collection.delete_many({'username': session['username']})
 
         return jsonify({'status': 'success', 'message': 'Pembelian berhasil!'})
     except Exception as e:
@@ -265,7 +264,7 @@ def check_order():
         flash('Gagal mengambil pesanan. Silakan coba lagi.', 'danger')
         return redirect(url_for('produk'))
 
-    return render_template('user/check_order.html', checkout_items=orders, total_price=total_price, total_bayar=total_bayar)
+    return render_template('user/check_order.html', cart_items=orders, total_price=total_price, total_bayar=total_bayar)
 
 
 @app.route('/upload_payment', methods=['POST'])

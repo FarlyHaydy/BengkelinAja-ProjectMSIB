@@ -34,7 +34,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('checkout') }}">
+            <a class="nav-link" href="{{ url_for('cart') }}">
               <i class="fas fa-shopping-cart"></i> Cart
             </a>
           </li>
@@ -75,7 +75,7 @@
   </nav>
 
   <div class="container-flex">
-    <!-- Sidebar -->
+    
     <div class="sidebar">
       <div class="sidebar-header">
         <h4 style="margin-left:10px;">
@@ -85,10 +85,14 @@
       <ul class="sidebar-menu">
         <li class="sidebar-section">INTERFACE</li>
         <li>
-          <a id="tambahProdukBtn">Tambah Produk</a>
-        </li>
-        <li>
-          <a href="{{ url_for('payment_verification') }}">Verifikasi Pembayaran</a>
+          <a id="tambahProdukBtn">
+              <i class="fas fa-plus"></i> Tambah Produk
+          </a>
+      </li>
+      <li>
+          <a href="{{ url_for('payment_verification') }}">
+              <i class="fas fa-check-circle"></i> Verifikasi Pembayaran
+          </a>
       </li>
       </ul>
     </div>

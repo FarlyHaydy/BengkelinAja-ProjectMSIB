@@ -51,7 +51,7 @@
         }
   
         footer a:hover {
-          color: #d34848;
+          color: #dc3545;
         }
   
         footer i {
@@ -131,6 +131,9 @@
         .navbar-brand {
           color: rgb(124, 121, 121);
           text-decoration: none;
+        }
+        .nav-link:hover {
+            color: #dc3545;
         }
 
         .search-bar {
@@ -277,7 +280,7 @@
                       <div class="modal fade" data-bs-backdrop="false" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
                           <div class="modal-dialog">
                               <div class="modal-content">
-                                  <!-- Modal Header -->
+                                
                                   <div class="modal-header">
                                       <h5 class="modal-title" id="loginModalLabel">
                                           <i class="fas fa-sign-in-alt me-2"></i> Login
@@ -285,29 +288,28 @@
                                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                   </div>
                       
-                                  <!-- Modal Body -->
+                                  
                                   <div class="modal-body text-center">
-                                      <!-- Form -->
+                                     
                                       <form action="{{ url_for('login') }}" method="POST">
-                                          <!-- Username Input -->
+                                          
                                           <div class="mb-3">
                                               <label for="username" class="form-label">Username</label>
                                               <input type="text" class="form-control form-control-lg" id="username" name="username" required placeholder="Enter your username">
                                           </div>
                                           
-                                          <!-- Password Input -->
+                                          
                                           <div class="mb-3">
                                               <label for="password" class="form-label">Password</label>
                                               <input type="password" class="form-control form-control-lg" id="password" name="password" required placeholder="Enter your password">
                                           </div>
                       
-                                          <!-- Submit Button -->
+                                          
                                           <button type="submit" class="btn btn-danger btn-lg w-100 mt-4">
                                               <i class="fas fa-sign-in-alt me-2"></i> Login
                                           </button>
                                       </form>
                       
-                                      <!-- Opsi untuk User yang belum punya akun -->
                                       <div class="mt-4">
                                           <p class="text-muted">Belum punya akun? <a href="{{ url_for('register') }}" class="text-danger fw-bold">Daftar sekarang</a></p>
                                         
@@ -333,7 +335,7 @@
                       <a class="nav-link" href="{{ url_for('produk') }}"><i class="fas fa-box-open"></i> Product</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" href="{{ url_for('checkout') }}"><i class="fas fa-shopping-cart"></i> Cart</a>
+                      <a class="nav-link" href="{{ url_for('cart') }}"><i class="fas fa-shopping-cart"></i> Cart</a>
                   </li>
                   <li class="nav-item">
                       <a class="nav-link" href="{{ url_for('check_order') }}"><i class="fas fa-receipt"></i> Check Order</a>
@@ -392,8 +394,8 @@
         <div class="row g-4 justify-content-center" style="gap: 1rem;">
             
             <div class="col-12 col-md-3">
-                <div class="card mx-auto" style="width: 20rem;" data-aos="zoom-in-up" data-aos-duration="1500">
-                    <img src="/static/img/tampilan/ban-yamaha.jpg" class="card-img-top" alt="Gambar Card">
+                <div class="card mx-auto" style="width: 20rem; border-color: #dc3545;" data-aos="zoom-in-up" data-aos-duration="1500">
+                    <img src="/static/img/tampilan/ban-yamaha.png" class="card-img-top" alt="Gambar Card" style="background-color: #dc3545;">
                     <div class="card-body">
                         <h5 class="card-title">Sparepart Motor</h5>
                         <p class="card-text">Produk asli dan bergaransi. Tersedia berbagai jenis sparepart motor sesuai kebutuhan Anda.</p>
@@ -404,8 +406,8 @@
     
           
             <div class="col-12 col-md-3">
-                <div class="card mx-auto" style="width: 20rem;" data-aos="zoom-in-up" data-aos-duration="1500">
-                    <img src="/static/img/tampilan/oli yamaha.jpg" class="card-img-top" alt="Gambar Card">
+                <div class="card mx-auto" style="width: 20rem; border-color: #dc3545;" data-aos="zoom-in-up" data-aos-duration="1500">
+                    <img src="/static/img/tampilan/oli-yamaha.png" class="card-img-top" alt="Gambar Card" style="background-color: #dc3545;">
                     <div class="card-body">
                         <h5 class="card-title">Oli Mesin</h5>
                         <p class="card-text">Pilihan oli terbaik untuk kendaraan Anda. Berkualitas tinggi dan harga terjangkau.</p>
@@ -416,8 +418,8 @@
     
             
             <div class="col-12 col-md-3">
-                <div class="card mx-auto" style="width: 20rem;" data-aos="zoom-in-up" data-aos-duration="1500">
-                    <img src="/static/img/tampilan/rantai-yamaha.jpg" class="card-img-top" alt="Gambar Card">
+                <div class="card mx-auto" style="width: 20rem; border-color: #dc3545;" data-aos="zoom-in-up" data-aos-duration="1500">
+                    <img src="/static/img/tampilan/rantai-yamaha.png" class="card-img-top" alt="Gambar Card" style="background-color: #dc3545;">
                     <div class="card-body">
                         <h5 class="card-title">Aksesoris Kendaraan</h5>
                         <p class="card-text">Lengkapi kendaraan Anda dengan aksesoris terbaik untuk kenyamanan dan gaya.</p>
@@ -431,7 +433,7 @@
           <div class="row align-items-center">
               
               <div class="col-12 col-md-6 text-center text-md-start info-container">
-                  <img src="/static/img/tampilan/Service.png" alt="Refound" style="max-width: 100%; margin-top: 40px;">
+                  <img src="/static/img/tampilan/Service.png" alt="Service" style="max-width: 100%; margin-top: 40px;">
               </div>
               
               <div class="col-12 col-md-6 profile-section d-flex justify-content-center">

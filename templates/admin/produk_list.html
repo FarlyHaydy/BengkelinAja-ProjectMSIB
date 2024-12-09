@@ -271,7 +271,7 @@
               <button
                 class="btn btn-success btn-lg me-2"
                 style="border-radius: 8px;"
-                onclick="checkoutProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}', document.getElementById('quantity-{{ produk['_id'] }}').value)"
+                onclick="cartProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}', document.getElementById('quantity-{{ produk['_id'] }}').value)"
               >
                 Cart <i class="fas fa-shopping-cart" style="border-radius: 8px;"></i>
               </button>

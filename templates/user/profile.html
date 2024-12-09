@@ -85,7 +85,7 @@
         }
 
         footer a:hover {
-            color: #d34848;
+            color: #dc3545;
         }
 
         footer i {
@@ -139,6 +139,9 @@
             font-size: 30px;
             font-weight: bold;
         }
+        .nav-link:hover {
+            color: #dc3545;
+        }
 
         .navbar-brand span {
             color: red;
@@ -171,7 +174,7 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('produk') }}"><i class="fas fa-box-open"></i> Product</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('checkout') }}"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('cart') }}"><i class="fas fa-shopping-cart"></i> Cart</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('check_order') }}"><i class="fas fa-receipt"></i> Check Order</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

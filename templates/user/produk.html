@@ -59,7 +59,7 @@
       }
 
       footer a:hover {
-        color: #d34848;
+        color: #dc3545;
       }
 
       footer i {
@@ -109,6 +109,9 @@
         right: 0;
         z-index: 1000;
       }
+      .nav-link:hover {
+            color: #dc3545;
+        }
 
       .card-img-top {
         width: 100%;
@@ -231,7 +234,7 @@
       }
     </script>
     <script>
-      function checkoutProduct(
+      function cartProduct(
         productId,
         productName,
         productPrice,
@@ -247,7 +250,7 @@
           return;
         }
 
-        const checkoutData = {
+        const cartData = {
           product_id: productId,
           product_name: productName,
           product_price: productPrice,
@@ -255,12 +258,12 @@
           quantity: quantity,
         };
 
-        fetch("/add_to_checkout", {
+        fetch("/add_to_cart", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(checkoutData),
+          body: JSON.stringify(cartData),
         })
           .then((response) => response.json())
           .then((data) => {
@@ -416,7 +419,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('checkout')}}">
+              <a class="nav-link" href="{{ url_for('cart')}}">
                 <i class="fas fa-shopping-cart"></i> Cart
               </a>
             </li>
@@ -519,19 +522,19 @@
         >
           {% for produk in produk_list %}
           <div class="col">
-            <div class="card" data-aos="zoom-in-up" data-aos-duration="1500">
+            <div class="card" data-aos="zoom-in-up" data-aos-duration="1500" style="border-color: #dc3545;">
               <img
                 src="{{ produk['image'] }}"
                 class="card-img-top"
                 alt="gambar produk"
                 data-bs-toggle="modal"
                 data-bs-target="#universalModal"
-                style="cursor: pointer"
-              />
+                style="cursor: pointer; background-color: #dc3545;"
+                />
+
               <div class="card-body">
                 <h5 class="card-title">{{ produk['name'] }}</h5>
                 <p class="card-text">{{ produk['description'] }}</p>
-                <p class="text-danger fw-semibold">Harga</p>
                 <p class="text-primary fw-bold">
                   Rp {{ "{:,.0f}".format(produk['price'] | float).replace(',',
                   '.') }}
@@ -584,7 +587,7 @@
                 </button>
                 <button
                   class="btn btn-success btn-lg me-2"
-                  onclick="checkoutProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}', document.getElementById('quantity-{{ produk['_id'] }}').value)"
+                  onclick="cartProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}', document.getElementById('quantity-{{ produk['_id'] }}').value)"
                 >
                   Cart <i class="fas fa-shopping-cart"></i>
                 </button>

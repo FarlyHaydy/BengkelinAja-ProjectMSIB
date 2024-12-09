@@ -41,7 +41,7 @@
         }
 
         footer a:hover {
-            color: #d34848;
+            color: #dc3545;
         }
 
         footer i {
@@ -96,6 +96,9 @@
             font-weight: bold;
             color: rgb(124, 121, 121);
             text-decoration: none;
+        }
+        .nav-link:hover {
+            color: #dc3545;
         }
 
         .navbar-brand span {
@@ -157,7 +160,7 @@
                         </a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('checkout') }}">
+                        <a class="nav-link" href="{{ url_for('cart') }}">
                           <i class="fas fa-shopping-cart"></i> Cart
                         </a>
                       </li>
@@ -205,15 +208,15 @@
    <!-- content  -->
    <div class="container mt-5 mb-5">
     <h1 class="text-center mb-4">Check Order</h1>
-    {% if checkout_items|length == 0 %}
+    {% if cart_items|length == 0 %}
     <div class="alert alert-warning text-center" role="alert">
         Anda belum memiliki pesanan.
     </div>
     {% else %}
     <div class="row">
-        {% for item in checkout_items %}
+        {% for item in cart_items %}
         <div class="col-md-12 col-lg-4 mb-4">
-            <div class="card shadow-sm p-3">
+            <div class="card shadow-sm p-3" style="border-color: #dc3545;">
                 <div class="text-center p-2">
                     <img src="{{ item['product_image'] }}" class="img-fluid" alt="Product Image" style="height: 100px; width: auto; object-fit: contain;">
                     <h5 class="card-title mt-2">{{ item['product_name'] }}</h5>
@@ -268,7 +271,6 @@
 </div>
 
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="row justify-content-between align-items-center">
