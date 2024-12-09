@@ -1,17 +1,36 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+from flask_mail import Mail, Message
+import secrets
+from datetime import datetime, timedelta
+from twilio.rest import Client
+
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-client = MongoClient("mongodb+srv://bengkelinaja:bengkelinaja@cluster0.0q1zz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-
+# Inisialisasi MongoDB Client
+client = MongoClient("mongodb+srv://bengkelinaja:bengkelinaja123@cluster0.0q1zz.mongodb.net/bengkelinaja?retryWrites=true&w=majority")
 db = client['bengkelinaja']
-
 users_collection = db['users']
 produk_collection = db['produk']
 
+# Konfigurasi Twilio
+TWILIO_ACCOUNT_SID = 'your_twilio_account_sid'
+TWILIO_AUTH_TOKEN = 'your_twilio_auth_token'
+TWILIO_PHONE_NUMBER = 'your_twilio_phone_number'
+
+twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+
+# Konfigurasi Flask-Mail
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'your_email@gmail.com'
+app.config['MAIL_PASSWORD'] = 'your_email_password'
+
+mail = Mail(app)
 
 @app.route('/', methods=['GET'])
 def home():
@@ -21,29 +40,36 @@ def home():
         return render_template('user/hompage.html') 
     return render_template('user/hompage.html') 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route ('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
+        login_identifier = request.form['username']  # Bisa berupa username atau email
         password = request.form['password']
         
-        # Cari user di MongoDB
-        user = users_collection.find_one({"username": username, "password": password})
+        # Cari user di MongoDB berdasarkan username ATAU email
+        user = users_collection.find_one({
+            "$or": [
+                {"username": login_identifier}, 
+                {"email": login_identifier}
+            ],
+            "password": password
+        })
         
         if user:
-            session['username'] = username
-            session['role'] = user.get('role')  
-            session['email'] = user.get('email', None)  
-            session['alamat'] = user.get('alamat', None)  
+            # Simpan informasi user di session
+            session['username'] = user.get('username')
+            session['role'] = user.get('role')
+            session['email'] = user.get('email')
+            session['alamat'] = user.get('alamat')
 
             if user['role'] == 'admin':
-                return redirect(url_for('index')) 
+                return redirect(url_for('index'))  # Redirect ke halaman admin
             else:
-                return redirect(url_for('home')) 
+                return redirect(url_for('home'))  # Redirect ke halaman user
         else:
-            return 'Invalid credentials!' 
-    return redirect(url_for('home'))  
-
+            return 'Invalid credentials!'  # Error jika login gagal
+    return redirect(url_for('home'))
+ 
 @app.route('/index')
 def index():
     if 'username' not in session or session['role'] != 'admin':
@@ -254,43 +280,116 @@ def update_produk(product_id):
         
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    error = None 
+    error = None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
+        phone = request.form['phone']
         alamat = request.form['alamat']
-        
-        
+
+        # Periksa apakah username atau email sudah digunakan
         if users_collection.find_one({"username": username}):
             error = 'Username already taken, please choose another one!'
+        elif users_collection.find_one({"email": email}):
+            error = 'Email already registered!'
+        elif users_collection.find_one({"phone": phone}):
+            error = 'Phone number already registered!'
         else:
-            role = 'user' 
+            role = 'user'
             users_collection.insert_one({
                 'username': username,
                 'password': password,
                 'email': email,
+                'phone': phone,  # Tambahkan nomor ponsel
                 'alamat': alamat,
                 'role': role
             })
 
+            # Simpan data ke session
             session['username'] = username
             session['role'] = role
             session['email'] = email
+            session['phone'] = phone
             session['alamat'] = alamat
             
-            return redirect(url_for('home'))  
-    
+            return redirect(url_for('home'))  # Redirect ke halaman utama setelah berhasil registrasi
+
     return render_template('user/register.html', error=error)
 
 @app.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
     if request.method == 'POST':
-        username = request.form['username']
-       
-        return 'Email pemulihan telah dikirim!'
-    
-    return render_template('forgot_password.html') 
+        identifier = request.form['identifier']  # Input email atau nomor telepon
+        user = users_collection.find_one({
+            "$or": [
+                {"email": identifier},
+                {"phone": identifier}
+            ]
+        })
+
+        if user:
+            reset_token = secrets.token_urlsafe(32)
+            expiry_time = datetime.utcnow() + timedelta(hours=1)
+
+            # Simpan token ke database
+            db['password_reset_tokens'].insert_one({
+                'user_id': user['_id'],
+                'token': reset_token,
+                'expiry': expiry_time
+            })
+
+            reset_link = f"http://localhost:5000/reset_password?token={reset_token}"
+
+            if "@" in identifier:  # Kirim email
+                try:
+                    msg = Message(
+                        "Reset Password Request",
+                        sender=app.config['MAIL_USERNAME'],
+                        recipients=[identifier]
+                    )
+                    msg.body = f"Hello {user['username']},\n\nClick the link below to reset your password:\n{reset_link}\n\nIf you did not request this, please ignore this message."
+                    mail.send(msg)
+                    flash('Email pemulihan telah dikirim!', 'success')
+                except Exception as e:
+                    flash(f"Gagal mengirim email: {e}", 'danger')
+            else:  # Kirim WhatsApp
+                try:
+                    twilio_client.messages.create(
+                        from_=TWILIO_PHONE_NUMBER,
+                        to=f'whatsapp:{identifier}',
+                        body=f"Hello {user['username']},\n\nClick the link below to reset your password:\n{reset_link}\n\nIf you did not request this, please ignore this message."
+                    )
+                    flash('Pesan pemulihan telah dikirim via WhatsApp!', 'success')
+                except Exception as e:
+                    flash(f"Gagal mengirim pesan WhatsApp: {e}", 'danger')
+        else:
+            flash('User tidak ditemukan!', 'warning')
+
+    return render_template('user/forgot_password.html')
+
+@app.route('/reset_password', methods=['GET', 'POST'])
+def reset_password():
+    token = request.args.get('token')
+    token_entry = db['password_reset_tokens'].find_one({'token': token})
+
+    if not token_entry or token_entry['expiry'] < datetime.utcnow():
+        flash('Token tidak valid atau telah kadaluarsa!', 'danger')
+        return redirect(url_for('forgot_password'))
+
+    if request.method == 'POST':
+        new_password = request.form['password']
+        user_id = token_entry['user_id']
+
+        # Perbarui kata sandi
+        users_collection.update_one({'_id': ObjectId(user_id)}, {'$set': {'password': new_password}})
+        db['password_reset_tokens'].delete_one({'_id': token_entry['_id']})
+
+        flash('Kata sandi berhasil diubah!', 'success')
+        return redirect(url_for('login'))
+
+    return render_template('user/reset_password.html')
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
