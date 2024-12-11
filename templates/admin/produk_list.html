@@ -192,7 +192,7 @@
   <div class="row row-cols-2 row-cols-sm-1 row-cols-md-1 g-1" id="produk-list">
     {% for produk in produk_list %}
     <div class="col">
-      <div class="card">
+      <div class="card" style="border-color: #dc3545;">
         <div class="produk-card">
           <img
             src="{{ produk['image'] }}"
@@ -200,13 +200,12 @@
             alt="gambar produk"
             data-bs-toggle="modal"
             data-bs-target="#universalModal"
-            style="cursor: pointer"
+            style="cursor: pointer; background-color: #dc3545;"
           />
 
           <div class="produk-info">
             <h5 class="card-title">{{ produk['name'] }}</h5>
             <p class="card-text">{{ produk['description'] }}</p>
-            <p class="text-danger fw-semibold">Harga</p>
             <p class="text-primary fw-bold">
               Rp {{ "{:,.0f}".format(produk['price'] | float).replace(',', '.')
               }}

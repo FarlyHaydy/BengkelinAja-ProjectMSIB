@@ -275,7 +275,8 @@ def upload_payment():
 
         if payment_proof:
             filename = secure_filename(payment_proof.filename)
-            payment_path = os.path.join('static/img/pembayaran/', filename)
+            new_filename = f'bukti_bayar_{filename}'
+            payment_path = os.path.join('static/img/pembayaran/', new_filename)
 
             payment_proof.save(payment_path)
 
@@ -369,7 +370,9 @@ def tambah_produk():
         product_category = request.form['productCategory']  
         product_image = request.files['productImage']
 
-        image_path = f"static/img/produk/{product_image.filename}"
+        filename = secure_filename(product_image.filename)
+        new_filename = f'produk_{filename}'
+        image_path = f"static/img/produk/{new_filename}"
         product_image.save(image_path)
 
         produk_collection.insert_one({
@@ -382,7 +385,7 @@ def tambah_produk():
 
         flash("Produk berhasil ditambahkan!", 'success')
         return redirect(url_for('produk'))
-    return render_template('admin/tambah_produk.html')
+    return render_template('admin/index.html')
 
 @app.route('/delete_produk/<product_id>', methods=['POST'])
 def delete_produk(product_id):
@@ -412,7 +415,9 @@ def update_produk(product_id):
         }
 
         if product_image:
-            image_path = f"static/img/produk/{product_image.filename}"
+            filename = secure_filename(product_image.filename)
+            new_filename1 = f'produk_{filename}'
+            image_path = f"static/img/produk/{new_filename1}"
             product_image.save(image_path)
             update_data['image'] = image_path
 
