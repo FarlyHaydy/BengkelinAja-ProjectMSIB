@@ -143,7 +143,7 @@
   .card-title {
     overflow: hidden;
     max-height: 3rem;
-    text-align: left; /* Atur teks ke kiri */
+    text-align: left; 
     padding-left: 1rem;
     transform: translateY(8px);
   }
@@ -151,21 +151,21 @@
   .text-danger {
     overflow: hidden;
     max-height: 3rem;
-    text-align: left; /* Atur teks ke kiri */
-    padding-left: 1rem; /* Memberikan jarak di atas label */
+    text-align: left;
+    padding-left: 1rem; 
     transform: translateY(5px);
   }
   .form-label {
     overflow: hidden;
     max-height: 3rem;
-    text-align: left; /* Atur teks ke kiri */
+    text-align: left; 
     padding-left: 1rem;
   }
 
   .text-primary {
     overflow: hidden;
     max-height: 3rem;
-    text-align: left; /* Atur teks ke kiri */
+    text-align: left; 
     padding-left: 1rem;
   }
 
@@ -204,6 +204,7 @@
     {% if produk_list %} {% for produk in produk_list %}
     <div class="col">
       <div class="card" style="border-color: #dc3545">
+      <div class="card" style="border-color: #dc3545;">
         <div class="produk-card">
           <img
             src="{{ produk['image'] }}"
@@ -212,6 +213,7 @@
             data-bs-toggle="modal"
             data-bs-target="#universalModal"
             style="cursor: pointer; background-color: #dc3545"
+            style="cursor: pointer; background-color: #dc3545;"
           />
 
           <div class="produk-info">
