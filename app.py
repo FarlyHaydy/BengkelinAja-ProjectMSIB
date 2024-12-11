@@ -464,15 +464,5 @@ def register():
     
     return render_template('user/register.html', error=error)
 
-@app.route('/forgot_password', methods=['GET', 'POST'])
-def forgot_password():
-    if request.method == 'POST':
-        username = request.form['username']
-       
-        return 'Email pemulihan telah dikirim!'
-    
-    return render_template('forgot_password.html') 
-
-
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
