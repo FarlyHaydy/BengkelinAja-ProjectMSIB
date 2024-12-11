@@ -541,7 +541,7 @@
                 <div class="card-body">
                   <h5 class="card-title">{{ produk['name'] }}</h5>
                   <p class="card-text">{{ produk['description'] }}</p>
-                  <p class="text-primary fw-bold">
+                  <p class="text fw-bold">
                     Rp {{ "{:,.0f}".format(produk['price'] | float).replace(',',
                     '.') }}
                   </p>
@@ -588,13 +588,13 @@
                     class="btn btn-primary btn-lg me-2"
                     onclick="buyProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}')"
                   >
-                    Buy <i class="fab fa-shopify"></i>
+                     <i class="fab fa-shopify"></i>
                   </button>
                   <button
                     class="btn btn-success btn-lg me-2"
                     onclick="cartProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}', document.getElementById('quantity-{{ produk['_id'] }}').value)"
                   >
-                    Cart <i class="fas fa-shopping-cart"></i>
+                     <i class="fas fa-shopping-cart"></i>
                   </button>
 
                   {% if session.get('role') == 'admin' %}
@@ -602,13 +602,13 @@
                     class="btn btn-warning btn-lg me-2 mt-4"
                     onclick="updateProduct('{{ produk['_id'] }}')"
                   >
-                    Update <i class="fas fa-edit"></i>
+                     <i class="fas fa-edit"></i>
                   </button>
                   <button
                     class="btn btn-danger btn-lg me-2 mt-4"
                     onclick="deleteProduct('{{ produk['_id'] }}')"
                   >
-                    Delete <i class="fas fa-trash"></i>
+                     <i class="fas fa-trash"></i>
                   </button>
                   {% endif %}
                 </div>

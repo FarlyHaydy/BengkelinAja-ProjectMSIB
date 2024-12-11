@@ -205,12 +205,12 @@
         </div>
     </nav>
     
-    
+
    <div class="container mt-5 mb-5">
     <h1 class="text-center mb-4">Check Order</h1>
     {% if cart_items|length == 0 %}
-    <div class="text-center p-5 border" style="border-color: #dc3545 !important; border-radius: 20px;">
-        <h3 class="text-danger">Anda belum memiliki pesanan</h3>
+    <div class="text-center" role="alert" style="color: red;">
+        <h3>Anda belum memiliki pesanan</h3>
     </div>
     {% else %}
     <div class="row">
