@@ -293,7 +293,7 @@
 
           <!-- Modal -->
           <div class="modal fade" id="produkModal{{ produk['_id'] }}" tabindex="-1" aria-labelledby="produkModalLabel{{ produk['_id'] }}" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-lg"> <!-- Menambahkan kelas modal-lg untuk ukuran besar -->
               <div class="modal-content">
                 <div class="modal-header">
                   <h5>Informasi Produk</h5>
@@ -301,6 +301,7 @@
                 </div>
                 <div class="modal-body">
                   <div class="row">
+                    <!-- Gambar Produk -->
                     <div class="col-md-6">
                       <img src="{{ produk['image'] }}" alt="gambar produk" class="img-fluid mb-3" />
                     </div>

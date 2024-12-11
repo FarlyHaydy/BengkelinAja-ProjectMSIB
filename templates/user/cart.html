@@ -324,8 +324,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             {% if cart_items|length == 0 %}
             <div class="col-12">
-                <div class="alert alert-warning text-center" role="alert">
-                    Keranjang Anda kosong.
+                <div class="text-center p-5 border" style="border-color: #dc3545 !important; border-radius: 20px;">
+                    <h4 class="text-danger">Keranjang Anda kosong</h4>
                 </div>
             </div>
             {% else %}
