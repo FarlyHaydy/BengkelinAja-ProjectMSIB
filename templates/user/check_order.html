@@ -209,8 +209,8 @@
    <div class="container mt-5 mb-5">
     <h1 class="text-center mb-4">Check Order</h1>
     {% if cart_items|length == 0 %}
-    <div class="alert alert-warning text-center" role="alert">
-        Anda belum memiliki pesanan.
+    <div class="text-center" role="alert" style="color: red;">
+        <h3>Anda belum memiliki pesanan</h3>
     </div>
     {% else %}
     <div class="row">
