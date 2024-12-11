@@ -205,71 +205,116 @@
         </div>
     </nav>
     
-   <!-- content  -->
+    
    <div class="container mt-5 mb-5">
     <h1 class="text-center mb-4">Check Order</h1>
     {% if cart_items|length == 0 %}
-    <div class="text-center" role="alert" style="color: red;">
-        <h3>Anda belum memiliki pesanan</h3>
+    <div class="text-center p-5 border" style="border-color: #dc3545 !important; border-radius: 20px;">
+        <h3 class="text-danger">Anda belum memiliki pesanan</h3>
     </div>
     {% else %}
     <div class="row">
         {% for item in cart_items %}
         <div class="col-md-12 col-lg-4 mb-4">
-            <div class="card shadow-sm p-3" style="border-color: #dc3545;">
-                <div class="text-center p-2">
-                    <img src="{{ item['product_image'] }}" class="img-fluid" alt="Product Image" style="height: 100px; width: auto; object-fit: contain;">
-                    <h5 class="card-title mt-2">{{ item['product_name'] }}</h5>
+            <div class="border h-100" style="border-color: #dc3545 !important; border-width: 2px; border-radius: 20px; overflow: hidden;">
+               
+                <div class="d-flex justify-content-between align-items-center p-3 border-bottom" style="border-color: #dc3545 !important; background-color: rgba(220, 53, 69, 0.05);">
+                    <h5 class="mb-0">{{ item['product_name'] }}</h5>
+                    <span class="badge {% if item['status'] == 'canceled' %}bg-danger{% elif item['status'] == 'pending' %}bg-warning{% elif item['status'] == 'completed' %}bg-success{% endif %} rounded-pill px-3">
+                        {{ item['status'] }}
+                    </span>
                 </div>
-                <div class="card-body p-2">
-                    <div class="row">
-                        <div class="col-12 mb-2">
-                            <p><strong>Harga:</strong> Rp {{ "{:,.0f}".format(item['product_price'] | float).replace(',', '.') }}</p>
-                            <p><strong>Jumlah:</strong> {{ item['quantity'] }}</p>
-                            <p><strong>Alamat:</strong> {{ item['alamat'] }}</p>
-                        </div>
 
-                        <div class="col-12 mb-2">
-                            <h6>Status Pesanan:</h6>
-                            <span class="badge {% if item['status'] == 'canceled' %}bg-danger{% elif item['status'] == 'pending' %}bg-warning{% elif item['status'] == 'completed' %}bg-success{% endif %}">
-                                {{ item['status'] }}
-                            </span>
-                            {% if item['status'] == 'canceled' %}
-                            <p class="text-muted">Pembayaran Anda tidak valid, harap upload ulang bukti pembayaran.</p>
-                            {% elif item['status'] == 'pending' %}
-                            <p class="text-muted">Pesanan Anda sedang dalam pemeriksaan oleh admin.</p>
-                            {% elif item['status'] == 'completed' %}
-                            <p class="text-muted">Pesanan Anda telah diproses dan siap dikirim.</p>
-                            {% endif %}
+                <div class="row g-0">
+                    
+                    <div class="col-4 p-3">
+                        <div class="border p-2" style="border-color: #dc3545 !important;">
+                            <img src="{{ item['product_image'] }}" class="img-fluid" alt="Product Image" style="width: 100%; height: auto; object-fit: cover;">
+                        </div>
+                    </div>
+                    
+                    <div class="col-8 p-3">
+                        <div class="mb-2">
+                            <small class="text-muted">Harga:</small>
+                            <div class="fw-bold">Rp {{ "{:,.0f}".format(item['product_price'] | float).replace(',', '.') }}</div>
+                        </div>
+                        <div class="mb-2">
+                            <small class="text-muted">Jumlah:</small>
+                            <div class="fw-bold">{{ item['quantity'] }}</div>
+                        </div>
+                        <div>
+                            <small class="text-muted">Alamat:</small>
+                            <div class="fw-bold">{{ item['alamat'] }}</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="text-center p-3">
-                    {% if item['status'] != 'completed' %}
-                    <form action="{{ url_for('upload_payment') }}" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="order_id" value="{{ item['_id'] }}">
-                        <label for="payment_proof" class="form-label">Upload Bukti Pembayaran</label>
-                        <input type="file" name="payment_proof" class="form-control mb-2" required accept="image/*">
-                        <button type="submit" class="btn btn-primary w-100">
-                            <i class="fas fa-upload"></i> Upload
-                        </button>
-                    </form>
+                <div class="p-3 border-top" style="border-color: #dc3545 !important; background-color: rgba(220, 53, 69, 0.05);">
+                    {% if item['status'] == 'canceled' %}
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-exclamation-circle text-danger me-2"></i>
+                        <small class="text-danger">Pembayaran Anda tidak valid, harap upload ulang bukti pembayaran.</small>
+                    </div>
+                    {% elif item['status'] == 'pending' %}
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-clock text-warning me-2"></i>
+                        <small class="text-warning">Pesanan Anda sedang dalam pemeriksaan oleh admin.</small>
+                    </div>
+                    {% elif item['status'] == 'completed' %}
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        <small class="text-success">Pesanan Anda telah diproses dan siap dikirim.</small>
+                    </div>
                     {% endif %}
                 </div>
+
+                {% if item['status'] != 'completed' %}
+                <div class="p-3">
+                    <form action="{{ url_for('upload_payment') }}" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="order_id" value="{{ item['_id'] }}">
+                        <div class="border rounded p-3 mb-3" style="border-style: dashed !important; border-color: #dc3545 !important;">
+                            <label for="payment_proof" class="form-label small mb-2">Upload Bukti Pembayaran</label>
+                            <input type="file" name="payment_proof" class="form-control form-control-sm" required accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-outline-danger w-100">
+                            <i class="fas fa-upload me-2"></i> Upload
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
     </div>
 
-    <div class="total-box mt-5 p-4">
-        <h4 class="text-center fw-bold">Total Harga: Rp {{ "{:,.0f}".format(total_price | float).replace(',', '.') }}</h4>
-        <h5 class="text-center text-muted mt-3">Pembayaran yang Sudah Dibayar: Rp {{ "{:,.0f}".format(total_bayar | float).replace(',', '.') }}</h5>
-        <h5 class="text-center text-muted mt-3">Sisa Pembayaran: Rp {{ "{:,.0f}".format(total_price - total_bayar | float).replace(',', '.') }}</h5>
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="border p-4" style="border-color: #dc3545 !important; border-radius: 20px;">
+                <div class="row align-items-center text-center">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="border-end" style="border-color: #dc3545 !important;">
+                            <div class="text-muted mb-1">Total Harga</div>
+                            <h4>Rp {{ "{:,.0f}".format(total_price | float).replace(',', '.') }}</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="border-end" style="border-color: #dc3545 !important;">
+                            <div class="text-muted mb-1">Pembayaran yang Sudah Dibayar</div>
+                            <h4>Rp {{ "{:,.0f}".format(total_bayar | float).replace(',', '.') }}</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <div class="text-muted mb-1">Sisa Pembayaran</div>
+                            <h4>Rp {{ "{:,.0f}".format(total_price - total_bayar | float).replace(',', '.') }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     {% endif %}
 </div>
-
 
     <footer>
         <div class="container">
