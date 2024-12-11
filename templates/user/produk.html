@@ -143,11 +143,12 @@
         text-decoration: none;
       }
 
-      .search-bar {
+      .search-form {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 10px;
+        text-align: center;
       }
 
       .categories {
@@ -166,6 +167,11 @@
         border-radius: 50%;
         object-fit: cover;
       }
+      .btn.btn-primary {
+        position: relative;
+        text-align: center;
+      }
+      
     </style>
     <script>
       $(document).ready(function () {
@@ -499,8 +505,17 @@
             >
           </div>
 
-          <form class="d-flex w-50" id="search-form" onsubmit="return validateSearchForm()">
-            <input type="hidden" name="category" id="category-input" value="All" />
+          <form
+            class="d-flex w-50"
+            id="search-form"
+            onsubmit="return validateSearchForm()"
+          >
+            <input
+              type="hidden"
+              name="category"
+              id="category-input"
+              value="All"
+            />
             <input
               type="text"
               class="form-control me-2"
@@ -510,158 +525,160 @@
               oninvalid="this.setCustomValidity('Masukkan nama produk')"
               oninput="this.setCustomValidity('')"
             />
-            <button class="btn btn-primary" type="submit">Search</button>
+            <button class="btn btn-primary" type="submit">
+              Search
+            </button>
           </form>
         </div>
       </section>
 
-        <section class="mt-5">
-          <h2 class="mb-4 text-dark fw-bold">Produk</h2>
-          <div
-            class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4"
-            id="produk-list"
-          >
-            {% for produk in produk_list %}
-            <div class="col">
-              <div
-                class="card"
-                data-aos="zoom-in-up"
-                data-aos-duration="1500"
-                style="border-color: #dc3545"
-              >
-                <img
-                  src="{{ produk['image'] }}"
-                  class="card-img-top"
-                  alt="gambar produk"
-                  data-bs-toggle="modal"
-                  data-bs-target="#universalModal"
-                  style="cursor: pointer; background-color: #dc3545"
-                />
+      <section class="mt-5">
+        <h2 class="mb-4 text-dark fw-bold">Produk</h2>
+        <div
+          class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4"
+          id="produk-list"
+        >
+          {% for produk in produk_list %}
+          <div class="col">
+            <div
+              class="card"
+              data-aos="zoom-in-up"
+              data-aos-duration="1500"
+              style="border-color: #dc3545"
+            >
+              <img
+                src="{{ produk['image'] }}"
+                class="card-img-top"
+                alt="gambar produk"
+                data-bs-toggle="modal"
+                data-bs-target="#universalModal"
+                style="cursor: pointer; background-color: #dc3545"
+              />
 
-                <div class="card-body">
-                  <h5 class="card-title">{{ produk['name'] }}</h5>
-                  <p class="card-text">{{ produk['description'] }}</p>
-                  <p class="text-primary fw-bold">
-                    Rp {{ "{:,.0f}".format(produk['price'] | float).replace(',',
-                    '.') }}
-                  </p>
+              <div class="card-body">
+                <h5 class="card-title">{{ produk['name'] }}</h5>
+                <p class="card-text">{{ produk['description'] }}</p>
+                <p class="text-primary fw-bold">
+                  Rp {{ "{:,.0f}".format(produk['price'] | float).replace(',',
+                  '.') }}
+                </p>
 
-                  <div class="mb-3">
-                    <label
-                      for="quantity-{{ produk['_id'] }}"
-                      class="form-label fw-semibold"
-                      >Jumlah</label
+                <div class="mb-3">
+                  <label
+                    for="quantity-{{ produk['_id'] }}"
+                    class="form-label fw-semibold"
+                    >Jumlah</label
+                  >
+                  <div
+                    class="input-group"
+                    style="width: 200px; margin-top: 10px"
+                  >
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      id="decrease-{{ produk['_id'] }}"
+                      onclick="adjustQuantity('{{ produk['_id'] }}', -1)"
+                      style="width: 40px; height: 40px; font-size: 24px"
                     >
-                    <div
-                      class="input-group"
-                      style="width: 200px; margin-top: 10px"
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      id="quantity-{{ produk['_id'] }}"
+                      class="form-control text-center"
+                      min="1"
+                      value="1"
+                    />
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      id="increase-{{ produk['_id'] }}"
+                      onclick="adjustQuantity('{{ produk['_id'] }}', 1)"
+                      style="width: 40px; height: 40px; font-size: 24px"
                     >
-                      <button
-                        type="button"
-                        class="btn btn-outline-secondary"
-                        id="decrease-{{ produk['_id'] }}"
-                        onclick="adjustQuantity('{{ produk['_id'] }}', -1)"
-                        style="width: 40px; height: 40px; font-size: 24px"
-                      >
-                        -
-                      </button>
-                      <input
-                        type="number"
-                        id="quantity-{{ produk['_id'] }}"
-                        class="form-control text-center"
-                        min="1"
-                        value="1"
-                      />
-                      <button
-                        type="button"
-                        class="btn btn-outline-secondary"
-                        id="increase-{{ produk['_id'] }}"
-                        onclick="adjustQuantity('{{ produk['_id'] }}', 1)"
-                        style="width: 40px; height: 40px; font-size: 24px"
-                      >
-                        +
-                      </button>
-                    </div>
+                      +
+                    </button>
                   </div>
-
-                  <button
-                    class="btn btn-primary btn-lg me-2"
-                    onclick="buyProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}')"
-                  >
-                    Buy <i class="fab fa-shopify"></i>
-                  </button>
-                  <button
-                    class="btn btn-success btn-lg me-2"
-                    onclick="cartProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}', document.getElementById('quantity-{{ produk['_id'] }}').value)"
-                  >
-                    Cart <i class="fas fa-shopping-cart"></i>
-                  </button>
-
-                  {% if session.get('role') == 'admin' %}
-                  <button
-                    class="btn btn-warning btn-lg me-2 mt-4"
-                    onclick="updateProduct('{{ produk['_id'] }}')"
-                  >
-                    Update <i class="fas fa-edit"></i>
-                  </button>
-                  <button
-                    class="btn btn-danger btn-lg me-2 mt-4"
-                    onclick="deleteProduct('{{ produk['_id'] }}')"
-                  >
-                    Delete <i class="fas fa-trash"></i>
-                  </button>
-                  {% endif %}
                 </div>
+
+                <button
+                  class="btn btn-primary btn-lg me-2"
+                  onclick="buyProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}')"
+                >
+                  Buy <i class="fab fa-shopify"></i>
+                </button>
+                <button
+                  class="btn btn-success btn-lg me-2"
+                  onclick="cartProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}', document.getElementById('quantity-{{ produk['_id'] }}').value)"
+                >
+                  Cart <i class="fas fa-shopping-cart"></i>
+                </button>
+
+                {% if session.get('role') == 'admin' %}
+                <button
+                  class="btn btn-warning btn-lg me-2 mt-4"
+                  onclick="updateProduct('{{ produk['_id'] }}')"
+                >
+                  Update <i class="fas fa-edit"></i>
+                </button>
+                <button
+                  class="btn btn-danger btn-lg me-2 mt-4"
+                  onclick="deleteProduct('{{ produk['_id'] }}')"
+                >
+                  Delete <i class="fas fa-trash"></i>
+                </button>
+                {% endif %}
               </div>
             </div>
-            {% endfor %}
           </div>
-        </section>
-      </main>
+          {% endfor %}
+        </div>
+      </section>
+    </main>
 
-      <div
-        class="modal fade"
-        id="universalModal"
-        tabindex="-1"
-        aria-labelledby="universalModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="universalModalLabel">
-                Informasi Produk
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <img
-                    id="modal-product-image"
-                    class="img-fluid"
-                    alt="gambar produk"
-                    style="max-height: 400px; object-fit: cover"
-                  />
-                </div>
-                <div class="col-md-6">
-                  <h4 id="modal-product-name" class="modal-title"></h4>
-                  <p
-                    id="modal-product-description"
-                    class="text-muted"
-                    style="font-size: 1.1rem"
-                  ></p>
-                </div>
+    <div
+      class="modal fade"
+      id="universalModal"
+      tabindex="-1"
+      aria-labelledby="universalModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="universalModalLabel">
+              Informasi Produk
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6">
+                <img
+                  id="modal-product-image"
+                  class="img-fluid"
+                  alt="gambar produk"
+                  style="max-height: 400px; object-fit: cover"
+                />
+              </div>
+              <div class="col-md-6">
+                <h4 id="modal-product-name" class="modal-title"></h4>
+                <p
+                  id="modal-product-description"
+                  class="text-muted"
+                  style="font-size: 1.1rem"
+                ></p>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
     <footer>
       <div class="container">
