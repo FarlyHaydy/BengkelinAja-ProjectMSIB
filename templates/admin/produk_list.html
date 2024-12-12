@@ -3,7 +3,11 @@
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title></title>
+      <title>.</title>
+      <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      />
       <style>
         body {
           display: flex;
@@ -41,6 +45,17 @@
           display: flex;
           align-items: center;
           height: 40px;
+        }
+        .search-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        }
+
+        .categories {
+        display: flex;
+        gap: 10px;
         }
 
         .card {
@@ -110,7 +125,7 @@
           padding-left: 1rem;
         }
 
-        .text-primary {
+        .text{
           overflow: hidden;
           max-height: 3rem;
           text-align: left;
@@ -124,12 +139,6 @@
           object-fit: cover;
         }
         .input-group {
-          overflow: hidden;
-          max-height: 3rem;
-          text-align: left;
-          padding-left: 1rem;
-        }
-        .btn.btn-primary {
           overflow: hidden;
           max-height: 3rem;
           text-align: left;
@@ -166,7 +175,7 @@
                 <div class="produk-info">
                   <h5 class="card-title">{{ produk['name'] }}</h5>
                   <p class="card-text">{{ produk['description'] }}</p>
-                  <p class="text-primary fw-bold">
+                  <p class="text fw-bold">
                     Rp {{ "{:,.0f}".format(produk['price'] | float).replace(',',
                     '.') }}
                   </p>
@@ -216,20 +225,14 @@
                     padding-left: 1rem;
                   "
                 >
-                  <div
-                    class="btn-group"
-                    style="float: left; gap: 1rem; transform: translateY(-5px)"
-                  >
                     <button
-                      class="btn btn-primary btn-lg"
-                      style="border-radius: 8px"
+                      class="btn btn-primary btn-lg me-2"
                       onclick="buyProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}')"
                     >
-                      Buy <i class="fab fa-shopify"></i>
+                       <i class="fab fa-shopify"></i>
                     </button>
                     <button
                       class="btn btn-success btn-lg me-2"
-                      style="border-radius: 8px"
                       onclick="cartProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}', document.getElementById('quantity-{{ produk['_id'] }}').value)"
                     >
                       
@@ -238,7 +241,7 @@
                         style="border-radius: 8px"
                       ></i>
                     </button>
-                  </div>
+                 
                   {% if session.get('role') == 'admin' %}
                   <button
                     class="btn btn-warning btn-lg me-2 mt-4"

@@ -294,12 +294,14 @@
       }
 
       function buyProduct(productId, productName, productPrice, productImage) {
+        const quantityInput = document.getElementById(`quantity-${productId}`);
+        const quantity = quantityInput.value;
         const buyData = {
           product_id: productId,
           product_name: productName,
           product_price: productPrice,
           product_image: productImage,
-          quantity: 1,
+          quantity: quantity,
         };
 
         fetch("/buy_direct", {
