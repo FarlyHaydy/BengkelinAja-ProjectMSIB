@@ -1,313 +1,325 @@
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>.</title>
-      <link
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>.</title>
+    <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      />
-      <style>
-        body {
-          display: flex;
-          flex-direction: column;
-          min-height: 100vh;
-          margin: 0;
-        }
+    />
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+      }
 
-        .profile-img {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          object-fit: cover;
-        }
+      .profile-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
 
-        .bg-custom {
-          background-color: #ffffff;
-          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        .navbar {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          z-index: 1000;
-        }
+      .bg-custom {
+        background-color: #ffffff;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+      }
 
-        .card-img-top {
-          width: 100%;
-          height: 150px;
-          object-fit: contain;
-        }
+      .card-img-top {
+        width: 100%;
+        height: 150px;
+        object-fit: contain;
+      }
 
-        .nav-link.dropdown-toggle {
-          display: flex;
-          align-items: center;
-          height: 40px;
-        }
-        .search-bar {
+      .nav-link.dropdown-toggle {
+        display: flex;
+        align-items: center;
+        height: 40px;
+      }
+      .search-bar {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 10px;
-        }
+      }
 
-        .categories {
+      .categories {
         display: flex;
         gap: 10px;
-        }
+      }
 
-        .card {
-          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-          min-width: 308px;
-          border: 1px solid #dc3545;
-          margin-top: -9%;
-          min-height: 29rem;
-          height: 100%;
-        }
-        .row {
-          display: flex;
-          flex-wrap: nowrap;
-          gap: 2rem; 
-          justify-content: space-between; 
-        }
-        .col {
-          margin-bottom: 1rem;
-          min-width: 300px;
-        }
-        .navbar-brand {
-          font-size: 30px;
-          font-weight: bold;
-        }
+      .card {
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        min-width: 308px;
+        border: 1px solid #dc3545;
+        margin-top: -9%;
+        min-height: 29rem;
+        height: 100%;
+      }
+      .row {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 2rem;
+        justify-content: space-between;
+      }
+      .col {
+        margin-bottom: 1rem;
+        min-width: 300px;
+      }
+      .navbar-brand {
+        font-size: 30px;
+        font-weight: bold;
+      }
 
-        .navbar-brand span {
-          color: red;
-        }
+      .navbar-brand span {
+        color: red;
+      }
 
-        .navbar-brand {
-          color: rgb(124, 121, 121);
-          text-decoration: none;
-        }
+      .navbar-brand {
+        color: rgb(124, 121, 121);
+        text-decoration: none;
+      }
 
-        .categories {
-          display: flex;
-          gap: 10px;
-        }
+      .categories {
+        display: flex;
+        gap: 10px;
+      }
 
-        .card-text {
-          overflow: hidden;
-          max-height: 3rem;
-          text-align: left;
-          padding-left: 1rem;
-          transform: translateY(5px);
-        }
+      .card-text {
+        overflow: hidden;
+        max-height: 3rem;
+        text-align: left;
+        padding-left: 1rem;
+        transform: translateY(5px);
+      }
 
-        .card-title {
-          overflow: hidden;
-          max-height: 3rem;
-          text-align: left;
-          padding-left: 1rem;
-          transform: translateY(8px);
-        }
+      .card-title {
+        overflow: hidden;
+        max-height: 3rem;
+        text-align: left;
+        padding-left: 1rem;
+        transform: translateY(8px);
+      }
 
-        .text-danger {
-          overflow: hidden;
-          max-height: 3rem;
-          text-align: left;
-          padding-left: 1rem;
-          transform: translateY(5px);
-        }
-        .form-label {
-          overflow: hidden;
-          max-height: 3rem;
-          text-align: left;
-          padding-left: 1rem;
-        }
+      .text-danger {
+        overflow: hidden;
+        max-height: 3rem;
+        text-align: left;
+        padding-left: 1rem;
+        transform: translateY(5px);
+      }
+      .form-label {
+        overflow: hidden;
+        max-height: 3rem;
+        text-align: left;
+        padding-left: 1rem;
+      }
 
-        .text{
-          overflow: hidden;
-          max-height: 3rem;
-          text-align: left;
-          padding-left: 1rem;
-        }
+      .text {
+        overflow: hidden;
+        max-height: 3rem;
+        text-align: left;
+        padding-left: 1rem;
+      }
 
-        .logo-img {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          object-fit: cover;
-        }
-        .input-group {
-          overflow: hidden;
-          max-height: 3rem;
-          text-align: left;
-          padding-left: 1rem;
-        }
-        .center-text {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          text-align: center;
-          color: red;
-          font-size: 1.2rem;
-          font-weight: bold;
-        }
-      </style>
-    </head>
-    <body>
-      <section class="mt-5">
-        <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-4">
-          {% if produk_list %} {% for produk in produk_list %}
-          <div class="col">
-            <div class="card" style="border-color: #dc3545">
-              <div class="produk-card">
-                <img
-                  src="{{ produk['image'] }}"
-                  class="card-img-top"
-                  alt="gambar produk"
-                  style="cursor: pointer; background-color: #dc3545"
-                  data-bs-toggle="modal"
-                  data-bs-target="#produkModal{{ produk['_id'] }}"
-                />
+      .logo-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      .input-group {
+        overflow: hidden;
+        max-height: 3rem;
+        text-align: left;
+        padding-left: 1rem;
+      }
+      .center-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: red;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+      .modal-body {
+        padding: 25px;
+      }
+      .modal-body .col-md-6:first-child {
+        flex: 1 0 40%;
+      }
+      .modal-body .col-md-6:last-child {
+        flex: 1 0 50%;
+        overflow: hidden;
+      }
+      .modal-body h5 {
+        font-size: 25px;
+        margin-bottom: 1rem; 
+      }
+    </style>
+  </head>
+  <body>
+    <section class="mt-5">
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-4">
+        {% if produk_list %} {% for produk in produk_list %}
+        <div class="col">
+          <div class="card" style="border-color: #dc3545">
+            <div class="produk-card">
+              <img
+                src="{{ produk['image'] }}"
+                class="card-img-top"
+                alt="gambar produk"
+                style="cursor: pointer; background-color: #dc3545"
+                data-bs-toggle="modal"
+                data-bs-target="#produkModal{{ produk['_id'] }}"
+              />
 
-                <div class="produk-info">
-                  <h5 class="card-title">{{ produk['name'] }}</h5>
-                  <p class="card-text">{{ produk['description'] }}</p>
-                  <p class="text fw-bold">
-                    Rp {{ "{:,.0f}".format(produk['price'] | float).replace(',',
-                    '.') }}
-                  </p>
-                </div>
-
-                <div class="mb-3">
-                  <label
-                    for="quantity-{{ produk['_id'] }}"
-                    class="form-label fw-semibold"
-                    >Jumlah</label
-                  >
-                  <div class="input-group" style="width: 218px; margin-top: 10px">
-                    <button
-                      type="button"
-                      class="btn btn-outline-secondary"
-                      id="decrease-{{ produk['_id'] }}"
-                      onclick="adjustQuantity('{{ produk['_id'] }}', -1)"
-                      style="width: 40px; height: 40px; font-size: 24px"
-                    >
-                      -
-                    </button>
-                    <input
-                      type="number"
-                      id="quantity-{{ produk['_id'] }}"
-                      class="form-control text-center"
-                      min="1"
-                      value="1"
-                    />
-                    <button
-                      type="button"
-                      class="btn btn-outline-secondary"
-                      id="increase-{{ produk['_id'] }}"
-                      onclick="adjustQuantity('{{ produk['_id'] }}', 1)"
-                      style="width: 40px; height: 40px; font-size: 24px"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-
-                <div
-                  class="produk-actions"
-                  style="
-                    overflow: hidden;
-                    max-height: 3rem;
-                    text-align: left;
-                    padding-left: 1rem;
-                  "
-                >
-                    <button
-                      class="btn btn-primary btn-lg me-2"
-                      onclick="buyProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}')"
-                    >
-                       <i class="fab fa-shopify"></i>
-                    </button>
-                    <button
-                      class="btn btn-success btn-lg me-2"
-                      onclick="cartProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}', document.getElementById('quantity-{{ produk['_id'] }}').value)"
-                    >
-                      
-                      <i
-                        class="fas fa-shopping-cart"
-                        style="border-radius: 8px"
-                      ></i>
-                    </button>
-                 
-                  {% if session.get('role') == 'admin' %}
-                  <button
-                    class="btn btn-warning btn-lg me-2 mt-4"
-                    onclick="updateProduct('{{ produk['_id'] }}')"
-                  >
-                    Update <i class="fas fa-edit"></i>
-                  </button>
-                  <button
-                    class="btn btn-danger btn-lg me-2 mt-4"
-                    onclick="deleteProduct('{{ produk['_id'] }}')"
-                  >
-                    Delete <i class="fas fa-trash"></i>
-                  </button>
-                  {% endif %}
-                </div>
+              <div class="produk-info">
+                <h5 class="card-title">{{ produk['name'] }}</h5>
+                <p class="card-text">{{ produk['description'] }}</p>
+                <p class="text fw-bold">
+                  Rp {{ "{:,.0f}".format(produk['price'] | float).replace(',',
+                  '.') }}
+                </p>
               </div>
-            </div>
-          </div>
 
-          <!-- Modal -->
-          <div
-            class="modal fade"
-            id="produkModal{{ produk['_id'] }}"
-            tabindex="-1"
-            aria-labelledby="produkModalLabel{{ produk['_id'] }}"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog modal-lg">
-              <!-- Menambahkan kelas modal-lg untuk ukuran besar -->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5>Informasi Produk</h5>
+              <div class="mb-3">
+                <label
+                  for="quantity-{{ produk['_id'] }}"
+                  class="form-label fw-semibold"
+                  >Jumlah</label
+                >
+                <div class="input-group" style="width: 218px; margin-top: 10px">
                   <button
                     type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
+                    class="btn btn-outline-secondary"
+                    id="decrease-{{ produk['_id'] }}"
+                    onclick="adjustQuantity('{{ produk['_id'] }}', -1)"
+                    style="width: 40px; height: 40px; font-size: 24px"
+                  >
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    id="quantity-{{ produk['_id'] }}"
+                    class="form-control text-center"
+                    min="1"
+                    value="1"
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    id="increase-{{ produk['_id'] }}"
+                    onclick="adjustQuantity('{{ produk['_id'] }}', 1)"
+                    style="width: 40px; height: 40px; font-size: 24px"
+                  >
+                    +
+                  </button>
                 </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <!-- Gambar Produk -->
-                    <div class="col-md-6">
-                      <img
-                        src="{{ produk['image'] }}"
-                        alt="gambar produk"
-                        class="img-fluid mb-3"
-                      />
-                    </div>
-                    <div class="col-md-6">
-                      <h5>{{ produk['name'] }}</h5>
-                      <h6>Deskripsi</h6>
-                      <p>{{ produk['description'] }}</p>
-                    </div>
+              </div>
+
+              <div
+                class="produk-actions"
+                style="
+                  overflow: hidden;
+                  max-height: 3rem;
+                  text-align: left;
+                  padding-left: 1rem;
+                "
+              >
+                <button
+                  class="btn btn-primary btn-lg me-2"
+                  onclick="buyProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}')"
+                >
+                  <i class="fab fa-shopify"></i>
+                </button>
+                <button
+                  class="btn btn-success btn-lg me-2"
+                  onclick="cartProduct('{{ produk['_id'] }}', '{{ produk['name'] }}', '{{ produk['price'] }}', '{{ produk['image'] }}', document.getElementById('quantity-{{ produk['_id'] }}').value)"
+                >
+                  <i
+                    class="fas fa-shopping-cart"
+                    style="border-radius: 8px"
+                  ></i>
+                </button>
+
+                {% if session.get('role') == 'admin' %}
+                <button
+                  class="btn btn-warning btn-lg me-2 mt-4"
+                  onclick="updateProduct('{{ produk['_id'] }}')"
+                >
+                  Update <i class="fas fa-edit"></i>
+                </button>
+                <button
+                  class="btn btn-danger btn-lg me-2 mt-4"
+                  onclick="deleteProduct('{{ produk['_id'] }}')"
+                >
+                  Delete <i class="fas fa-trash"></i>
+                </button>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="produkModal{{ produk['_id'] }}"
+          tabindex="-1"
+          aria-labelledby="produkModalLabel{{ produk['_id'] }}"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-lg">
+            <!-- Menambahkan kelas modal-lg untuk ukuran besar -->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5>Informasi Produk</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <!-- Gambar Produk -->
+                  <div class="col-md-6">
+                    <img
+                      src="{{ produk['image'] }}"
+                      alt="gambar produk"
+                      class="img-fluid mb-3"
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <h5>{{ produk['name'] }}</h5>
+                    <p>{{ produk['description'] }}</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
-          {% endfor %} {% else %}
-          <div class="center-text">
-            <p>Produk Tidak Ditemukan</p>
-          </div>
-          {% endif %}
         </div>
-      </section>
-    </body>
-  </html>
+
+        {% endfor %} {% else %}
+        <div class="center-text">
+          <p>Produk Tidak Ditemukan</p>
+        </div>
+        {% endif %}
+      </div>
+    </section>
+  </body>
+</html>
