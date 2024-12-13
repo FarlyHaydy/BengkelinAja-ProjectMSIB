@@ -37,8 +37,10 @@
         margin: 0;
       }
       body.modal-open {
+        overflow: hidden !important;
         padding-right: 0 !important;
       }
+
       .main-content {
         flex-grow: 1;
       }
@@ -72,6 +74,7 @@
         text-decoration: none;
         margin: 0 10px;
         transition: color 0.3s ease;
+        position: relative;
       }
       footer a:hover {
         color: #dc3545;
@@ -512,7 +515,7 @@
               placeholder="Cari berdasarkan nama produk..."
               id="search-input"
               required
-              oninvalid="this.setCustomValidity('Masukkan nama produk')"
+              oninvalid="this.setCustomValidity('Masukkan Nama Produk')"
               oninput="this.setCustomValidity('')"
             />
             <button class="btn btn-primary" type="submit">Search</button>
@@ -734,7 +737,8 @@
             "Nama Produk";
           modal.querySelector("#modal-product-description").textContent =
             "Deskripsi produk akan muncul di sini.";
-          document.body.style.overflow = "";
+            document.body.style.overflow = 'auto';
+            document.body.style.paddingRight = '';
         });
 
       $(document).on("hidden.bs.modal", function () {
