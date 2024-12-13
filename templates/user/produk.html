@@ -37,7 +37,6 @@
         margin: 0;
       }
       body.modal-open {
-        overflow: hidden !important;
         padding-right: 0 !important;
       }
       .main-content {
@@ -111,6 +110,12 @@
           gap: 8px;
         }
       }
+      .card-img-top {
+        width: 100%;
+        height: 150px;
+        object-fit: contain;
+      }
+
       .navbar {
         position: fixed;
         top: 0;
@@ -120,11 +125,6 @@
       }
       .nav-link:hover {
         color: #dc3545;
-      }
-      .card-img-top {
-        width: 100%;
-        height: 150px;
-        object-fit: contain;
       }
       .nav-link.dropdown-toggle {
         display: flex;
@@ -632,6 +632,7 @@
       tabindex="-1"
       aria-labelledby="universalModalLabel"
       aria-hidden="true"
+      data-bs-backdrop="static"
     >
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -736,8 +737,8 @@
             "Nama Produk";
           modal.querySelector("#modal-product-description").textContent =
             "Deskripsi produk akan muncul di sini.";
-            document.body.style.overflow = 'auto';
-            document.body.style.paddingRight = '';
+          document.body.style.overflow = "auto";
+          document.body.style.paddingRight = "";
         });
 
       $(document).on("hidden.bs.modal", function () {
