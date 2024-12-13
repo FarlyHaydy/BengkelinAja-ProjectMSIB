@@ -3,11 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="BengkelinAja">
+    <meta property="og:description" content="Butuh Suku Cadang Berkualitas? Solusinya Ada di Bengkelin Aja! Temukan Pilihan Terbaik Untuk Kendaraan Anda, Belanja sekarang">
+    <meta property="og:image" content="{{url_for('static', filename='img/tampilan/logo.jpg')}}" />
     <title>.</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link rel="shortcut icon" href="{{url_for('static', filename='img/tampilan/icon.ico')}}" type="image/x-icon" />
     <style>
       body {
         display: flex;
@@ -168,6 +172,7 @@
         font-size: 25px;
         margin-bottom: 1rem;
       }
+
     </style>
   </head>
   <body>
@@ -257,16 +262,16 @@
 
                 {% if session.get('role') == 'admin' %}
                 <button
-                  class="btn btn-warning btn-lg me-2 mt-4"
+                  class="btn btn-warning btn-lg me-2"
                   onclick="updateProduct('{{ produk['_id'] }}')"
                 >
-                  Update <i class="fas fa-edit"></i>
+                   <i class="fas fa-edit"></i>
                 </button>
                 <button
-                  class="btn btn-danger btn-lg me-2 mt-4"
+                  class="btn btn-danger btn-lg me-2"
                   onclick="deleteProduct('{{ produk['_id'] }}')"
                 >
-                  Delete <i class="fas fa-trash"></i>
+                   <i class="fas fa-trash"></i>
                 </button>
                 {% endif %}
               </div>
@@ -294,12 +299,12 @@
               </div>
               <div class="modal-body">
                 <div class="row">
-                  <!-- Gambar Produk -->
                   <div class="col-md-6">
                     <img
                       src="{{ produk['image'] }}"
                       alt="gambar produk"
-                      class="img-fluid mb-3"
+                      class="img-fluid"
+                      style="max-height: 400px; object-fit: cover"
                     />
                   </div>
                   <div class="col-md-6">
@@ -307,6 +312,8 @@
                     <p class="text-muted" style="font-size: 1.1rem">
                       {{ produk['description'] }}
                     </p>
+                    <h4 id="modal-product-name" class="modal-title">{{ produk['name'] }}</h4>
+                    <p id="modal-product-description" class="text-muted" style="font-size: 1.1rem; margin-right: 30px;">{{ produk['description'] }}</p>
                   </div>
                 </div>
               </div>
