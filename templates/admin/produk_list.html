@@ -283,7 +283,6 @@
           class="modal fade"
           id="produkModal{{ produk['_id'] }}"
           tabindex="-1"
-          aria-labelledby="produkModalLabel{{ produk['_id'] }}"
           aria-hidden="true"
         >
           <div class="modal-dialog modal-lg">
@@ -308,10 +307,6 @@
                     />
                   </div>
                   <div class="col-md-6">
-                    <h5>{{ produk['name'] }}</h5>
-                    <p class="text-muted" style="font-size: 1.1rem">
-                      {{ produk['description'] }}
-                    </p>
                     <h4 id="modal-product-name" class="modal-title">{{ produk['name'] }}</h4>
                     <p id="modal-product-description" class="text-muted" style="font-size: 1.1rem; margin-right: 30px;">{{ produk['description'] }}</p>
                   </div>
