@@ -166,6 +166,7 @@
         border-radius: 50%;
         object-fit: cover;
       }
+      
     </style>
     <script>
       $(document).ready(function () {
@@ -729,6 +730,20 @@
             })
             .catch((error) => console.error("Error:", error));
         });
+    </script>
+     <script>
+      document.getElementById('universalModal').addEventListener('hidden.bs.modal', function () {
+        const modal = document.getElementById('universalModal');
+        modal.querySelector('#modal-product-image').src = 'https://via.placeholder.com/400'; 
+        modal.querySelector('#modal-product-name').textContent = 'Nama Produk'; 
+        modal.querySelector('#modal-product-description').textContent = 'Deskripsi produk akan muncul di sini.'; 
+        document.body.style.overflow = '';
+      });
+  
+      $(document).on('hidden.bs.modal', function () {
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+      });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
