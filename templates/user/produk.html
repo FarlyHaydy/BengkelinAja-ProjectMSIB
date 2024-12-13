@@ -3,6 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="BengkelinAja">
+    <meta property="og:description" content="Butuh Suku Cadang Berkualitas? Solusinya Ada di Bengkelin Aja! Temukan Pilihan Terbaik Untuk Kendaraan Anda, Belanja sekarang">
+    <meta property="og:image" content="{{url_for('static', filename='img/tampilan/logo.jpg')}}" />
     <title>BengkelinAja - Produk</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
@@ -12,10 +15,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    />
+    <link rel="shortcut icon" href="{{url_for('static', filename='img/tampilan/icon.ico')}}" type="image/x-icon" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -359,7 +359,6 @@
           "modal-product-description"
         );
 
-        // Tambahkan event listener pada gambar produk
         document.querySelectorAll(".card-img-top").forEach((img) => {
           img.addEventListener("click", function () {
             const produk = {
@@ -368,13 +367,11 @@
               description:
                 this.parentElement.querySelector(".card-text").textContent,
             };
-
-            // Update modal dengan informasi produk
+  
             modalImage.src = produk.image;
             modalName.textContent = produk.name;
             modalDescription.textContent = produk.description;
 
-            // Tampilkan modal
             const bootstrapModal = new bootstrap.Modal(modalElement);
             bootstrapModal.show();
           });
@@ -382,12 +379,11 @@
       });
     </script>
     <script>
-      // JavaScript untuk validasi jika input kosong
       function validateSearchForm() {
         var searchInput = document.getElementById("search-input").value;
         if (searchInput.trim() === "") {
           alert("Harap isi nama produk yang ingin dicari.");
-          return false; // Menghentikan pengiriman form
+          return false; 
         }
         return true;
       }
@@ -612,13 +608,13 @@
 
                 {% if session.get('role') == 'admin' %}
                 <button
-                  class="btn btn-warning btn-lg me-2 mt-4"
+                  class="btn btn-warning btn-lg me-2"
                   onclick="updateProduct('{{ produk['_id'] }}')"
                 >
                   <i class="fas fa-edit"></i>
                 </button>
                 <button
-                  class="btn btn-danger btn-lg me-2 mt-4"
+                  class="btn btn-danger btn-lg me-2"
                   onclick="deleteProduct('{{ produk['_id'] }}')"
                 >
                   <i class="fas fa-trash"></i>

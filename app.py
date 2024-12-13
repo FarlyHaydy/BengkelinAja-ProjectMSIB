@@ -35,7 +35,6 @@ def login():
         username = request.form['username']
         password = request.form['password']
         
-        # Cari user di MongoDB
         user = users_collection.find_one({"username": username, "password": password})
         
         if user:
@@ -64,25 +63,21 @@ def produk():
         flash('You must be logged in to access this page.', 'warning')
         return redirect(url_for('login'))
 
-    # Ambil parameter pencarian
     category = request.args.get('category', 'All')
     search = request.args.get('search', '').strip()
 
-    # Buat query
     query = {}
     if category != 'All':
-        query['category'] = category  # Filter kategori
+        query['category'] = category  
     if search:
-        query['name'] = {'$regex': search, '$options': 'i'}  # Filter nama (case-insensitive)
+        query['name'] = {'$regex': search, '$options': 'i'}  
 
-    print(f"Query MongoDB: {query}")  # Debug query
+    print(f"Query MongoDB: {query}")  
 
-    # Ambil data dari MongoDB
     produk_list = list(produk_collection.find(query))
 
-    print(f"Produk ditemukan: {len(produk_list)}")  # Debug jumlah hasil
-
-    # Balikkan data untuk AJAX atau render halaman penuh
+    print(f"Produk ditemukan: {len(produk_list)}")  
+    
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return render_template('admin/produk_list.html', produk_list=produk_list)
     
@@ -99,7 +94,6 @@ def add_to_cart():
     if 'username' not in session:
         return jsonify({'status': 'error', 'message': 'User not logged in'}), 401
 
-    # Ambil data dari request
     data = request.get_json()
     product_id = data['product_id']
     product_name = data['product_name']
@@ -128,7 +122,6 @@ def remove_cart_item(product_id):
 
     cart_collection = db['cart']
     
-    # Hapus item berdasarkan product_id dan username
     result = cart_collection.delete_one({
         '_id': ObjectId(product_id),
         'username': session['username']
@@ -142,37 +135,31 @@ def remove_cart_item(product_id):
 
 @app.route('/cart')
 def cart():
-    # Periksa apakah pengguna sudah login
     if 'username' not in session: 
         flash('You must be logged in to access this page.', 'warning')
         return redirect(url_for('login'))  
 
-    # Ambil data cart dari MongoDB untuk pengguna saat ini
     cart_collection = db['cart']
     try:
-        # Ambil item cart berdasarkan pengguna
         cart_items = list(cart_collection.find(
             {
                 'username': session['username']
             }
         ))
 
-        # Hitung total harga (pastikan field yang digunakan sudah ada di database)
         total_price = sum(
             float(item.get('product_price', 0)) * int(item.get('quantity', 1))
             for item in cart_items
         )
 
-        # Konversi ke integer untuk memastikan total harga tanpa desimal
         total_price = int(total_price)
 
     except Exception as e:
-        # Jika ada error, log pesan error dan berikan feedback ke pengguna
         print(f"Error fetching cart items: {e}")
         flash('Failed to fetch cart items. Please try again.', 'danger')
         return redirect(url_for('produk'))  
 
-   
+
     return render_template(
         'user/cart.html',
         cart_items=cart_items,
@@ -323,13 +310,13 @@ def profile():
         
         return redirect(url_for('login'))  
 
-    # Ambil data pengguna dari session
     user = users_collection.find_one({"username": session['username']})
 
     if request.method == 'POST':
         new_username = request.form['username']
         new_email = request.form['email']
         new_alamat = request.form['alamat']
+        new_password = request.form['password']
 
         
         if new_username != user['username'] and users_collection.find_one({"username": new_username}):
@@ -341,7 +328,8 @@ def profile():
             {"$set": {
                 "username": new_username,
                 "email": new_email,
-                "alamat": new_alamat
+                "alamat": new_alamat,
+                "password": new_password
             }}
         )
 
