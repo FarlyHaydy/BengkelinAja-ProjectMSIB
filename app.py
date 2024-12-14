@@ -2,18 +2,26 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 from pymongo import MongoClient
 from werkzeug.utils import secure_filename
 from bson.objectid import ObjectId
+from dotenv import load_dotenv
+from os.path import join, dirname
 import os
 
 
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv()
+
+MONGODB_URI = os.environ.get('MONGODB_URI')
+DB_NAME = os.environ.get('DB_NAME')
+
+client = MongoClient(MONGODB_URI)
+db = client[DB_NAME]
+
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+app.secret_key = 'bengkelinaja'
 
 UPLOAD_FOLDER = 'static/img/pembayaran'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-client = MongoClient("mongodb+srv://bengkelinaja:bengkelinaja@cluster0.0q1zz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-
-db = client['bengkelinaja']
 
 users_collection = db['users']
 produk_collection = db['produk']
