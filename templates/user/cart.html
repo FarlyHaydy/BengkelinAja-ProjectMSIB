@@ -22,13 +22,6 @@
             padding-top: 70px; 
         }
 
-        .profile-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
         .bg-custom {
             background-color: #ffffff;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -291,12 +284,14 @@ document.addEventListener('DOMContentLoaded', function() {
                       </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="/static/img/tampilan/foto-profile.jpg" alt="Profile" class="profile-img me-2">
+                            <span class="icon me-2 fs-5">
+                                <i class="fas fa-user"></i>
+                            </span>
                             {% if session.get('role') == 'admin' %}
-                            <span>Admin</span>
+                                <span>Admin</span>
                             {% else %}
-                            <span>{{ session.get('username') }}</span>
-                            {% endif %} 
+                                <span class="fw-semibold">{{ session.get('username') }}</span>
+                            {% endif %}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                             <li>
