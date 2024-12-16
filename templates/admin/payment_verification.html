@@ -39,16 +39,6 @@
               <i class="fas fa-box-open"></i> Product
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('cart') }}">
-              <i class="fas fa-shopping-cart"></i> Cart
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('check_order') }}">
-              <i class="fas fa-receipt"></i> Check Order
-            </a>
-          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button"
               data-bs-toggle="dropdown" aria-expanded="false">
@@ -93,6 +83,7 @@
                     <th>Username</th>
                     <th>Produk</th>
                     <th>Status</th>
+                    <th>alamat</th>
                     <th>Bukti Pembayaran</th>
                     <th>Aksi</th>
                 </tr>
@@ -103,6 +94,7 @@
                     <td>{{ order.username }}</td>
                     <td>{{ order.product_name }}</td>
                     <td>{{ order.status }}</td>
+                    <td>{{ order.alamat }}</td>
                     <td>
                         {% if order.payment_proof %}
                         <a href="#" data-bs-toggle="modal" data-bs-target="#paymentProofModal{{ loop.index }}">
