@@ -332,14 +332,17 @@ def profile():
         )
         db.cart.update_many(
             {'username': user['username']},
-            {'$set': {'username': new_username}}
+            {'$set': {'username': new_username, 'email': new_email, 'alamat': new_alamat}}
         )
         db.orders.update_many(
             {'username': user['username']},
-            {'$set': {'username': new_username}}
+            {'$set': {'username': new_username, 'email': new_email, 'alamat': new_alamat}}
         )
         session['username'] = new_username
-        print(f"Updated session username: {session['username']}")
+        session['email'] = new_email
+        session['alamat'] = new_alamat
+
+        print(f"Updated session username: {session['username']}, email: {session['email']}, alamat: {session['alamat']}")  # Debugging
 
         return redirect(url_for('profile'))
 
