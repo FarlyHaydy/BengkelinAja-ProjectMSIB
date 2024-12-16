@@ -342,8 +342,6 @@ def profile():
         session['email'] = new_email
         session['alamat'] = new_alamat
 
-        print(f"Updated session username: {session['username']}, email: {session['email']}, alamat: {session['alamat']}")  # Debugging
-
         return redirect(url_for('profile'))
 
     return render_template('user/profile.html', user=user)
