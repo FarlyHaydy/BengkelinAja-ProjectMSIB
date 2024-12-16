@@ -95,7 +95,6 @@ def produk():
         selected_category=category,
         search=search
     )
-
      
 @app.route('/add_to_cart', methods=['POST'])
 def add_to_cart():
@@ -140,7 +139,6 @@ def remove_cart_item(product_id):
     else:
         return jsonify({'status': 'error', 'message': 'Item not found or not authorized to delete'}), 404
 
-
 @app.route('/cart')
 def cart():
     if 'username' not in session: 
@@ -154,19 +152,16 @@ def cart():
                 'username': session['username']
             }
         ))
-
         total_price = sum(
             float(item.get('product_price', 0)) * int(item.get('quantity', 1))
             for item in cart_items
         )
-
         total_price = int(total_price)
 
     except Exception as e:
         print(f"Error fetching cart items: {e}")
         flash('Failed to fetch cart items. Please try again.', 'danger')
         return redirect(url_for('produk'))  
-
 
     return render_template(
         'user/cart.html',
@@ -182,7 +177,6 @@ def buy():
 
     if not cart_items:
         return jsonify({'status': 'error', 'message': 'No items in cart'}), 400
-
     try:
         for item in cart_items:
             orders_collection.insert_one({
@@ -261,7 +255,6 @@ def check_order():
 
     return render_template('user/check_order.html', cart_items=orders, total_price=total_price, total_bayar=total_bayar)
 
-
 @app.route('/upload_payment', methods=['POST'])
 def upload_payment():
     if request.method == 'POST':
@@ -315,8 +308,7 @@ def reject_payment(order_id):
 def profile():
     if 'username' not in session:
         flash('You must be logged in to access this page.', 'warning')
-        
-        return redirect(url_for('login'))  
+        return redirect(url_for('login'))
 
     user = users_collection.find_one({"username": session['username']})
 
@@ -326,11 +318,9 @@ def profile():
         new_alamat = request.form['alamat']
         new_password = request.form['password']
 
-        
         if new_username != user['username'] and users_collection.find_one({"username": new_username}):
             return 'Username already taken, please choose another one!'
 
-        
         users_collection.update_one(
             {"_id": user['_id']},
             {"$set": {
@@ -340,13 +330,20 @@ def profile():
                 "password": new_password
             }}
         )
-
+        db.cart.update_many(
+            {'username': user['username']},
+            {'$set': {'username': new_username}}
+        )
+        db.orders.update_many(
+            {'username': user['username']},
+            {'$set': {'username': new_username}}
+        )
         session['username'] = new_username
-        
-        return redirect(url_for('profile'))  
+        print(f"Updated session username: {session['username']}")
+
+        return redirect(url_for('profile'))
 
     return render_template('user/profile.html', user=user)
-
 
 @app.route('/logout')
 def logout():
